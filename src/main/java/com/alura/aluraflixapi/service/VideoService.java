@@ -4,11 +4,11 @@ import com.alura.aluraflixapi.dto.VideoDto;
 import com.alura.aluraflixapi.mapper.VideoMapper;
 import com.alura.aluraflixapi.model.Video;
 import com.alura.aluraflixapi.repository.VideoRepository;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +25,9 @@ public class VideoService {
     this.mapper = mapper;
   }
 
-  public List<VideoDto> getVideos() {
-    return Optional.of(repository.findAll())
-        .map(mapper::mapToListVideosDto)
-        .orElse(Collections.emptyList());
+  public Page<VideoDto> getVideos(Pageable pageable) {
+    return repository.findAll(pageable)
+        .map(mapper::mapToVideoDto);
   }
 
   @Transactional

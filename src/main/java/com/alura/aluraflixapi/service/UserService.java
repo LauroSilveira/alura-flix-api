@@ -5,8 +5,6 @@ import com.alura.aluraflixapi.mapper.UserMapper;
 import com.alura.aluraflixapi.model.User;
 import com.alura.aluraflixapi.repository.UserRepository;
 import java.util.List;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,10 +29,5 @@ public class UserService {
   public List<UserDto> getUsers() {
     List<User> users = repository.findAll();
     return mapper.mappToUsersDto(users);
-  }
-
-  public UserDetails findUserByUsername(String username) throws UsernameNotFoundException {
-    return repository.findByusername(username)
-        .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
   }
 }

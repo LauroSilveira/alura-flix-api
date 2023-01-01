@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Class With GrandAuthorities of spring
@@ -19,15 +18,10 @@ import org.springframework.security.core.GrantedAuthority;
 @Getter
 @Setter
 @Builder
-public class Roles implements GrantedAuthority, Serializable {
+public class Roles implements Serializable {
 
   @Serial
   private static final long serialVersionUID = -8909296276964731109L;
 
   private RoleEnum roleName;
-
-  @Override
-  public String getAuthority() {
-    return this.getRoleName().name();
-  }
 }
