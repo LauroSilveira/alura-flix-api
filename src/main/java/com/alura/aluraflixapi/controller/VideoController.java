@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,13 +60,13 @@ public class VideoController {
   }
 
   @PutMapping
-  public ResponseEntity<VideoDto> updatePut(@Valid @RequestBody final VideoDto dto) {
+  public ResponseEntity<VideoDto> update(@Valid @RequestBody final VideoDto dto) {
     final Optional<VideoDto> videoDto = Optional.ofNullable(service.updatePut(dto));
     return videoDto.map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.internalServerError().build());
   }
 
-  @DeleteMapping
+  @DeleteMapping("/{id}")
   public ResponseEntity<VideoDto> delete(@NotBlank @PathVariable final String id) {
     final Optional<VideoDto> dto = service.delete(id);
     return dto.map(videoDto -> ResponseEntity.status(HttpStatus.NO_CONTENT).body(videoDto))

@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import org.hibernate.validator.constraints.URL;
 
-
 @Builder
 public record VideoDto(
     @NotBlank
@@ -17,5 +16,6 @@ public record VideoDto(
     @NotNull
     @URL
     String url) {
+
 
 }
