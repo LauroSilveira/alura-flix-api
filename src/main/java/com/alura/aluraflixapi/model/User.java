@@ -10,8 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Document(collection = "user")
@@ -20,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 @Setter
 @Builder
-public class User implements UserDetails, Serializable {
+public class User implements Serializable {
 
   @Serial
   private static final long serialVersionUID = 1557886448713650485L;
@@ -32,29 +30,4 @@ public class User implements UserDetails, Serializable {
   private String password;
 
   private List<Roles> roles;
-
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return roles;
-  }
-
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
-
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
-
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
-
-  @Override
-  public boolean isEnabled() {
-    return true;
-  }
 }

@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,10 +35,13 @@ public class VideoController {
   }
 
   @GetMapping
-  public ResponseEntity<List<VideoDto>> getVideos() {
-    return Optional.ofNullable(service.getVideos())
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+  public ResponseEntity<List<VideoDto>> getVideos(Pageable pageable) {
+    final Page<VideoDto> videos = this.service.getVideos(pageable);
+    if(videos.hasContent()) {
+      return ResponseEntity.ok(videos.getContent());
+    }else {
+      return ResponseEntity.noContent().build();
+    }
   }
 
 
