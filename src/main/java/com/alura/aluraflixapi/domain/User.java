@@ -1,8 +1,7 @@
-package com.alura.aluraflixapi.model;
+package com.alura.aluraflixapi.domain;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

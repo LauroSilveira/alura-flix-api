@@ -1,9 +1,15 @@
 package com.alura.aluraflixapi.controller;
 
-import com.alura.aluraflixapi.dto.VideoDto;
-import com.alura.aluraflixapi.mapper.VideoMapper;
-import com.alura.aluraflixapi.repository.VideoRepository;
-import com.alura.aluraflixapi.service.VideoService;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import com.alura.aluraflixapi.infraestructure.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.infraestructure.dto.VideoDto;
+import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
+import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
+import com.alura.aluraflixapi.infraestructure.service.VideoService;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.List;
@@ -68,13 +74,40 @@ class VideoControllerTest {
         .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
         .andReturn();
     //When
-    List<VideoDto> videosDtos = Arrays.asList(
-        mapper.readValue(response.getResponse().getContentAsString(), VideoDto[].
+    JsonNode jsonNode = mapper.readTree(response.getResponse().getContentAsString()).get("content");
+    List<VideoDto> videosDtos = Arrays.asList(mapper.readValue(jsonNode.toString(), VideoDto[].
             class));
+    //Then
+    assertNotNull(videosDtos);
+    assertEquals(4, videosDtos.size());
+  }
+
+  @Test
+  void get_a_video_by_id() throws Exception {
+
+    //Given
+    final VideoDto mock = buildVideosDto().get(0);
+
+    Mockito.when(this.service.getById(Mockito.anyString()))
+        .thenReturn(mock);
+
+    //When
+    final MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/videos/{id}", "1")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+        .andReturn();
 
     //Then
-    Assertions.assertNotNull(videosDtos);
-    Assertions.assertEquals(4, videosDtos.size());
+    VideoDto videoDto = mapper.readValue(mvcResult.getResponse().getContentAsString(),
+        VideoDto.class);
+
+    assertNotNull(videoDto);
+    assertAll(() -> assertEquals(mock.id(), videoDto.id()),
+        () -> Assertions.assertEquals(mock.url(), videoDto.url()),
+        () -> Assertions.assertEquals(mock.description(), videoDto.description()),
+        () -> Assertions.assertEquals(mock.title(), videoDto.title())
+    );
   }
 
   @Test
@@ -103,15 +136,16 @@ class VideoControllerTest {
     VideoDto dto = mapper.readValue(response.getResponse().getContentAsString(),
         VideoDto.class);
 
-    Assertions.assertEquals(request, dto);
+    assertEquals(request, dto);
   }
 
   @Test
   void update_a_video_test() throws Exception {
 
     //Given
-    final VideoDto videoToUpdate = buildVideosDto().get(2);
-    Mockito.when(this.service.updatePut(Mockito.any()))
+    final UpdateVideoDto videoToUpdate = new UpdateVideoDto(null, "Hobbit: La batalla de los cincos ejercitos", "La batalla de los cincos ejercitos", "www.thehobbit2.com");
+
+    Mockito.when(this.service.updateMovie(Mockito.any()))
         .thenReturn(videoToUpdate);
 
     final MvcResult response = this.mockMvc.perform(MockMvcRequestBuilders.put("/videos")
@@ -126,7 +160,7 @@ class VideoControllerTest {
     VideoDto videoUpdated = mapper.readValue(response.getResponse().getContentAsString(),
         VideoDto.class);
 
-    Assertions.assertNotNull(videoUpdated);
+    assertNotNull(videoUpdated);
 
   }
 

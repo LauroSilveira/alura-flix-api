@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.model;
+package com.alura.aluraflixapi.domain;
 
 import lombok.Getter;
 

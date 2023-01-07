@@ -1,5 +1,8 @@
 server:
   port: 8080
+  #Disable stack trace on response when an error happen
+  error:
+    include-stacktrace: never
 
 spring:
   application:
