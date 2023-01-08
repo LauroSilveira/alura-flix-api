@@ -1,7 +1,7 @@
-package com.alura.aluraflixapi.mapper;
+package com.alura.aluraflixapi.infraestructure.mapper;
 
-import com.alura.aluraflixapi.model.User;
-import com.alura.aluraflixapi.dto.UserDto;
+import com.alura.aluraflixapi.domain.User;
+import com.alura.aluraflixapi.infraestructure.dto.UserDto;
 import java.util.List;
 import org.mapstruct.Mapper;
 

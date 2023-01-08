@@ -1,9 +1,10 @@
-package com.alura.aluraflixapi.service;
+package com.alura.aluraflixapi.infraestructure.service;
 
-import com.alura.aluraflixapi.dto.VideoDto;
-import com.alura.aluraflixapi.mapper.VideoMapper;
-import com.alura.aluraflixapi.model.Video;
-import com.alura.aluraflixapi.repository.VideoRepository;
+import com.alura.aluraflixapi.infraestructure.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.infraestructure.dto.VideoDto;
+import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
+import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
+import com.alura.aluraflixapi.domain.Video;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,39 +15,40 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
-public class VideoService {
+public class VideoServiceImpl implements VideoService {
 
   private final VideoRepository repository;
   private final VideoMapper mapper;
 
   @Autowired
-  public VideoService(VideoRepository repository, VideoMapper mapper) {
+  public VideoServiceImpl(VideoRepository repository, VideoMapper mapper) {
     this.repository = repository;
     this.mapper = mapper;
   }
 
+  @Override
   public Page<VideoDto> getVideos(Pageable pageable) {
     return repository.findAll(pageable)
         .map(mapper::mapToVideoDto);
   }
 
-  @Transactional
+  @Override
   public VideoDto save(VideoDto dto) {
     try {
-      final Video entity = mapper.mapToModel(dto);
-      final Video newEntity = repository.save(entity);
-      return mapper.mapToVideoDto(newEntity);
+      final var entityToPersist = mapper.mapToModel(dto);
+      final var entityPersisted = this.repository.save(entityToPersist);
+      return mapper.mapToVideoDto(entityPersisted);
     } catch (Exception e) {
       throw new RuntimeException("Error to persist entity", e.getCause());
     }
   }
 
-  @Transactional
-  public VideoDto updatePut(VideoDto dto) {
+  @Override
+  public UpdateVideoDto updateMovie(UpdateVideoDto dto) {
     try {
-      final Video entity = mapper.mapToModel(dto);
+      final Video entity = mapper.mapUpdateVideoToModel(dto);
       repository.save(entity);
-      return dto;
+      return mapper.mapUpdateVideoDto(entity);
     } catch (Exception e) {
       log.error("Error to try Update entity by method Put {}", e.getMessage());
       return null;
@@ -54,13 +56,14 @@ public class VideoService {
 
   }
 
-  @Transactional
+  @Override
   public Optional<VideoDto> delete(String id) {
     Optional<Video> entityToDelete = repository.findById(id);
     entityToDelete.ifPresent(repository::delete);
     return entityToDelete.map(mapper::mapToVideoDto);
   }
 
+  @Override
   public VideoDto getById(String id) {
     return repository.findById(id)
         .map(mapper::mapToVideoDto)

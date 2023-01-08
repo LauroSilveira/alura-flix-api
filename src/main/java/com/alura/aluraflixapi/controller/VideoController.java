@@ -1,9 +1,9 @@
 package com.alura.aluraflixapi.controller;
 
 
-import com.alura.aluraflixapi.dto.VideoDto;
-import com.alura.aluraflixapi.service.VideoService;
-import java.util.List;
+import com.alura.aluraflixapi.infraestructure.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.infraestructure.dto.VideoDto;
+import com.alura.aluraflixapi.infraestructure.service.VideoService;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @RestController
@@ -35,10 +36,10 @@ public class VideoController {
   }
 
   @GetMapping
-  public ResponseEntity<List<VideoDto>> getVideos(Pageable pageable) {
+  public ResponseEntity<Page<VideoDto>> getVideos(Pageable pageable) {
     final Page<VideoDto> videos = this.service.getVideos(pageable);
     if(videos.hasContent()) {
-      return ResponseEntity.ok(videos.getContent());
+      return ResponseEntity.ok(videos);
     }else {
       return ResponseEntity.noContent().build();
     }
@@ -50,22 +51,29 @@ public class VideoController {
     return Optional.ofNullable(service.getById(id))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
+
   }
 
   @PostMapping
-  public ResponseEntity<VideoDto> save(@Valid @RequestBody final VideoDto dto) {
+  public ResponseEntity<VideoDto> save(@Valid @RequestBody final VideoDto dto, final UriComponentsBuilder uriBuilder) {
     final VideoDto videoDto = service.save(dto);
-    return ResponseEntity.ok(videoDto);
+    //good practices to return the Location in the Header to be search by Id
+    //return Http code 201 and Localtion with Id
+    return ResponseEntity.created(uriBuilder.path("/videos/{id}").buildAndExpand(videoDto.id())
+        .toUri()).body(videoDto);
   }
 
   @PutMapping
-  public ResponseEntity<VideoDto> updatePut(@Valid @RequestBody final VideoDto dto) {
-    final Optional<VideoDto> videoDto = Optional.ofNullable(service.updatePut(dto));
-    return videoDto.map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.internalServerError().build());
+  public ResponseEntity<UpdateVideoDto> update(@Valid @RequestBody final UpdateVideoDto dto, final UriComponentsBuilder uriBuilder) {
+    final UpdateVideoDto videoDto = service.updateMovie(dto);
+    //good practices to return the Location in the Header to be search by Id
+    //return Http code 201 and Localtion with Id
+    return ResponseEntity.created(uriBuilder.path("/videos/{id}")
+        .buildAndExpand(videoDto.id())
+        .toUri()).body(videoDto);
   }
 
-  @DeleteMapping
+  @DeleteMapping("/{id}")
   public ResponseEntity<VideoDto> delete(@NotBlank @PathVariable final String id) {
     final Optional<VideoDto> dto = service.delete(id);
     return dto.map(videoDto -> ResponseEntity.status(HttpStatus.NO_CONTENT).body(videoDto))

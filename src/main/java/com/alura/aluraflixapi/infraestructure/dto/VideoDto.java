@@ -1,14 +1,12 @@
-package com.alura.aluraflixapi.dto;
+package com.alura.aluraflixapi.infraestructure.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import org.hibernate.validator.constraints.URL;
 
-
 @Builder
 public record VideoDto(
-    @NotBlank
     String id,
     @NotBlank
     String title,
@@ -17,5 +15,6 @@ public record VideoDto(
     @NotNull
     @URL
     String url) {
+
 
 }

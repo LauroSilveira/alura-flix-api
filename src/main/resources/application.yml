@@ -1,5 +1,8 @@
 server:
   port: 8080
+  #Disable stack trace on response when an error happen
+  error:
+    include-stacktrace: never
 
 spring:
   application:
@@ -8,3 +11,7 @@ spring:
     mongodb:
       database: alura-flix
       uri: mongodb+srv://alura-flix-admin:bWcBeMVMEKH0SQB4@alura-flix.z61opfc.mongodb.net/?retryWrites=true&w=majority
+  jpa:
+    show-sql: true
+    properties:
+      format_sql: true

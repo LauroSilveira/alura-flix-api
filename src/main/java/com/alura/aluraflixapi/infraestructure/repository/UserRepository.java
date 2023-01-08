@@ -1,6 +1,6 @@
-package com.alura.aluraflixapi.repository;
+package com.alura.aluraflixapi.infraestructure.repository;
 
-import com.alura.aluraflixapi.model.User;
+import com.alura.aluraflixapi.domain.User;
 import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
