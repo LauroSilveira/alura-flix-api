@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.domain;
+package com.alura.aluraflixapi.domain.video;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

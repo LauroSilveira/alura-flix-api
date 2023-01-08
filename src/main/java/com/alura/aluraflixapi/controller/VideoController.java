@@ -4,9 +4,10 @@ package com.alura.aluraflixapi.controller;
 import com.alura.aluraflixapi.infraestructure.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.infraestructure.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.service.VideoService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

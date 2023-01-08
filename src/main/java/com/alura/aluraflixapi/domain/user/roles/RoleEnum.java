@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.domain;
+package com.alura.aluraflixapi.domain.user.roles;
 
 import lombok.Getter;
 

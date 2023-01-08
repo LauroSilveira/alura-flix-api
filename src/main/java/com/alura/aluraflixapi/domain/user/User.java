@@ -1,10 +1,12 @@
-package com.alura.aluraflixapi.domain;
+package com.alura.aluraflixapi.domain.user;
 
+import com.alura.aluraflixapi.domain.user.roles.Roles;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode(of = "id")
 public class User implements Serializable {
 
   @Serial

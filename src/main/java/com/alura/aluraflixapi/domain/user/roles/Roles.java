@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.domain;
+package com.alura.aluraflixapi.domain.user.roles;
 
 import java.io.Serial;
 import java.io.Serializable;
