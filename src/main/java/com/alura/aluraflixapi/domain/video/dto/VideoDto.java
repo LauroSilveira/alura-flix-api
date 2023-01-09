@@ -1,7 +1,7 @@
-package com.alura.aluraflixapi.infraestructure.dto;
+package com.alura.aluraflixapi.domain.video.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import org.hibernate.validator.constraints.URL;
 

@@ -1,12 +1,12 @@
 package com.alura.aluraflixapi.controller;
 
 
-import com.alura.aluraflixapi.infraestructure.dto.UpdateVideoDto;
-import com.alura.aluraflixapi.infraestructure.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.service.VideoService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,9 +38,9 @@ public class VideoController {
   @GetMapping
   public ResponseEntity<Page<VideoDto>> getVideos(Pageable pageable) {
     final Page<VideoDto> videos = this.service.getVideos(pageable);
-    if(videos.hasContent()) {
+    if (videos.hasContent()) {
       return ResponseEntity.ok(videos);
-    }else {
+    } else {
       return ResponseEntity.noContent().build();
     }
   }
@@ -55,7 +55,8 @@ public class VideoController {
   }
 
   @PostMapping
-  public ResponseEntity<VideoDto> save(@Valid @RequestBody final VideoDto dto, final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<VideoDto> save(@Valid @RequestBody final VideoDto dto,
+      final UriComponentsBuilder uriBuilder) {
     final VideoDto videoDto = service.save(dto);
     //good practices to return the Location in the Header to be search by Id
     //return Http code 201 and Localtion with Id
@@ -64,7 +65,8 @@ public class VideoController {
   }
 
   @PutMapping
-  public ResponseEntity<UpdateVideoDto> update(@Valid @RequestBody final UpdateVideoDto dto, final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<UpdateVideoDto> update(@Valid @RequestBody final UpdateVideoDto dto,
+      final UriComponentsBuilder uriBuilder) {
     final UpdateVideoDto videoDto = service.updateMovie(dto);
     //good practices to return the Location in the Header to be search by Id
     //return Http code 201 and Localtion with Id

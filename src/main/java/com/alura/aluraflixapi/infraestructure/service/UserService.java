@@ -1,8 +1,8 @@
 package com.alura.aluraflixapi.infraestructure.service;
 
-import com.alura.aluraflixapi.infraestructure.dto.UserDto;
+import com.alura.aluraflixapi.domain.user.dto.UserDto;
 import com.alura.aluraflixapi.infraestructure.mapper.UserMapper;
-import com.alura.aluraflixapi.domain.User;
+import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;

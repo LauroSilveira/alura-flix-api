@@ -1,17 +1,17 @@
 package com.alura.aluraflixapi.infraestructure.service;
 
-import com.alura.aluraflixapi.infraestructure.dto.UpdateVideoDto;
-import com.alura.aluraflixapi.infraestructure.dto.VideoDto;
+
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
-import com.alura.aluraflixapi.domain.Video;
+import com.alura.aluraflixapi.domain.video.Video;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j

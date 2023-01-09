@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.infraestructure.dto;
+package com.alura.aluraflixapi.domain.video.dto;
 
 public record UpdateVideoDto(String id, String title, String Description, String url) {
 
