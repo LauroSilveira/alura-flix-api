@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.infraestructure.dto;
+package com.alura.aluraflixapi.domain.user.dto;
 
 import com.alura.aluraflixapi.domain.user.roles.Roles;
 import java.util.List;

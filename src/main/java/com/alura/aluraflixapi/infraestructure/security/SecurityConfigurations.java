@@ -2,14 +2,19 @@ package com.alura.aluraflixapi.infraestructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * Main Spring Security class configuration
- * In Spring 3.0 the security configuration is done by @Bean
+ * Main Spring Security class configuration In Spring 3.0 the security configuration is done by
+ *
+ * @Bean
  */
 
 @Configuration
@@ -24,6 +29,31 @@ public class SecurityConfigurations {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .build();
+  }
+
+
+  /**
+   * Crete @Bean AuthenticationManager to authenticate a user
+   *
+   * @param authenticationConfiguration
+   * @return AuthenticationManager
+   * @throws Exception
+   */
+  @Bean
+  public AuthenticationManager authenticationManager(
+      AuthenticationConfiguration authenticationConfiguration)
+      throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
+  }
+
+  /**
+   * Bean to encript and decript password
+   *
+   * @return new PasswordEncoder
+   */
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
 }

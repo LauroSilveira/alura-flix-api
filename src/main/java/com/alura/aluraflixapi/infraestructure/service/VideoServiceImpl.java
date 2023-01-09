@@ -1,7 +1,8 @@
 package com.alura.aluraflixapi.infraestructure.service;
 
-import com.alura.aluraflixapi.infraestructure.dto.UpdateVideoDto;
-import com.alura.aluraflixapi.infraestructure.dto.VideoDto;
+
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
 import com.alura.aluraflixapi.domain.video.Video;

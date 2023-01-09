@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.alura.aluraflixapi.infraestructure.dto.UpdateVideoDto;
-import com.alura.aluraflixapi.infraestructure.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
 import com.alura.aluraflixapi.infraestructure.service.VideoService;

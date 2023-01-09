@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.infraestructure.dto;
+package com.alura.aluraflixapi.domain.video.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

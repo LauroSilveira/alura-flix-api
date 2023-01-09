@@ -1,7 +1,7 @@
 package com.alura.aluraflixapi.infraestructure.service;
 
-import com.alura.aluraflixapi.infraestructure.dto.UpdateVideoDto;
-import com.alura.aluraflixapi.infraestructure.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
