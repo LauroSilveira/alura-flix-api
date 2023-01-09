@@ -25,10 +25,13 @@ public class Roles implements Serializable, GrantedAuthority {
   @Serial
   private static final long serialVersionUID = -8909296276964731109L;
 
-  private RoleEnum role;
+  @MongoId
+  private String id;
+
+  private String role;
 
   @Override
   public String getAuthority() {
-    return role.name();
+    return role;
   }
 }

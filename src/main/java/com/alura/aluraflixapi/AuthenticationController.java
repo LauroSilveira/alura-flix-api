@@ -22,7 +22,7 @@ public class AuthenticationController {
   public ResponseEntity login(@RequestBody @Valid AuthenticationDto dto) {
     final var token = new UsernamePasswordAuthenticationToken(dto.username(), dto.password());
     final var atuhentication = this.manager.authenticate(token);
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok().body(atuhentication.getDetails());
   }
 
 }

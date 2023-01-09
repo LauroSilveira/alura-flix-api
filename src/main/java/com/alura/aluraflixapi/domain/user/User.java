@@ -38,12 +38,12 @@ public class User implements Serializable, UserDetails {
 
   private String password;
 
-  @DBRef(db = "roles")
+  @DBRef(lazy = true, db = "roles")
   private List<Roles> roles = new ArrayList<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return this.roles;
+    return roles;
   }
 
   @Override
