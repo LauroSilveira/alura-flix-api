@@ -1,33 +1,13 @@
 package com.alura.aluraflixapi.infraestructure.service;
 
-import com.alura.aluraflixapi.domain.user.dto.UserDto;
-import com.alura.aluraflixapi.infraestructure.mapper.UserMapper;
-import com.alura.aluraflixapi.domain.user.User;
-import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
+import com.alura.aluraflixapi.domain.dto.UserDto;
 import java.util.List;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
-public class UserService {
+public interface UserService {
 
-  private UserRepository repository;
+  @Transactional
+  UserDto saveUser(UserDto dto);
 
-  private UserMapper mapper;
-
-
-  public UserService(final UserRepository repository, final UserMapper mapper) {
-    this.repository = repository;
-    this.mapper = mapper;
-  }
-
-  public UserDto create(UserDto dto) {
-    final User user = mapper.mappToEntity(dto);
-    final User newUser = repository.save(user);
-    return mapper.mappToDto(newUser);
-  }
-
-  public List<UserDto> getUsers() {
-    List<User> users = repository.findAll();
-    return mapper.mappToUsersDto(users);
-  }
+  List<UserDto> getUsers();
 }

@@ -13,7 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Main Spring Security class configuration In Spring 3.0 the security configuration is done by
- *
  * @Bean
  */
 
@@ -34,10 +33,7 @@ public class SecurityConfigurations {
 
   /**
    * Crete @Bean AuthenticationManager to authenticate a user
-   *
-   * @param authenticationConfiguration
    * @return AuthenticationManager
-   * @throws Exception
    */
   @Bean
   public AuthenticationManager authenticationManager(
@@ -48,7 +44,6 @@ public class SecurityConfigurations {
 
   /**
    * Bean to encript and decript password
-   *
    * @return new PasswordEncoder
    */
   @Bean

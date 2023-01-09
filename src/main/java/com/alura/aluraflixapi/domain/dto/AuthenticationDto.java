@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.domain.user.dto;
+package com.alura.aluraflixapi.domain.dto;
 
 public record AuthenticationDto(
     String username,
