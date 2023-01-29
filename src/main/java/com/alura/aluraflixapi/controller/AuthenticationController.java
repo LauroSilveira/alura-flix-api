@@ -1,6 +1,6 @@
-package com.alura.aluraflixapi;
+package com.alura.aluraflixapi.controller;
 
-import com.alura.aluraflixapi.domain.user.dto.AuthenticationDto;
+import com.alura.aluraflixapi.domain.dto.AuthenticationDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,10 @@ public class AuthenticationController {
 
   @PostMapping
   public ResponseEntity login(@RequestBody @Valid AuthenticationDto dto) {
+    //new UsernamePasswordAuthenticationToken its like a DTO from Spring
     final var token = new UsernamePasswordAuthenticationToken(dto.username(), dto.password());
-    final var atuhentication = this.manager.authenticate(token);
-    return ResponseEntity.ok().build();
+    final var authentication = this.manager.authenticate(token);
+    return ResponseEntity.ok().body(authentication.getDetails());
   }
 
 }

@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.domain.user;
+package com.alura.aluraflixapi.infraestructure.service;
 
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-  private UserRepository repository;
+  private final UserRepository repository;
 
   @Autowired
   public UserDetailsServiceImpl(UserRepository repository) {
@@ -22,9 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   /**
    * Search in databse a user by username and return
-   * @param username
    * @return UserDestails
-   * @throws UsernameNotFoundException
    */
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

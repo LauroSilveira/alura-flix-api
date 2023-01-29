@@ -1,6 +1,6 @@
-package com.alura.aluraflixapi.infraestructure.exception;
+package com.alura.aluraflixapi.controller;
 
-import com.alura.aluraflixapi.infraestructure.exception.dto.ErrorDto;
+import com.alura.aluraflixapi.controller.dto.ErrorDto;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

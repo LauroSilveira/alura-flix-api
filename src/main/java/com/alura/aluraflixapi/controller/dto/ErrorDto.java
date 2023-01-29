@@ -1,6 +1,5 @@
-package com.alura.aluraflixapi.infraestructure.exception.dto;
+package com.alura.aluraflixapi.controller.dto;
 
-import lombok.Builder;
 import org.springframework.validation.FieldError;
 
 public record ErrorDto(String field, String message) {

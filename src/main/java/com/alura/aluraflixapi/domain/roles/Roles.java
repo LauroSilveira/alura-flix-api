@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.domain.user.roles;
+package com.alura.aluraflixapi.domain.roles;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -25,10 +24,12 @@ public class Roles implements Serializable, GrantedAuthority {
   @Serial
   private static final long serialVersionUID = -8909296276964731109L;
 
-  private RoleEnum role;
+  private String id;
+
+  private String role;
 
   @Override
   public String getAuthority() {
-    return role.name();
+    return role;
   }
 }
