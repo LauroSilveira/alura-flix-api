@@ -22,8 +22,8 @@ public class AuthenticationController {
   public ResponseEntity login(@RequestBody @Valid AuthenticationDto dto) {
     //new UsernamePasswordAuthenticationToken its like a DTO from Spring
     final var token = new UsernamePasswordAuthenticationToken(dto.username(), dto.password());
-    final var atuhentication = this.manager.authenticate(token);
-    return ResponseEntity.ok().body(atuhentication.getDetails());
+    final var authentication = this.manager.authenticate(token);
+    return ResponseEntity.ok().body(authentication.getDetails());
   }
 
 }

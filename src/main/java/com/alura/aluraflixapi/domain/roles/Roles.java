@@ -8,9 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.security.core.GrantedAuthority;
 
+/**
+ * Class that represents Roles
+ */
 @Document(collection = "roles")
 @AllArgsConstructor
 @NoArgsConstructor

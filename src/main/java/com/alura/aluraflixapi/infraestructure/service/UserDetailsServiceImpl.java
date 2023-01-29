@@ -23,7 +23,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   /**
    * Search in databse a user by username and return
    * @return UserDestails
-   * @throws UsernameNotFoundException
    */
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

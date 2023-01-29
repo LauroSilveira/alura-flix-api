@@ -1,5 +1,6 @@
 package com.alura.aluraflixapi.domain.user;
 
+
 import com.alura.aluraflixapi.domain.roles.Roles;
 import java.io.Serial;
 import java.io.Serializable;
