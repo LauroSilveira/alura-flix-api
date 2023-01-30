@@ -20,6 +20,7 @@
 		<java.version>17</java.version>
 		<mapstruct.version>1.5.3.Final</mapstruct.version>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<jwt.version>4.2.2</jwt.version>
 	</properties>
 
 	<dependencies>
@@ -63,6 +64,13 @@
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>${mapstruct.version}</version>
+		</dependency>
+
+		<!-- JWT -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${jwt.version}</version>
 		</dependency>
 
 		<!-- Spring Starter Test -->
