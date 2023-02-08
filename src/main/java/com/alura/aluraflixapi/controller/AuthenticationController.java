@@ -1,7 +1,7 @@
 package com.alura.aluraflixapi.controller;
 
 import com.alura.aluraflixapi.domain.dto.AuthenticationDto;
-import com.alura.aluraflixapi.infraestructure.security.token.jwt.dto.TokenJwtDto;
+import com.alura.aluraflixapi.infraestructure.security.dto.TokenJwtDto;
 import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
 import jakarta.validation.Valid;

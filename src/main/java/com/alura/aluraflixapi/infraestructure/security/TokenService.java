@@ -6,6 +6,7 @@ import com.alura.aluraflixapi.domain.user.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -36,6 +37,20 @@ public class TokenService {
     } catch (JWTCreationException exception) {
       throw new JWTCreationException("Error to create JWT token", exception.getCause());
     }
+  }
+
+  public String getSubject(String tokenJWT) {
+    try {
+      var algorithm = Algorithm.HMAC256(secret);
+      return JWT.require(algorithm)
+          .withIssuer(ALURA_FLIX_API)
+          .build()
+          .verify(tokenJWT)
+          .getSubject();
+    } catch (JWTVerificationException exception) {
+      throw new JWTCreationException("Invalid or Expired Token JWT", exception.getCause());
+    }
+
   }
 
   private Instant getExpireDate() {
