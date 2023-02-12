@@ -26,10 +26,10 @@ public class Roles implements Serializable, GrantedAuthority {
 
   private String id;
 
-  private String role;
+  private RolesEnum role;
 
   @Override
   public String getAuthority() {
-    return role;
+    return role.name();
   }
 }

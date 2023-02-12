@@ -3,6 +3,7 @@ package com.alura.aluraflixapi.infraestructure.security;
 
 import com.alura.aluraflixapi.domain.roles.Roles;
 import com.alura.aluraflixapi.domain.user.User;
+import com.alura.aluraflixapi.infraestructure.exception.AuthenticationException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -29,7 +30,8 @@ public class TokenService {
           //owner
           .withSubject(user.getUsername())
           .withClaim("id", user.getUsername())
-          .withClaim("role", user.getRoles().stream().map(Roles::getRole).toList())
+          .withClaim("role", user.getRoles().stream().map(Roles::getRole).map(Enum::name)
+              .toList())
           // duration of JWT
           .withExpiresAt(getExpireDate())
           .sign(Algorithm.HMAC256(secret));
@@ -48,7 +50,7 @@ public class TokenService {
           .verify(tokenJWT)
           .getSubject();
     } catch (JWTVerificationException exception) {
-      throw new JWTCreationException("Invalid or Expired Token JWT", exception.getCause());
+      throw new AuthenticationException(exception.getMessage());
     }
 
   }
