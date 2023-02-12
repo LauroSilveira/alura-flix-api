@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ public class UserController {
   private UserService service;
 
   @PostMapping
+  @Secured("ROLE_ADMIN")
   public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserDto userDto) {
     var newUser = this.service.saveUser(userDto);
     return ResponseEntity.ok().body(newUser);
