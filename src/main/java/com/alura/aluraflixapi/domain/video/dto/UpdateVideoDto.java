@@ -1,9 +1,11 @@
 package com.alura.aluraflixapi.domain.video.dto;
 
-public record UpdateVideoDto(String id, String title, String Description, String url) {
+import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
+
+public record UpdateVideoDto(String id, String title, String description, String url, CategoryDto categoryDto) {
 
   public UpdateVideoDto(VideoDto videoDto) {
-    this(videoDto.id(), videoDto.title(), videoDto.description(), videoDto.description());
+    this(videoDto.id(), videoDto.title(), videoDto.description(), videoDto.description(), videoDto.categoryDto());
   }
 
 }

@@ -4,11 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
+import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
-import com.alura.aluraflixapi.infraestructure.service.VideoService;
+import com.alura.aluraflixapi.infraestructure.security.SecurityFilter;
+import com.alura.aluraflixapi.infraestructure.security.TokenService;
+import com.alura.aluraflixapi.infraestructure.service.CategoryService;
+import com.alura.aluraflixapi.infraestructure.service.UserService;
+import com.alura.aluraflixapi.infraestructure.service.VideoServiceImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
@@ -26,6 +32,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -36,24 +44,51 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
+//this anotation can be replaced at each test method scope
+@WithMockUser(value = "admin", username = "admin", password = "admin", roles = "ADMIN")
 class VideoControllerTest {
 
   private static ObjectMapper mapper;
-
-  @MockBean
-  private VideoService service;
 
   @Autowired
   private MockMvc mockMvc;
 
   @SpyBean
+  private SecurityFilter securityFilter;
+
+  @MockBean
+  private UserService userService;
+
+  @MockBean
+  private CategoryService categoryService;
+
+  @MockBean
+  private VideoServiceImpl videoService;
+
+  @MockBean
+  private TokenService tokenService;
+
+  @MockBean
+  private AuthenticationController authenticationController;
+
+  @SpyBean
   private VideoController videoController;
+
+  @MockBean
+  private CategoryController categoryController;
+
+  @MockBean
+  private UserController userController;
 
   @MockBean
   private VideoRepository videoRepository;
 
   @MockBean
+  private UserRepository userRepository;
+
+  @MockBean
   private VideoMapper videoMapper;
+
 
   @BeforeAll
   static void setup() {
@@ -65,7 +100,7 @@ class VideoControllerTest {
     //Given
     final List<VideoDto> videos = buildVideosDto();
 
-    Mockito.when(this.service.getVideos(Mockito.any()))
+    Mockito.when(this.videoService.getVideos(Mockito.any()))
         .thenReturn(new PageImpl<>(videos));
 
     final MvcResult response = this.mockMvc.perform(MockMvcRequestBuilders.get("/videos")
@@ -76,20 +111,20 @@ class VideoControllerTest {
     //When
     JsonNode jsonNode = mapper.readTree(response.getResponse().getContentAsString()).get("content");
     List<VideoDto> videosDtos = Arrays.asList(mapper.readValue(jsonNode.toString(), VideoDto[].
-            class));
+        class));
     //Then
     assertNotNull(videosDtos);
     assertEquals(4, videosDtos.size());
   }
 
   @Test
-  void get_a_video_by_id() throws Exception {
+  void get_video_by_id() throws Exception {
 
     //Given
-    final VideoDto mock = buildVideosDto().get(0);
+    final VideoDto request = buildVideosDto().get(0);
 
-    Mockito.when(this.service.getById(Mockito.anyString()))
-        .thenReturn(mock);
+    Mockito.when(this.videoService.getById(Mockito.anyString()))
+        .thenReturn(request);
 
     //When
     final MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/videos/{id}", "1")
@@ -103,10 +138,10 @@ class VideoControllerTest {
         VideoDto.class);
 
     assertNotNull(videoDto);
-    assertAll(() -> assertEquals(mock.id(), videoDto.id()),
-        () -> Assertions.assertEquals(mock.url(), videoDto.url()),
-        () -> Assertions.assertEquals(mock.description(), videoDto.description()),
-        () -> Assertions.assertEquals(mock.title(), videoDto.title())
+    assertAll(() -> assertEquals(request.id(), videoDto.id()),
+        () -> Assertions.assertEquals(request.url(), videoDto.url()),
+        () -> Assertions.assertEquals(request.description(), videoDto.description()),
+        () -> Assertions.assertEquals(request.title(), videoDto.title())
     );
   }
 
@@ -119,12 +154,15 @@ class VideoControllerTest {
         .url("http://www.ringsofpower.com")
         .title("Rings of power")
         .description("Rings of power Amazon Series")
+        .categoryDto(new CategoryDto(UUID.randomUUID().toString(), "Fantasy", "#ffd700"))
         .build();
 
-    Mockito.when(this.service.save(Mockito.any()))
+    Mockito.when(this.videoService.save(Mockito.any()))
         .thenReturn(request);
+
     //When
     final MvcResult response = this.mockMvc.perform(MockMvcRequestBuilders.post("/videos")
+            .with(SecurityMockMvcRequestPostProcessors.csrf().asHeader())
             .contentType(MediaType.APPLICATION_JSON)
             //necessary convert to bytes because his content Type JSON
             .content(mapper.writeValueAsBytes(request))
@@ -140,19 +178,27 @@ class VideoControllerTest {
   }
 
   @Test
-  void update_a_video_test() throws Exception {
+  void update_video_by_id_test() throws Exception {
 
     //Given
-    final UpdateVideoDto videoToUpdate = new UpdateVideoDto(null, "Hobbit: La batalla de los cincos ejercitos", "La batalla de los cincos ejercitos", "www.thehobbit2.com");
+    final var videoToUpdate =
+        new UpdateVideoDto(UUID.randomUUID().toString(),
+            "Hobbit: La batalla de los cincos ejercitos", "La batalla de los cincos ejercitos",
+            "www.thehobbit2.com",
+            new CategoryDto(UUID.randomUUID().toString(), "Fantasy", "#FFD700"));
 
-    Mockito.when(this.service.updateMovie(Mockito.any()))
+    Mockito.when(this.videoService.updateMovie(Mockito.any()))
         .thenReturn(videoToUpdate);
 
     final MvcResult response = this.mockMvc.perform(MockMvcRequestBuilders.put("/videos")
+            // When testing any non-safe HTTP methods and using Spring Security’s CSRF protection,
+            // you must include a valid CSRF Token in the request.
+            .with(SecurityMockMvcRequestPostProcessors.csrf().asHeader())
             .contentType(MediaType.APPLICATION_JSON)
             //necessary convert to bytes because his content Type JSON
             .content(mapper.writeValueAsBytes(videoToUpdate))
-        ).andDo(MockMvcResultHandlers.print())
+        )
+        .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
         .andReturn();
 
@@ -161,46 +207,58 @@ class VideoControllerTest {
         VideoDto.class);
 
     assertNotNull(videoUpdated);
+    Assertions.assertAll(() ->
+            Assertions.assertEquals(videoToUpdate.id(), videoUpdated.id()),
+        () -> Assertions.assertEquals(videoToUpdate.description(), videoUpdated.description()),
+        () -> Assertions.assertEquals(videoUpdated.url(), videoUpdated.url()),
+        () -> Assertions.assertEquals(videoToUpdate.categoryDto(), videoUpdated.categoryDto())
+    );
 
   }
 
   @Test
-  void delete_a_video_test() throws Exception {
+  void delete_video_by_id_test() throws Exception {
 
     //Given
-    Mockito.when(this.service.delete(Mockito.anyString()))
+    Mockito.when(this.videoService.delete(Mockito.anyString()))
         .thenReturn(Optional.empty());
     //then
     this.mockMvc.perform(MockMvcRequestBuilders.delete("/videos/{id}", "1")
+            .with(SecurityMockMvcRequestPostProcessors.csrf().asHeader())
         ).andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isNoContent());
   }
 
 
   private static List<VideoDto> buildVideosDto() {
+    final var categoryDto = new CategoryDto(UUID.randomUUID().toString(), "Fantasy", "#FFD700");
     return List.of(VideoDto.builder()
             .id(UUID.randomUUID().toString())
             .title("Lord of the rings - fellowship of the ring")
             .description("Lord of the rings - fellowship of the ring")
             .url("http://www.lordoftherings.com")
+            .categoryDto(categoryDto)
             .build(),
         VideoDto.builder()
             .id(UUID.randomUUID().toString())
             .title("Lord of the rings - return of the king")
             .description("Lord of the rings - return of the king")
             .url("http://www.lordoftherings.com")
+            .categoryDto(categoryDto)
             .build(),
         VideoDto.builder()
             .id(UUID.randomUUID().toString())
             .title("Lord of the rings - The Two towers")
             .description("Lord of the rings - The Two towers")
             .url("http://www.lordoftherings.com")
+            .categoryDto(categoryDto)
             .build(),
         VideoDto.builder()
             .id(UUID.randomUUID().toString())
             .title("The hobbit - unnespect adventure")
             .description("The hobbit - unnespect adventure")
             .url("http://www.thehobbit.com")
+            .categoryDto(categoryDto)
             .build()
     );
   }
