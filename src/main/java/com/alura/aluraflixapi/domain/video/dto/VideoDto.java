@@ -1,5 +1,6 @@
 package com.alura.aluraflixapi.domain.video.dto;
 
+import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -14,7 +15,9 @@ public record VideoDto(
     String description,
     @NotNull
     @URL
-    String url) {
+    String url,
+    @NotNull
+    CategoryDto categoryDto) {
 
 
 }
