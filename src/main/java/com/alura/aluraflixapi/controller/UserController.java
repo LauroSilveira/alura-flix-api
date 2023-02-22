@@ -1,6 +1,6 @@
 package com.alura.aluraflixapi.controller;
 
-import com.alura.aluraflixapi.domain.dto.UserDto;
+import com.alura.aluraflixapi.domain.user.dto.UserDto;
 import com.alura.aluraflixapi.infraestructure.service.UserService;
 import jakarta.validation.Valid;
 import java.util.List;

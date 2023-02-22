@@ -1,6 +1,6 @@
 package com.alura.aluraflixapi.infraestructure.service;
 
-import com.alura.aluraflixapi.domain.dto.UserDto;
+import com.alura.aluraflixapi.domain.user.dto.UserDto;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 

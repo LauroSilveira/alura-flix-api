@@ -1,6 +1,6 @@
 package com.alura.aluraflixapi.controller;
 
-import com.alura.aluraflixapi.domain.dto.AuthenticationDto;
+import com.alura.aluraflixapi.domain.user.dto.AuthenticationDto;
 import com.alura.aluraflixapi.infraestructure.security.dto.TokenJwtDto;
 import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;

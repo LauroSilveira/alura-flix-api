@@ -1,8 +1,8 @@
 package com.alura.aluraflixapi.controller;
 
 
-import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.infraestructure.service.VideoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -68,7 +68,7 @@ public class VideoController {
   @PutMapping
   public ResponseEntity<UpdateVideoDto> update(@Valid @RequestBody final UpdateVideoDto dto,
       final UriComponentsBuilder uriBuilder) {
-    final UpdateVideoDto videoDto = service.updateMovie(dto);
+    final var videoDto = service.updateMovie(dto);
     //good practices to return the Location in the Header to be search by Id
     //return Http code 201 and Localtion with Id
     return ResponseEntity.created(uriBuilder.path("/videos/{id}")

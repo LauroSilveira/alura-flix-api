@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 @Builder
 @Getter
@@ -16,7 +18,13 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class Category {
 
+  @Id
   private String id;
+
+  @Indexed
+  private String rating;
+
   private String title;
+
   private String colorHex;
 }

@@ -1,6 +1,6 @@
-package com.alura.aluraflixapi.domain.dto;
+package com.alura.aluraflixapi.domain.user.dto;
 
-import com.alura.aluraflixapi.domain.roles.Roles;
+import com.alura.aluraflixapi.domain.user.roles.Roles;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
