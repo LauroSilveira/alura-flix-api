@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.domain.roles;
+package com.alura.aluraflixapi.domain.user.roles;
 
 public enum RolesEnum {
 

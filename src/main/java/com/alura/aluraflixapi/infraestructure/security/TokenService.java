@@ -1,7 +1,7 @@
 package com.alura.aluraflixapi.infraestructure.security;
 
 
-import com.alura.aluraflixapi.domain.roles.Roles;
+import com.alura.aluraflixapi.domain.user.roles.Roles;
 import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.infraestructure.exception.AuthenticationException;
 import com.auth0.jwt.JWT;

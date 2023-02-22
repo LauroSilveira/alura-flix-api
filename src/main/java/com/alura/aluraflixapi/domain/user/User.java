@@ -1,12 +1,11 @@
 package com.alura.aluraflixapi.domain.user;
 
 
-import com.alura.aluraflixapi.domain.roles.Roles;
+import com.alura.aluraflixapi.domain.user.roles.Roles;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

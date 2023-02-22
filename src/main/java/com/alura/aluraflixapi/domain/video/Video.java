@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,6 +22,7 @@ public class Video {
   @Id
   private String id;
 
+  @Indexed
   private String title;
 
   private String description;
@@ -28,6 +30,6 @@ public class Video {
   private String url;
 
   @DBRef
-  private Category categoryId;
+  private Category category;
 
 }

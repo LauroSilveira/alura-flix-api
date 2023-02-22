@@ -1,8 +1,8 @@
 package com.alura.aluraflixapi.infraestructure.mapper;
 
 import com.alura.aluraflixapi.domain.video.Video;
-import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

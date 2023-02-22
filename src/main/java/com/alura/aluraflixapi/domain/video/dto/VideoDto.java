@@ -17,7 +17,7 @@ public record VideoDto(
     @URL
     String url,
     @NotNull
-    CategoryDto categoryDto) {
+    CategoryDto category) {
 
 
 }
