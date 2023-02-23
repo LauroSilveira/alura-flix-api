@@ -1,6 +1,6 @@
 package com.alura.aluraflixapi.domain.category;
 
-public enum CategoryEnum {
+public enum Rating {
 
   FREE(1),
   FANTASY(2),
@@ -9,7 +9,7 @@ public enum CategoryEnum {
 
   final int categoryId;
 
-  CategoryEnum(int categoryId) {
+  Rating(int categoryId) {
     this.categoryId = categoryId;
   }
 }

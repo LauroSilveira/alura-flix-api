@@ -9,4 +9,6 @@ public interface VideoRepository extends MongoRepository<Video, String> {
 
   @Query("{'category.id' : ?0}")
   List<Video> findVideosByCategories(String categoryId);
+
+  List<Video> findByTitleLike(String name);
 }

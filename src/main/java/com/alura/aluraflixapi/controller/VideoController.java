@@ -1,11 +1,12 @@
 package com.alura.aluraflixapi.controller;
 
 
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.service.VideoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -58,7 +60,7 @@ public class VideoController {
   @PostMapping
   public ResponseEntity<VideoDto> save(@Valid @RequestBody final VideoDto dto,
       final UriComponentsBuilder uriBuilder) {
-    final VideoDto videoDto = service.save(dto);
+    final VideoDto videoDto = this.service.save(dto);
     //good practices to return the Location in the Header to be search by Id
     //return Http code 201 and Localtion with Id
     return ResponseEntity.created(uriBuilder.path("/videos/{id}").buildAndExpand(videoDto.id())
@@ -68,7 +70,7 @@ public class VideoController {
   @PutMapping
   public ResponseEntity<UpdateVideoDto> update(@Valid @RequestBody final UpdateVideoDto dto,
       final UriComponentsBuilder uriBuilder) {
-    final var videoDto = service.updateMovie(dto);
+    final var videoDto = this.service.updateMovie(dto);
     //good practices to return the Location in the Header to be search by Id
     //return Http code 201 and Localtion with Id
     return ResponseEntity.created(uriBuilder.path("/videos/{id}")
@@ -79,9 +81,21 @@ public class VideoController {
   @DeleteMapping("/{id}")
   @Secured("ROLE_ADMIN")
   public ResponseEntity<VideoDto> delete(@NotBlank @PathVariable final String id) {
-    final Optional<VideoDto> dto = service.delete(id);
+    final Optional<VideoDto> dto = this.service.delete(id);
     return dto.map(videoDto -> ResponseEntity.status(HttpStatus.NO_CONTENT).body(videoDto))
         .orElseGet(() -> ResponseEntity.noContent().build());
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<List<VideoDto>> getVideosByTitle(
+      @NotBlank @RequestParam("title") final String title) {
+    final var videosByTitle = this.service.getVideosByTitle(title);
+    if (videosByTitle.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.status(HttpStatus.FOUND).body(videosByTitle);
+    }
+
   }
 
 }

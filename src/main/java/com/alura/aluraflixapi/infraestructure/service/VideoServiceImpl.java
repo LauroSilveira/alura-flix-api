@@ -2,13 +2,14 @@ package com.alura.aluraflixapi.infraestructure.service;
 
 
 import com.alura.aluraflixapi.domain.category.Category;
-import com.alura.aluraflixapi.domain.category.CategoryEnum;
+import com.alura.aluraflixapi.domain.category.Rating;
 import com.alura.aluraflixapi.domain.video.Video;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
 import com.alura.aluraflixapi.infraestructure.repository.CategoryRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class VideoServiceImpl implements VideoService {
           if (Objects.isNull(video.getCategory())) {
             video.setCategory(Category.builder()
                 .id(null)
-                .rating(CategoryEnum.FREE.name())
+                .rating(Rating.FREE.name())
                 .title(null)
                 .colorHex(null)
                 .build());
@@ -90,5 +91,13 @@ public class VideoServiceImpl implements VideoService {
     return videoRepository.findById(id)
         .map(mapper::mapToVideoDto)
         .orElse(null);
+  }
+
+  @Override
+  public List<VideoDto> getVideosByTitle(String name) {
+    return this.videoRepository.findByTitleLike(name)
+        .stream()
+        .map(this.mapper::mapToVideoDto)
+        .toList();
   }
 }
