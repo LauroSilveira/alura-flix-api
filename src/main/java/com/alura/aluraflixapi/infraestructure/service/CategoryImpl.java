@@ -79,7 +79,6 @@ public class CategoryImpl implements CategoryService {
   @Override
   public List<VideoDto> getVideosByCategory(String rating) {
     final var category = categoryRepository.findCategoryByRating(rating);
-
     return videoRepository.findVideosByCategories(category.getId())
         .stream().map(this.videoMapper::mapToVideoDto)
         .toList();

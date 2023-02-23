@@ -4,9 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.alura.aluraflixapi.domain.category.Rating;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
@@ -154,7 +155,7 @@ class VideoControllerTest {
         .url("http://www.ringsofpower.com")
         .title("Rings of power")
         .description("Rings of power Amazon Series")
-        .categoryDto(new CategoryDto(UUID.randomUUID().toString(), "Fantasy", "#ffd700"))
+        .category(new CategoryDto(UUID.randomUUID().toString(), Rating.FANTASY.name(), "Fantasy", "#ffd700"))
         .build();
 
     Mockito.when(this.videoService.save(Mockito.any()))
@@ -185,7 +186,8 @@ class VideoControllerTest {
         new UpdateVideoDto(UUID.randomUUID().toString(),
             "Hobbit: La batalla de los cincos ejercitos", "La batalla de los cincos ejercitos",
             "www.thehobbit2.com",
-            new CategoryDto(UUID.randomUUID().toString(), "Fantasy", "#FFD700"));
+            new CategoryDto(UUID.randomUUID().toString(), Rating.FANTASY.name(), "Fantasy",
+                "#FFD700"));
 
     Mockito.when(this.videoService.updateMovie(Mockito.any()))
         .thenReturn(videoToUpdate);
@@ -211,7 +213,7 @@ class VideoControllerTest {
             Assertions.assertEquals(videoToUpdate.id(), videoUpdated.id()),
         () -> Assertions.assertEquals(videoToUpdate.description(), videoUpdated.description()),
         () -> Assertions.assertEquals(videoUpdated.url(), videoUpdated.url()),
-        () -> Assertions.assertEquals(videoToUpdate.categoryDto(), videoUpdated.categoryDto())
+        () -> Assertions.assertEquals(videoToUpdate.category(), videoUpdated.category())
     );
 
   }
@@ -231,34 +233,35 @@ class VideoControllerTest {
 
 
   private static List<VideoDto> buildVideosDto() {
-    final var categoryDto = new CategoryDto(UUID.randomUUID().toString(), "Fantasy", "#FFD700");
+    final var categoryDto = new CategoryDto(UUID.randomUUID().toString(), Rating.FREE.name(),
+        "Fantasy", "#FFD700");
     return List.of(VideoDto.builder()
             .id(UUID.randomUUID().toString())
             .title("Lord of the rings - fellowship of the ring")
             .description("Lord of the rings - fellowship of the ring")
             .url("http://www.lordoftherings.com")
-            .categoryDto(categoryDto)
+            .category(categoryDto)
             .build(),
         VideoDto.builder()
             .id(UUID.randomUUID().toString())
             .title("Lord of the rings - return of the king")
             .description("Lord of the rings - return of the king")
             .url("http://www.lordoftherings.com")
-            .categoryDto(categoryDto)
+            .category(categoryDto)
             .build(),
         VideoDto.builder()
             .id(UUID.randomUUID().toString())
             .title("Lord of the rings - The Two towers")
             .description("Lord of the rings - The Two towers")
             .url("http://www.lordoftherings.com")
-            .categoryDto(categoryDto)
+            .category(categoryDto)
             .build(),
         VideoDto.builder()
             .id(UUID.randomUUID().toString())
             .title("The hobbit - unnespect adventure")
             .description("The hobbit - unnespect adventure")
             .url("http://www.thehobbit.com")
-            .categoryDto(categoryDto)
+            .category(categoryDto)
             .build()
     );
   }
