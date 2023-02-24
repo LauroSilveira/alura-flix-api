@@ -37,7 +37,8 @@ public class SecurityConfigurations {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and().authorizeHttpRequests()
         //exclude only enpoint Login
-        .requestMatchers(HttpMethod.POST,"/login").permitAll()
+        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
         //any other requeste has to be authenticated
         .anyRequest().authenticated()
         .and()

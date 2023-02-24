@@ -3,10 +3,10 @@ package com.alura.aluraflixapi.controller;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.service.CategoryService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/category")
+@SecurityRequirement(name = "bearer-key")
 public class CategoryController {
 
 
@@ -48,11 +49,12 @@ public class CategoryController {
   }
 
   @GetMapping("/{id}/videos")
-  public ResponseEntity<List<VideoDto>> getVideosByCategory(@NotBlank @PathVariable final String id) {
+  public ResponseEntity<List<VideoDto>> getVideosByCategory(
+      @NotBlank @PathVariable final String id) {
     final var videosByCategory = this.categoryService.getVideosByCategory(id);
-    if(videosByCategory.isEmpty()) {
+    if (videosByCategory.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }else {
+    } else {
       return ResponseEntity.status(HttpStatus.FOUND).body(videosByCategory);
     }
   }

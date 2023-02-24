@@ -4,6 +4,7 @@ package com.alura.aluraflixapi.controller;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.service.VideoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Slf4j
 @RestController
 @RequestMapping("/videos")
+@SecurityRequirement(name = "bearer-key")
 public class VideoController {
 
   private final VideoService service;

@@ -212,7 +212,7 @@ class VideoControllerTest {
     Assertions.assertAll(() ->
             Assertions.assertEquals(videoToUpdate.id(), videoUpdated.id()),
         () -> Assertions.assertEquals(videoToUpdate.description(), videoUpdated.description()),
-        () -> Assertions.assertEquals(videoUpdated.url(), videoUpdated.url()),
+        () -> Assertions.assertEquals(videoToUpdate.url(), videoUpdated.url()),
         () -> Assertions.assertEquals(videoToUpdate.category(), videoUpdated.category())
     );
 
