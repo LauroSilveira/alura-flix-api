@@ -9,7 +9,7 @@ public interface CategoryService {
 
   List<CategoryDto> categories();
 
-  void create(CategoryDto categoryDto);
+  CategoryDto create(CategoryDto categoryDto);
 
   CategoryDto findCategoryById(String id);
 

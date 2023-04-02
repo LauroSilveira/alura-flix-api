@@ -4,6 +4,7 @@ import com.alura.aluraflixapi.domain.category.Category;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.exception.CategoryTransactionException;
+import com.alura.aluraflixapi.infraestructure.mapper.CategoryMapper;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
 import com.alura.aluraflixapi.infraestructure.repository.CategoryRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
@@ -25,12 +26,15 @@ public class CategoryImpl implements CategoryService {
 
   private final VideoMapper videoMapper;
 
+  private final CategoryMapper categoryMapper;
+
 
   public CategoryImpl(CategoryRepository categoryRepository, VideoRepository videoRepository,
-      VideoMapper videoMapper) {
+      VideoMapper videoMapper, CategoryMapper categoryMapper) {
     this.categoryRepository = categoryRepository;
     this.videoRepository = videoRepository;
     this.videoMapper = videoMapper;
+    this.categoryMapper = categoryMapper;
   }
 
   @Override
@@ -44,11 +48,11 @@ public class CategoryImpl implements CategoryService {
 
   @Override
   @Transactional
-  public void create(CategoryDto categoryDto) {
+  public CategoryDto create(CategoryDto categoryDto) {
     try {
-      final var entity = new Category(categoryDto.id(), categoryDto.rating(), categoryDto.title(),
-          categoryDto.colorHex());
-      categoryRepository.save(entity);
+      final var entity = this.categoryMapper.mapperToEntity(categoryDto);
+      final var categorySaved = categoryRepository.save(entity);
+      return this.categoryMapper.mapperToCategoryDto(categorySaved);
     } catch (MongoTransactionException exception) {
       throw new CategoryTransactionException("Error to persist new category",
           exception.getMostSpecificCause());

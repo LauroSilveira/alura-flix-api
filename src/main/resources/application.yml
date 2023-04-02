@@ -6,7 +6,7 @@ server:
 
 spring:
   application:
-    name: alura-flix
+    name: alura-flix-api
   data:
     mongodb:
       database: alura-flix
