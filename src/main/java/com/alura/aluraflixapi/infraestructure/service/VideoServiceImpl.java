@@ -22,12 +22,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class VideoServiceImpl implements VideoService {
 
+  private static final String LOGGIN_PREFIX = "[VideoServiceImpl]";
   private final VideoRepository videoRepository;
   private final CategoryRepository categoryRepository;
   private final VideoMapper mapper;
 
   @Autowired
-  public VideoServiceImpl(VideoRepository videoRepository, VideoMapper mapper, CategoryRepository categoryRepository) {
+  public VideoServiceImpl(VideoRepository videoRepository, VideoMapper mapper,
+      CategoryRepository categoryRepository) {
     this.videoRepository = videoRepository;
     this.mapper = mapper;
     this.categoryRepository = categoryRepository;
@@ -54,8 +56,10 @@ public class VideoServiceImpl implements VideoService {
   @Override
   public VideoDto save(VideoDto dto) {
     try {
+      log.info("{} Saving new video: {}", LOGGIN_PREFIX, dto.toString());
       final var entityToPersist = mapper.mapToModel(dto);
       final var entityPersisted = this.videoRepository.save(entityToPersist);
+      log.info("{} New Video saved", LOGGIN_PREFIX);
       return mapper.mapToVideoDto(entityPersisted);
     } catch (Exception e) {
       throw new RuntimeException("Error to persist entity", e.getCause());
