@@ -33,6 +33,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @SecurityRequirement(name = "bearer-key")
 public class VideoController {
 
+  private static final String LOGGIN_PREFIX = "[VideoController]";
+
   private final VideoService service;
 
   @Autowired
@@ -42,8 +44,10 @@ public class VideoController {
 
   @GetMapping
   public ResponseEntity<Page<VideoDto>> getVideos(Pageable pageable) {
+    log.info("{} Request to get All videos", LOGGIN_PREFIX);
     final Page<VideoDto> videos = this.service.getVideos(pageable);
     if (videos.hasContent()) {
+      log.info("{} Response {}: ", LOGGIN_PREFIX, videos);
       return ResponseEntity.ok(videos);
     } else {
       return ResponseEntity.noContent().build();
@@ -53,6 +57,7 @@ public class VideoController {
 
   @GetMapping("/{id}")
   public ResponseEntity<VideoDto> getById(@NotBlank @PathVariable final String id) {
+    log.info("{} Request to get a video by ID: {}", LOGGIN_PREFIX, id);
     return Optional.ofNullable(service.getById(id))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
@@ -62,6 +67,7 @@ public class VideoController {
   @PostMapping
   public ResponseEntity<VideoDto> save(@Valid @RequestBody final VideoDto dto,
       final UriComponentsBuilder uriBuilder) {
+    log.info("{} Request to Save a new video: {}", LOGGIN_PREFIX, dto);
     final VideoDto videoDto = this.service.save(dto);
     //good practices to return the Location in the Header to be search by Id
     //return Http code 201 and Localtion with Id
@@ -72,6 +78,7 @@ public class VideoController {
   @PutMapping
   public ResponseEntity<UpdateVideoDto> update(@Valid @RequestBody final UpdateVideoDto dto,
       final UriComponentsBuilder uriBuilder) {
+    log.info("{} Request to update a video: {}", LOGGIN_PREFIX, dto);
     final var videoDto = this.service.updateMovie(dto);
     //good practices to return the Location in the Header to be search by Id
     //return Http code 201 and Localtion with Id
@@ -83,6 +90,7 @@ public class VideoController {
   @DeleteMapping("/{id}")
   @Secured("ROLE_ADMIN")
   public ResponseEntity<VideoDto> delete(@NotBlank @PathVariable final String id) {
+    log.info("{} Request to Delete a video by ID: {}", LOGGIN_PREFIX, id);
     final Optional<VideoDto> dto = this.service.delete(id);
     return dto.map(videoDto -> ResponseEntity.status(HttpStatus.NO_CONTENT).body(videoDto))
         .orElseGet(() -> ResponseEntity.noContent().build());
@@ -91,6 +99,7 @@ public class VideoController {
   @GetMapping("/search")
   public ResponseEntity<List<VideoDto>> getVideosByTitle(
       @NotBlank @RequestParam("title") final String title) {
+    log.info("{} Request to get a video by title: {}", LOGGIN_PREFIX, title);
     final var videosByTitle = this.service.getVideosByTitle(title);
     if (videosByTitle.isEmpty()) {
       return ResponseEntity.noContent().build();

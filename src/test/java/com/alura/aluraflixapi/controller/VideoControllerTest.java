@@ -44,6 +44,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
 @ExtendWith(SpringExtension.class)
+//@WebMvcTest: Includes both the @AutoConfigureWebMvc and the @AutoConfigureMockMvc, among other functionality.
 @WebMvcTest
 //this anotation can be replaced at each test method scope
 @WithMockUser(value = "admin", username = "admin", password = "admin", roles = "ADMIN")

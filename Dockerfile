@@ -1,5 +1,9 @@
 FROM openjdk:20-ea-17-oraclelinux8
-ENV JWT_SECRET=""
+
+ARG JWT_SECRET
+ARG DATABASE_PRO
+ARG DATABASE_TEST
+
 #work directory by default
 WORKDIR /alura-flix-api
 #copy all files from target and put in to work directory

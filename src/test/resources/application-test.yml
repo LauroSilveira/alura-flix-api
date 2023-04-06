@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: alura-flix-api
+  data:
+    mongodb:
+      database: alura-flix
+      uri: DATABASE_TEST
