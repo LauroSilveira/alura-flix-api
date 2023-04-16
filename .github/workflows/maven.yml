@@ -19,17 +19,15 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Build with Maven
+    - name: Build and test with Maven
       run: mvn -B package --file pom.xml
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         DATABASE_PRO: ${{ secrets.DATABASE_PRO }}
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
-    - name: TestForest Dashboard for tests
-      uses: test-summary/action@v2.1
+    - name: Create test Summary
+      uses: test-summary/action@dist
       with:
-        paths: |
-          test-one/**/TEST-*.xml
-          test-two/results/results.tap
+        path: results/**/*.xml
       if: always()
