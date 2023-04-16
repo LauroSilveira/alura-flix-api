@@ -1,4 +1,4 @@
-FROM openjdk:20-ea-17-oraclelinux8
+FROM openjdk:21-ea-17-oraclelinux8
 
 ## Arguments used with github secrets
 ARG JWT_SECRET
