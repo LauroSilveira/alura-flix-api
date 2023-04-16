@@ -7,4 +7,4 @@ spring:
   data:
     mongodb:
       database: alura-flix
-      uri: DATABASE_TEST
+      uri: ${DATABASE_TEST}

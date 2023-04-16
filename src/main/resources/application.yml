@@ -10,8 +10,8 @@ spring:
   data:
     mongodb:
       database: alura-flix
-      uri: DATABASE_PRO
+      uri: ${DATABASE_PRO}
 
 api:
   security:
-    token-jwt-secret: JWT_SECRET
+    token-jwt-secret: ${JWT_SECRET}
