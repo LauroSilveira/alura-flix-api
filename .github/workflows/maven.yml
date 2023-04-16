@@ -1,5 +1,5 @@
 name: CI Workflow
-run-name: ${{ github.actor }} has startet workflow
+run-name: ${{ github.actor }} has started workflow
 on:
   push:
     branches: [ "main" ]
@@ -11,23 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
+    ## Set up to use JDK 17
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-
+    ## Build and execute every test
     - name: Build and test with Maven
       run: mvn -B package --file pom.xml
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         DATABASE_PRO: ${{ secrets.DATABASE_PRO }}
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
-
-    - name: Create test Summary
-      uses: test-summary/action@dist
+    - name: Test Reporter
+      uses: dorny/test-reporter@v1.6.0
+      if: success() || failure()    # run this step even if previous step failed
       with:
-        paths: results/**/*.xml
-      if: always()
+        name: JEST Tests            # Name of the check run which will be created
+        path: reports/jest-*.xml    # Path to test results
+        reporter: jest-junit        # Format of test results
