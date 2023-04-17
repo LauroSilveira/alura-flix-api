@@ -1,4 +1,4 @@
-FROM openjdk:20-ea-17-oraclelinux8
+FROM eclipse-temurin:17-jre-alpine
 
 ## Arguments used with github secrets
 ARG JWT_SECRET
