@@ -156,7 +156,8 @@ class VideoControllerTest {
         .url("http://www.ringsofpower.com")
         .title("Rings of power")
         .description("Rings of power Amazon Series")
-        .category(new CategoryDto(UUID.randomUUID().toString(), Rating.FANTASY.name(), "Fantasy", "#ffd700"))
+        .category(new CategoryDto(UUID.randomUUID().toString(), Rating.FANTASY.name(), "Fantasy",
+            "#ffd700"))
         .build();
 
     Mockito.when(this.videoService.save(Mockito.any()))
