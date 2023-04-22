@@ -1,0 +1,16 @@
+on:
+  pull_request:
+  push:
+jobs:
+  build-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3     # checkout the repo
+      - name: Test Reporter
+        uses: dorny/test-reporter@v1.6.0
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: JEST Tests            # Name of the check run which will be created
+          path: reports/jest-*.xml    # Path to test results
+          reporter: jest-junit        # Format of test results
