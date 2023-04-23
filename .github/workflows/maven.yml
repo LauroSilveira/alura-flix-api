@@ -28,11 +28,15 @@ jobs:
 
     - name: Testing
       run:  mvn --batch-mode
+      env:
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        DATABASE_PRO: ${{ secrets.DATABASE_PRO }}
+        DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
     - name: Test Report
       uses: dorny/test-reporter@v1.6.0
       if: always()
       with:
-        name: Generating Tests
+        name: Test Reporter Summary
         path: target/surefire-reports/*.xml
         reporter: java-junit
