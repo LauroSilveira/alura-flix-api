@@ -26,12 +26,14 @@ jobs:
         DATABASE_PRO: ${{ secrets.DATABASE_PRO }}
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
+    - name: Clean install
+      run: mvn clean install
+
     - name: Test Report
-      run: mvn --batch-mode -DskipTests package
       uses: dorny/test-reporter@v1.6.0
       if: always()
       with:
-        name: Executing All Tests
+        name: Generating Tests
         path: target/surefire-reports/*.xml
         reporter: java-junit
         only-summary: false
