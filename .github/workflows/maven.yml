@@ -18,6 +18,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
     ## Build and execute every test
     - name: Build and test with Maven
       run: mvn -B package --file pom.xml
@@ -26,13 +27,15 @@ jobs:
         DATABASE_PRO: ${{ secrets.DATABASE_PRO }}
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
-    - name: Testing
-      run:  mvn test -P test
+    ## Build and execute every test
+    - name: Executing Tests
+      run:  mvn test 
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         DATABASE_PRO: ${{ secrets.DATABASE_PRO }}
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
+    ## Generate Test Report Summary
     - name: Test Report
       uses: dorny/test-reporter@v1.6.0
       if: always()
