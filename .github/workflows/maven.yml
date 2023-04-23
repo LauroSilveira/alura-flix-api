@@ -31,7 +31,7 @@ jobs:
       with:
         name: Executing All Tests
         path: 'src/test/java/com/alura/aluraflixapi/'
-        reporter: java-unit
+        reporter: 'java-junit'
         only-summary: false
         list-suites: all
         list-tests: all
