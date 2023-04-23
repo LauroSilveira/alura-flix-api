@@ -30,7 +30,7 @@ jobs:
       uses: dorny/test-reporter@v1.6.0
       with:
         name: Executing All Tests
-        path: 'src/**/*.java'
+        path: '.github/workflows/reports/**/*.java'
         reporter: java-junit
         only-summary: false
         list-suites: all
