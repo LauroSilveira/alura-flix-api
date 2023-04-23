@@ -30,6 +30,7 @@ jobs:
       uses: dorny/test-reporter@v1.6.0
       with:
         name: Executing All Tests
+        path: 'src/test/java/com/alura/aluraflixapi/'
         reporter: java-unit
         only-summary: false
         list-suites: all
