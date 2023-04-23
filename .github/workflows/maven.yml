@@ -26,11 +26,13 @@ jobs:
         DATABASE_PRO: ${{ secrets.DATABASE_PRO }}
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
-    - name: Test Reporter
+    - name: Test Report
+      run: mvn --batch-mode -DskipTests package
       uses: dorny/test-reporter@v1.6.0
+      if: always()
       with:
         name: Executing All Tests
-        path: 'src/test/java/com/alura/aluraflixapi/**/*.java'
+        path: target/surefire-reports/*.xml
         reporter: java-junit
         only-summary: false
         list-suites: all
