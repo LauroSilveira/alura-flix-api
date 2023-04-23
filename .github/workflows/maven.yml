@@ -27,7 +27,7 @@ jobs:
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
     - name: Testing
-      run:  mvn --batch-mode
+      run:  mvn test -P test
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         DATABASE_PRO: ${{ secrets.DATABASE_PRO }}
