@@ -1,6 +1,5 @@
 package com.alura.aluraflixapi.infraestructure.service;
 
-import com.alura.aluraflixapi.domain.category.Category;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.exception.CategoryTransactionException;
@@ -17,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
-public class CategoryImpl implements CategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
 
   private final CategoryRepository categoryRepository;
@@ -29,7 +28,7 @@ public class CategoryImpl implements CategoryService {
   private final CategoryMapper categoryMapper;
 
 
-  public CategoryImpl(CategoryRepository categoryRepository, VideoRepository videoRepository,
+  public CategoryServiceImpl(CategoryRepository categoryRepository, VideoRepository videoRepository,
       VideoMapper videoMapper, CategoryMapper categoryMapper) {
     this.categoryRepository = categoryRepository;
     this.videoRepository = videoRepository;
