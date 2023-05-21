@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:20-jre-alpine
 
 ## Arguments used with github secrets
 ARG JWT_SECRET
