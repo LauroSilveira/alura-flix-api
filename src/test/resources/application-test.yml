@@ -6,6 +6,5 @@ spring:
     name: alura-flix-api
   data:
     mongodb:
-      username: laurosilveira
       database: alura-flix-test
       uri: mongodb+srv://laurosilveira:sqm1J5PoZyjc850O@alura-flix-test.qixe2kd.mongodb.net/?retryWrites=true&w=majority
