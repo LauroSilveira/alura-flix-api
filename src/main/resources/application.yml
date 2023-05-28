@@ -10,7 +10,7 @@ spring:
   data:
     mongodb:
       database: alura-flix
-      uri: ${DATABASE_PRO}
+      uri: mongodb+srv://alura-flix-admin:Drfv5ZLzYdkx0nqJ@alura-flix.z61opfc.mongodb.net/?retryWrites=true&w=majority
 
 api:
   security:
