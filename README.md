@@ -11,7 +11,7 @@
 
 # About 
 <p>This is an application with aim to learning about new features of Spring security from Spring version 6.
-It is possible toa access swagger documentation throught url: http://localhost:8080/swagger-ui/index.html#
+It is possible toa access swagger documentation throught url: [http://localhost:8080/swagger](http://localhost:8080/swagger-ui/index.html#)
 The username for test is: guest@aluraflix.com and the password is: 123456, this user has ROLE_USER.<p/>
 
 ![alura-flix-api-swagger.png](data%2Falura-flix-api-swagger.png)
@@ -33,7 +33,8 @@ mvn spring-boot:run
 ```
 
 #### Login
-<p>In the authentication-controller you can use de username: guest@aluraflix.com and the password: 123456 to log in.<p/>
+<p>In the authentication-controller use the credentials<p/>
+<p>username: guest@aluraflix.com / password: 123456 to log in.<p/>
 
 ![login.png](data%2Flogin.png)
 
@@ -50,4 +51,4 @@ That's it, you are already logged and can try out all endpoints :wink:
 ## Contributors
 [@LauroSilveira](https://github.com/LauroSilveira)
 
-Fell free to fork and contribute :wink:
+<p>Fell free to fork and contribute :wink:<p/>
