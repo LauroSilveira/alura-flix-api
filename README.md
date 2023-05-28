@@ -1,27 +1,18 @@
 # alura-flix-api
 
-This is an application with aim to learning about new features of Spring security from Spring version 6.
-
-# How to Run
-If you want to run in command line just go to the same directory of `Application.java` and run:
-
-```shell
-mvn spring-boot:run
-```
+<p>This is an application with aim to learning about new features of Spring security from Spring version 6.<p/>
 
 ## About this project
-* [Summary](#summary)
 * [About](#about)
 * [Techinologies](#techinologies)
 * [How to run](#how-to-run)
-* [Requests](#requests)
-    * [Authentication](#login)
+* [Authentication](#login)
 * [Contributors](#contributors)
 
 # About 
-This is an application with aim to learning about new features of Spring security from Spring version 6.
+<p>This is an application with aim to learning about new features of Spring security from Spring version 6.
 It is possible toa access swagger documentation throught url: http://localhost:8080/swagger-ui/index.html#
-The username for test is: guest@aluraflix.com and the password is: 123456, this user has ROLE_USER.
+The username for test is: guest@aluraflix.com and the password is: 123456, this user has ROLE_USER.<p/>
 
 ![alura-flix-api-swagger.png](data%2Falura-flix-api-swagger.png)
 
@@ -34,16 +25,24 @@ The username for test is: guest@aluraflix.com and the password is: 123456, this 
 - Spring Secuity
 - JWT Token library
 
-# Requests
+# How to Run
+<p>If you want to run in command line just go to the same directory of `Application.java` and run: <p/>
+
+```shell
+mvn spring-boot:run
+```
 
 #### Login
-In the authentication-controller you can use de username: guest@aluraflix.com and the password: 123456 to log in.
+<p>In the authentication-controller you can use de username: guest@aluraflix.com and the password: 123456 to log in.<p/>
+
 ![login.png](data%2Flogin.png)
 
-After that copy the Token JWT 
+<p>After that copy the Token JWT<p/>
+
 ![token-jwt.png](data%2Ftoken-jwt.png)
 
-And paste it in the Authorize button
+<p>And paste it in the Authorize button<p/>
+
 ![authorize-token.png](data%2Fauthorize-token.png)
 
 That's it, you are already logged and can try out all endpoints :wink:
