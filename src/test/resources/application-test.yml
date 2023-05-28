@@ -7,4 +7,4 @@ spring:
   data:
     mongodb:
       database: alura-flix-test
-      uri: mongodb+srv://laurosilveira:sqm1J5PoZyjc850O@alura-flix-test.qixe2kd.mongodb.net/?retryWrites=true&w=majority
+      uri: ${DATABASE_TEST}

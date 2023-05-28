@@ -12,7 +12,7 @@
 # About 
 This is an application with aim to learning about new features of Spring security from Spring version 6.
 It is possible toa access swagger documentation throught url: [http://localhost:8080/swagger-api](http://localhost:8080/swagger-ui/index.html).
-The username for test is: guest@aluraflix.com and the password is: 123456, this user has ROLE_USER.
+The username for test is: guest@aluraflix.com and the password is: 123456, please notice this user has ROLE_USER.
 
 ![alura-flix-api-swagger.png](data%2Falura-flix-api-swagger.png)
 
@@ -24,12 +24,13 @@ The username for test is: guest@aluraflix.com and the password is: 123456, this 
 - Spring 6
 - Spring Secuity
 - JWT Token library
+- Docker 
 
 # How to Run
-<p>If you want to run in command line just go to the same directory of `Application.java` and run: <p/>
+<p>Go to the directory docker-compose/docker-compose.yml and execute<p/>
 
 ```shell
-mvn spring-boot:run
+docker-compose up
 ```
 
 #### Login

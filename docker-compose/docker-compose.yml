@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  lura_flix_api:
-    image: "laurocorreia/alura-flix-api:1.1"
+  alura_flix_api:
+    image: "laurocorreia/alura-flix-api:1.3"
     container_name: "alura_flix_api"
     networks:
       - compose-brigde
