@@ -7,4 +7,5 @@ spring:
   data:
     mongodb:
       database: alura-flix-test
+      # always commit the uri like this: ${DATABASE_TEST}
       uri: ${DATABASE_TEST}
