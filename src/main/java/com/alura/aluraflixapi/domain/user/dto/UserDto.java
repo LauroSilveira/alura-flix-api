@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 public record UserDto(
+    String id,
     @NotBlank
     String username,
     @NotBlank
