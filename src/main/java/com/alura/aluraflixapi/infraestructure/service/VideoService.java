@@ -12,13 +12,10 @@ public interface VideoService {
 
   Page<VideoDto> getVideos(Pageable pageable);
 
-  @Transactional
   VideoDto save(VideoDto dto);
 
-  @Transactional
   UpdateVideoDto updateMovie(UpdateVideoDto dto);
 
-  @Transactional
   Optional<VideoDto> delete(String id);
 
   VideoDto getById(String id);

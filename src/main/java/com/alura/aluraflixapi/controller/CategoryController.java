@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,21 +32,21 @@ public class CategoryController {
     this.categoryService = categoryService;
   }
 
-  @GetMapping
+  @GetMapping(produces = "application/json")
   public ResponseEntity<List<CategoryDto>> categories() {
     log.info("{} Request to retrieve all Categories", PREFIX_LOGGIN);
     List<CategoryDto> categories = categoryService.categories();
     return ResponseEntity.ok(categories);
   }
 
-  @PostMapping
+  @PostMapping(produces = "application/json", consumes = "application/json")
   public ResponseEntity<CategoryDto> create(@RequestBody @Valid final CategoryDto categoryDto) {
     categoryService.create(categoryDto);
     log.info("{} Request to create a new Category", PREFIX_LOGGIN);
     return ResponseEntity.ok(categoryDto);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping(value = "/{id}", produces = "application/json")
   public ResponseEntity<CategoryDto> findCategoryById(@NotBlank @PathVariable final String id) {
     log.info("{} Request to get a Category with Id: {}", PREFIX_LOGGIN, id);
     final var category = this.categoryService.findCategoryById(id);
@@ -53,7 +54,7 @@ public class CategoryController {
 
   }
 
-  @GetMapping("/{id}/videos")
+  @GetMapping(value = "/{id}/videos", produces = "application/json")
   public ResponseEntity<List<VideoDto>> getVideosByCategory(
       @NotBlank @PathVariable final String id) {
     log.info("{} Request to search a Video by Category with Id: {}", PREFIX_LOGGIN, id);
@@ -66,7 +67,7 @@ public class CategoryController {
     }
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping(value = "/{id}", produces = "application/json")
   public ResponseEntity<HttpStatus> deleteCategory(@NotBlank @PathVariable final String id) {
     log.info("{} Request to Delete Category with Id: {}", PREFIX_LOGGIN, id);
     final var response = this.categoryService.deleteCategory(id);
