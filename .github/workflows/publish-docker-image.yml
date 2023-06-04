@@ -33,7 +33,5 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./Dockerfile
-          push: true
+          repository: laurocorreia/alura-flix-api
           tags: latest, ${{ secrets.DOCKER_USERNAME }}
