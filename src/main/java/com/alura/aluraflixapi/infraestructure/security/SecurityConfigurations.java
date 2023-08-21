@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,16 +33,16 @@ public class SecurityConfigurations {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     //disabel cross site request forgery
-    return http.csrf().disable()
+    return http.csrf(AbstractHttpConfigurer::disable)
         //Disable Spring controll and expone all endpoints
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().authorizeHttpRequests()
-        //exclude only enpoint Login
-        .requestMatchers(HttpMethod.POST, "/login").permitAll()
-        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
-        //any other requeste has to be authenticated
-        .anyRequest().authenticated()
-        .and()
+            .sessionManagement(managementConfigurer ->
+                    managementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(httpRequest -> httpRequest
+                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                    //any other requeste has to be authenticated
+                    .anyRequest().authenticated()
+            )
         //tell to spring to user our filter SecurityFilter.class instead their
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
