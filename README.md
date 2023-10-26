@@ -13,7 +13,8 @@ The application is available at: [https://alura-flix-api.onrender.com/swagger-ui
 
 # About 
 This is an application with aim to learning about new features of Spring security from Spring version 6.
-It is possible toa access swagger documentation throught url: [http://localhost:8080/swagger-api](http://localhost:8080/swagger-ui/index.html).
+It is possible to access swagger documentation throught url: [http://localhost:8080/swagger-api](http://localhost:8080/swagger-ui/index.html).
+
 The username for test is: guest@aluraflix.com and the password is: 123456, please notice this user has ROLE_USER.
 
 ![alura-flix-api-swagger.png](data/alura-flix-api-swagger.png)
