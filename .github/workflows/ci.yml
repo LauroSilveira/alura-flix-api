@@ -42,7 +42,7 @@ jobs:
 
     ## Generate Test Report Summary
     - name: Test Report
-      uses: dorny/test-reporter@v1.6.0
+      uses: dorny/test-reporter@v1.7.0
       if: always()
       with:
         name: Test Reporter Summary
