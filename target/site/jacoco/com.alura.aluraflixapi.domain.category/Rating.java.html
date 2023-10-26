@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Rating.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">alura-flix-api</a> &gt; <a href="index.source.html" class="el_package">com.alura.aluraflixapi.domain.category</a> &gt; <span class="el_source">Rating.java</span></div><h1>Rating.java</h1><pre class="source lang-java linenums">package com.alura.aluraflixapi.domain.category;
+
+<span class="fc" id="L3">public enum Rating {</span>
+
+<span class="fc" id="L5">  FREE(1, &quot;Free&quot;, &quot;#FFFFFF&quot;),</span>
+<span class="fc" id="L6">  FANTASY(2, &quot;Fantasy&quot;, &quot;#FFD700&quot;),</span>
+<span class="fc" id="L7">  TERROR(3, &quot;Terror&quot;, &quot;#FF0000&quot;),</span>
+<span class="fc" id="L8">  ACTION(4, &quot;Action&quot;, &quot;#008000&quot;),</span>
+<span class="fc" id="L9">  TRILLER(5, &quot;Thiller&quot;, &quot;#808080&quot;),</span>
+<span class="fc" id="L10">  ROMANTIC_COMEDY(6, &quot;Romantic Comedy&quot;, &quot;#E41B17&quot;);</span>
+
+  public int getCategoryId() {
+<span class="nc" id="L13">    return categoryId;</span>
+  }
+
+  public String getTitle() {
+<span class="fc" id="L17">    return title;</span>
+  }
+
+<span class="fc" id="L20">  Rating(int categoryId, String title, String hexDecimalColor) {</span>
+<span class="fc" id="L21">    this.categoryId = categoryId;</span>
+<span class="fc" id="L22">    this.title = title;</span>
+<span class="fc" id="L23">    this.hexDecimalColor = hexDecimalColor;</span>
+<span class="fc" id="L24">  }</span>
+
+  public String getHexDecimalColor() {
+<span class="fc" id="L27">    return hexDecimalColor;</span>
+  }
+
+  final int categoryId;
+
+  final String title;
+
+  final String hexDecimalColor;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

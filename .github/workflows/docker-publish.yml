@@ -21,4 +21,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: laurocorreia/reactive-api:latest
+          tags: laurocorreia/alura-flix-api:latest
