@@ -1,6 +1,8 @@
 # alura-flix-api
 
-<p>This is an application with aim to learning about new features of Spring security from Spring version 6.<p/>
+This is an application with aim to learning about new features of Spring security from Spring version 6.
+The application is available at: [https://alura-flix-api.onrender.com/swagger-ui.html](https://alura-flix-api.onrender.com/swagger-ui.html)
+
 
 ## About this project
 * [About](#about)
@@ -18,10 +20,10 @@ The username for test is: guest@aluraflix.com and the password is: 123456, pleas
 
 # Techinologies
 - Java 17
-- Lombok
-- Jackson Faster
-- Spring boot 3.0.5
+- Spring boot 3
 - Spring 6
+- Mongo Atlas
+- Lombok
 - Spring Secuity
 - JWT Token library
 - Docker 
