@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">alura-flix-api</a> &gt; <a href="index.source.html" class="el_package">com.alura.aluraflixapi.infraestructure.service</a> &gt; <span class="el_source">UserServiceImpl.java</span></div><h1>UserServiceImpl.java</h1><pre class="source lang-java linenums">package com.alura.aluraflixapi.infraestructure.service;
+
+import com.alura.aluraflixapi.domain.user.dto.UserDto;
+import com.alura.aluraflixapi.infraestructure.mapper.UserMapper;
+import com.alura.aluraflixapi.domain.user.User;
+import com.alura.aluraflixapi.infraestructure.repository.RoleRepository;
+import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
+import java.util.List;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+  private final UserRepository repository;
+
+  private final RoleRepository roleRepository;
+
+  private final UserMapper mapper;
+
+
+<span class="nc" id="L21">  public UserServiceImpl(final UserRepository repository, final RoleRepository roleRepository, final UserMapper mapper) {</span>
+<span class="nc" id="L22">    this.repository = repository;</span>
+<span class="nc" id="L23">    this.roleRepository = roleRepository;</span>
+<span class="nc" id="L24">    this.mapper = mapper;</span>
+<span class="nc" id="L25">  }</span>
+
+  @Override
+  public UserDto saveUser(UserDto dto) {
+<span class="nc" id="L29">    final User user = mapper.mappToEntity(dto);</span>
+    //first save Document Roles
+<span class="nc" id="L31">    this.roleRepository.saveAll(dto.roles());</span>
+    //After save Document User
+<span class="nc" id="L33">    final User newUser = repository.save(user);</span>
+<span class="nc" id="L34">    return mapper.mappToDto(newUser);</span>
+  }
+
+  @Override
+  public List&lt;UserDto&gt; getUsers() {
+<span class="nc" id="L39">    List&lt;User&gt; users = repository.findAll();</span>
+<span class="nc" id="L40">    return mapper.mappToUsersDto(users);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityConfigurations.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">alura-flix-api</a> &gt; <a href="index.source.html" class="el_package">com.alura.aluraflixapi.infraestructure.security</a> &gt; <span class="el_source">SecurityConfigurations.java</span></div><h1>SecurityConfigurations.java</h1><pre class="source lang-java linenums">package com.alura.aluraflixapi.infraestructure.security;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+/**
+ * Main Spring Security class configuration In Spring 3.0 the security configuration is done by
+ * @Bean
+ */
+
+@Configuration
+@EnableWebSecurity
+//enable @Secure(&quot;Role_XX&quot;)
+@EnableMethodSecurity(securedEnabled = true)
+<span class="nc" id="L28">public class SecurityConfigurations {</span>
+
+  @Autowired
+  private SecurityFilter securityFilter;
+
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    //disabel cross site request forgery
+<span class="nc" id="L36">    return http.csrf(AbstractHttpConfigurer::disable)</span>
+        //Disable Spring controll and expone all endpoints
+<span class="nc" id="L38">            .sessionManagement(managementConfigurer -&gt;</span>
+<span class="nc" id="L39">                    managementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))</span>
+<span class="nc" id="L40">            .authorizeHttpRequests(httpRequest -&gt; httpRequest</span>
+<span class="nc" id="L41">                    .requestMatchers(HttpMethod.POST, &quot;/login&quot;).permitAll()</span>
+<span class="nc" id="L42">                    .requestMatchers(&quot;/v3/api-docs/**&quot;, &quot;/swagger-ui.html&quot;, &quot;/swagger-ui/**&quot;).permitAll()</span>
+                    //any other requeste has to be authenticated
+<span class="nc" id="L44">                    .anyRequest().authenticated()</span>
+            )
+        //tell to spring to user our filter SecurityFilter.class instead their
+<span class="nc" id="L47">        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)</span>
+<span class="nc" id="L48">        .build();</span>
+  }
+
+
+  /**
+   * Crete @Bean AuthenticationManager to authenticate a user
+   * @return AuthenticationManager
+   */
+  @Bean
+  public AuthenticationManager authenticationManager(
+      AuthenticationConfiguration authenticationConfiguration)
+      throws Exception {
+<span class="nc" id="L60">    return authenticationConfiguration.getAuthenticationManager();</span>
+  }
+
+  /**
+   * Bean to encript and decript password
+   * @return new PasswordEncoder
+   */
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+<span class="nc" id="L69">    return new BCryptPasswordEncoder();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
