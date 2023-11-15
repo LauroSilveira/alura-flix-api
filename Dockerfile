@@ -10,6 +10,7 @@ ARG DATABASE_TEST
 
 ## work directory by default
 WORKDIR /alura-flix-api
-## copy all files from target and put in to work directory
-COPY --from=build target/alura-flix-api-0.0.1-SNAPSHOT.jar alura-flix-api.jar
+COPY --from=build target/*.jar alura-flix-api.jar
+EXPOSE 8080
+
 ENTRYPOINT ["java", "-jar", "alura-flix-api.jar"]
