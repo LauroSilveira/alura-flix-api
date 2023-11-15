@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  alura_flix_api:
+    image: "laurocorreia/alura-flix-api:latest"
+    container_name: "alura_flix_api"
+    networks:
+      - compose-brigde
+    ports:
+      - 8080:8080
+    environment:
+       DATABASE_PRO: ${DATABASE_PRO}
+       JWT_SECRET: ${JWT_SECRET}
+networks:
+  compose-brigde:
+    driver: bridge

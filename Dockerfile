@@ -4,9 +4,9 @@ RUN mvn clean package
 
 FROM eclipse-temurin:21-jre-alpine
 ## Arguments used with github secrets
-ARG JWT_SECRET
 ARG DATABASE_PRO
 ARG DATABASE_TEST
+ARG JWT_SECRET
 
 ## work directory by default
 WORKDIR /alura-flix-api
