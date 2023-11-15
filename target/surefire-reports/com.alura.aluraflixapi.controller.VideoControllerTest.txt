@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.alura.aluraflixapi.controller.VideoControllerTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.927 s - in com.alura.aluraflixapi.controller.VideoControllerTest

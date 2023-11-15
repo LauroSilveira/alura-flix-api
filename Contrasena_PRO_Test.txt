@@ -1,0 +1,7 @@
+
+URL PROD: mongodb+srv://alura-flix-admin:UxOM6SSAtQHpDeEd@alura-flix.z61opfc.mongodb.net/?retryWrites=true&w=majority
+contraseña PROD: UxOM6SSAtQHpDeEd
+
+URL Test: mongodb+srv://laurosilveira:6Vos5cYJ9JfxidsQ@alura-flix-test.qixe2kd.mongodb.net/?retryWrites=true&w=majority
+contraseã Test: 6Vos5cYJ9JfxidsQ
+

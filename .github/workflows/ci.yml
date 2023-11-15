@@ -50,7 +50,7 @@ jobs:
         reporter: java-junit
 
     ## Jacoco report
-    - name: Add coverage to PR
+    - name: Jacoco Report
       id: jacoco
       uses: madrapps/jacoco-report@v1.6.1
       with:
