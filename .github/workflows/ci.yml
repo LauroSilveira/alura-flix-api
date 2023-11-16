@@ -59,3 +59,11 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         min-coverage-overall: 40
         min-coverage-changed-files: 60
+
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker Image
+        run: docker build . --file Dockerfile --tag alura-flix-api:$(date +%s) --build-arg DATABASE_PRO=${{ secrets.DATABASE_PRO }} --build-arg DATABASE_TEST=${{ secrets.DATABASE_TEST }} --build-arg DATABASE_TEST=${{ secrets.DATABASE_TEST }}
