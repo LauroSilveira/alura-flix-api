@@ -6,7 +6,7 @@ FROM eclipse-temurin:21-jre-alpine
 ## Arguments used with github secrets
 ARG DATABASE_PRO
 ARG DATABASE_TEST
-ARG JWT_SECRET=${JWT_SECRET}
+ARG JWT_SECRET
 
 ## work directory by default
 WORKDIR /alura-flix-api
