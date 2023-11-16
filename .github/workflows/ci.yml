@@ -66,4 +66,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Docker Image
-        run: docker build --env-file .env . --file Dockerfile --tag alura-flix-api:$(date +%s)
+        run: docker build . --file Dockerfile --tag alura-flix-api:$(date +%s)
