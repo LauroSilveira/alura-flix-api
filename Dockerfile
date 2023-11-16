@@ -1,5 +1,10 @@
 FROM maven:3.9.4-eclipse-temurin-21-alpine AS build
 COPY . .
+
+ARG DATABASE_PRO
+ARG DATABASE_TEST
+ARG JWT_SECRET
+
 RUN mvn clean package
 
 FROM eclipse-temurin:21-jre-alpine
