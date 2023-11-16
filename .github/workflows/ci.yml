@@ -66,4 +66,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Docker Image
-        run: docker build . --file Dockerfile --tag alura-flix-api:$(date +%s) --build-arg DATABASE_PRO=${{ secrets.DATABASE_PRO }} --build-arg DATABASE_TEST=${{ secrets.DATABASE_TEST }} --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }}
+        run: docker build . --file Dockerfile --tag alura-flix-api:$(date +%s)
