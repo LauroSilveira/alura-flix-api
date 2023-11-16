@@ -6,7 +6,7 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /alura-flix-api
 ARG DATABASE_PRO
 ARG DATABASE_TEST
-ARG JWT_SECRET
+ENV JWT_SECRET=123456
 COPY --from=build target/*.jar alura-flix-api.jar
 EXPOSE 8080
 
