@@ -27,7 +27,7 @@ jobs:
     ## Build and execute every test
     - name: Build and test with Maven
       run: mvn -B package --file pom.xml
-      env:
+      with:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         DATABASE_PRO: ${{ secrets.DATABASE_PRO }}
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}

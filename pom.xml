@@ -20,7 +20,7 @@
 		<java.version>17</java.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-		<springdoc.version>2.2.0</springdoc.version>
+		<springdoc.version>2.3.0</springdoc.version>
 		<jwt.version>4.4.0</jwt.version>
 	</properties>
 
