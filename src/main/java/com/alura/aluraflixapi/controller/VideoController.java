@@ -12,8 +12,11 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,13 +45,13 @@ public class VideoController {
     this.service = service;
   }
 
-  @GetMapping
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Page<VideoDto>> getVideos(Pageable pageable) {
     log.info("{} Request to get All videos", LOGGIN_PREFIX);
     final Page<VideoDto> videos = this.service.getVideos(pageable);
     if (videos.hasContent()) {
       log.info("{} Response {}: ", LOGGIN_PREFIX, videos);
-      return ResponseEntity.ok(videos);
+      return ResponseEntity.ok().body(videos);
     } else {
       return ResponseEntity.noContent().build();
     }

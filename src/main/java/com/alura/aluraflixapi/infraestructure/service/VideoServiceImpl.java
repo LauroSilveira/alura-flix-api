@@ -15,6 +15,7 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -25,21 +26,21 @@ public class VideoServiceImpl implements VideoService {
   private static final String LOGGIN_PREFIX = "[VideoServiceImpl]";
   private final VideoRepository videoRepository;
   private final CategoryRepository categoryRepository;
-  private final VideoMapper mapper;
+  private final VideoMapper videoMapper;
 
   @Autowired
-  public VideoServiceImpl(VideoRepository videoRepository, VideoMapper mapper,
+  public VideoServiceImpl(VideoRepository videoRepository, VideoMapper videoMapper,
       CategoryRepository categoryRepository) {
     this.videoRepository = videoRepository;
-    this.mapper = mapper;
+    this.videoMapper = videoMapper;
     this.categoryRepository = categoryRepository;
   }
 
   @Override
   public Page<VideoDto> getVideos(Pageable pageable) {
-    Page<Video> videos = videoRepository.findAll(pageable);
+    Page<Video> pages = videoRepository.findAll(pageable);
 
-    videos.get()
+    pages.get()
         .forEach(video -> {
           if (Objects.isNull(video.getCategory())) {
             video.setCategory(Category.builder()
@@ -50,17 +51,18 @@ public class VideoServiceImpl implements VideoService {
                 .build());
           }
         });
-    return videos.map(mapper::mapToVideoDto);
+
+    return new PageImpl<>(this.videoMapper.maptoList(pages.getContent()));
   }
 
   @Override
   public VideoDto save(VideoDto dto) {
     try {
       log.info("{} Saving new video: {}", LOGGIN_PREFIX, dto.toString());
-      final var entityToPersist = mapper.mapToModel(dto);
+      final var entityToPersist = videoMapper.mapToModel(dto);
       final var entityPersisted = this.videoRepository.save(entityToPersist);
       log.info("{} New Video saved", LOGGIN_PREFIX);
-      return mapper.mapToVideoDto(entityPersisted);
+      return videoMapper.mapToVideoDto(entityPersisted);
     } catch (Exception e) {
       throw new RuntimeException("Error to persist entity", e.getCause());
     }
@@ -70,12 +72,12 @@ public class VideoServiceImpl implements VideoService {
   public UpdateVideoDto updateMovie(UpdateVideoDto dto) {
     try {
 
-      final Video entity = mapper.mapUpdateVideoToModel(dto);
+      final Video entity = videoMapper.mapUpdateVideoToModel(dto);
       //The mapping framework does not handle cascading saves.
       final var categorySaved = categoryRepository.save(entity.getCategory());
       entity.setCategory(categorySaved);
       videoRepository.save(entity);
-      return mapper.mapUpdateVideoDto(entity);
+      return videoMapper.mapUpdateVideoDto(entity);
     } catch (Exception e) {
       log.error("Error to try Update entity by method Put {}", e.getMessage());
       return null;
@@ -87,13 +89,13 @@ public class VideoServiceImpl implements VideoService {
   public Optional<VideoDto> delete(String id) {
     Optional<Video> entityToDelete = videoRepository.findById(id);
     entityToDelete.ifPresent(videoRepository::delete);
-    return entityToDelete.map(mapper::mapToVideoDto);
+    return entityToDelete.map(videoMapper::mapToVideoDto);
   }
 
   @Override
   public VideoDto getById(String id) {
     return videoRepository.findById(id)
-        .map(mapper::mapToVideoDto)
+        .map(videoMapper::mapToVideoDto)
         .orElse(null);
   }
 
@@ -101,7 +103,7 @@ public class VideoServiceImpl implements VideoService {
   public List<VideoDto> getVideosByTitle(String name) {
     return this.videoRepository.findByTitleLike(name)
         .stream()
-        .map(this.mapper::mapToVideoDto)
+        .map(this.videoMapper::mapToVideoDto)
         .toList();
   }
 }
