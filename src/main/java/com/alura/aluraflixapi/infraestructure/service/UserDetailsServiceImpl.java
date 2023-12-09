@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-  private static final String PREFIX_LOGGIN = "[UserDetailsServiceImpl]";
+  private static final String PREFIX_LOGGING = "[UserDetailsServiceImpl]";
 
   private final UserRepository repository;
 
@@ -30,7 +30,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    */
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    log.info("{} Retrieving User by username: {}", PREFIX_LOGGIN, username);
-    return this.repository.findByUsername(username);
+    log.info("{} Retrieving User by username: {}", PREFIX_LOGGING, username);
+    final var user = this.repository.findByUsername(username);
+    log.info("{} Retrieved User: {}", PREFIX_LOGGING, user);
+    return user;
   }
 }
