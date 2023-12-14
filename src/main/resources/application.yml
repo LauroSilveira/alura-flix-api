@@ -17,3 +17,8 @@ api:
   security:
     # always commit the uri like this: ${JWT_SECRET}
     token-jwt-secret: ${JWT_SECRET}
+
+springdoc:
+  swagger-ui:
+    operations-sorter: method
+    tags-sorter: alpha
