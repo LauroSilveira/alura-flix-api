@@ -11,23 +11,25 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SpringdocConfiguration {
-  @Bean
-  public OpenAPI customOpenAPI() {
-    return new OpenAPI()
-        .components(new Components()
-            .addSecuritySchemes("bearer-key",
-                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
-        .info(new Info().title("alura-flix-api")
-            .description("An API Rest about movies and series that implements Get, Post, Put and Delet methods."
-                + " Also implements JWT security with Spring Framework")
-            .contact(new Contact()
-                .name("Lauro Correia")
-                .email("lauro.silveira@ymail.com"))
-            .license(new License()
-                .name("Apache 2.0")
-                .url("http://voll.med/api/licenca")
-            )
-        );
-  }
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .components(new Components()
+                        .addSecuritySchemes("bearer-key",
+                                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
+                .info(new Info()
+                        .title("alura-flix-api")
+                        .description("An API Rest about movies and series that implements Get, Post, Put and Delete methods."
+                                + " Also implements JWT security with Spring Framework and use MongoDB Atlas as database" + "\n"
+                        + "There is a user of test you can use, username: guest@aluraflix.com, password: 123456" + "\n" + "Please, note that some endpoints are security and this use do not have some permissions."
+                        + "any problem let me know by my contact.")
+                        .contact(new Contact()
+                                .name("Lauro Correia")
+                                .email("lauro.silveira@ymail.com"))
+                        .license(new License()
+                                .name("Apache 2.0")
+                        )
+                );
+    }
 
 }
