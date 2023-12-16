@@ -5,10 +5,11 @@ on:
     tags:
       - 'v*'
 jobs:
-  release:
-    name: Create Release by tag ${GITHUB_REF_NAME#v}
+  build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
