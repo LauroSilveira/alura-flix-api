@@ -4,7 +4,6 @@ import com.alura.aluraflixapi.domain.video.Video;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import org.mapstruct.Mapper;
-import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
 
@@ -15,9 +14,9 @@ public interface VideoMapper {
 
     VideoDto mapToVideoDto(Video video);
 
-    UpdateVideoDto mapUpdateVideoDto(Video updateDto);
+    UpdateVideoDto mapToUpdateVideoDto(Video model);
 
-    Video mapUpdateVideoToModel(UpdateVideoDto updateVideoDto);
+    Video mapToModel(UpdateVideoDto updateVideoDto);
 
     List<VideoDto> maptoList(List<Video> videos);
 }
