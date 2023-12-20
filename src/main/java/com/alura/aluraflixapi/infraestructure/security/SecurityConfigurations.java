@@ -62,7 +62,7 @@ public class SecurityConfigurations {
   @Bean
    public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(List.of("https://alura-flix-api-production.up.railway.app"));
+    configuration.setAllowedOrigins(List.of("http://alura-flix-api-production.up.railway.app"));
     configuration.setAllowedMethods(Arrays.asList("GET","POST"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
