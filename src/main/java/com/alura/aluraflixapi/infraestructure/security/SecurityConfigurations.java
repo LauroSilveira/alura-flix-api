@@ -39,7 +39,7 @@ public class SecurityConfigurations {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     //disable cross site request forgery
-    return http.csrf(AbstractHttpConfigurer::disable)
+    return http.csrf(csrf -> csrf.ignoringRequestMatchers("/login/**") )
         //Disable Spring control and allow all endpoints
             .sessionManagement(managementConfigurer ->
                     managementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -53,22 +53,6 @@ public class SecurityConfigurations {
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
-
-
-  /**
-   * Configure Cross
-   * @return CorsConfigurationSource
-   */
-  @Bean
-   public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(List.of("https://alura-flix-api-production.up.railway.app"));
-    configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-  }
-
 
   /**
    * Crete @Bean AuthenticationManager to authenticate a user

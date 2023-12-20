@@ -1,5 +1,7 @@
 package com.alura.aluraflixapi.infraestructure.springdoc;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -10,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+//Necessary because Swagger sends requests in HTTP
+@OpenAPIDefinition(servers = @Server(url = "https://alura-flix-api-production.up.railway.app"))
 public class SpringdocConfiguration {
     @Bean
     public OpenAPI customOpenAPI() {
