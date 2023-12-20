@@ -12,8 +12,6 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,7 +34,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @SecurityRequirement(name = "bearer-key")
 public class VideoController {
 
-  private static final String LOGGIN_PREFIX = "[VideoController]";
+  private static final String LOGGING_PREFIX = "[VideoController]";
 
   private final VideoService service;
 
@@ -47,10 +45,10 @@ public class VideoController {
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Page<VideoDto>> getVideos(Pageable pageable) {
-    log.info("{} Request to get All videos", LOGGIN_PREFIX);
+    log.info("{} Request to get All videos", LOGGING_PREFIX);
     final Page<VideoDto> videos = this.service.getVideos(pageable);
     if (videos.hasContent()) {
-      log.info("{} Response {}: ", LOGGIN_PREFIX, videos);
+      log.info("{} Response {}: ", LOGGING_PREFIX, videos);
       return ResponseEntity.ok().body(videos);
     } else {
       return ResponseEntity.noContent().build();
@@ -60,7 +58,7 @@ public class VideoController {
 
   @GetMapping("/{id}")
   public ResponseEntity<VideoDto> getById(@NotBlank @PathVariable final String id) {
-    log.info("{} Request to get a video by ID: {}", LOGGIN_PREFIX, id);
+    log.info("{} Request to get a video by ID: {}", LOGGING_PREFIX, id);
     return Optional.ofNullable(service.getById(id))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
@@ -70,7 +68,7 @@ public class VideoController {
   @PostMapping
   public ResponseEntity<VideoDto> save(@Valid @RequestBody final VideoDto dto,
       final UriComponentsBuilder uriBuilder) {
-    log.info("{} Request to Save a new video: {}", LOGGIN_PREFIX, dto);
+    log.info("{} Request to Save a new video: {}", LOGGING_PREFIX, dto);
     final VideoDto videoDto = this.service.save(dto);
     //good practices to return the Location in the Header to be search by Id
     //return Http code 201 and Localtion with Id
@@ -81,10 +79,10 @@ public class VideoController {
   @PutMapping
   public ResponseEntity<UpdateVideoDto> update(@Valid @RequestBody final UpdateVideoDto dto,
       final UriComponentsBuilder uriBuilder) {
-    log.info("{} Request to update a video: {}", LOGGIN_PREFIX, dto);
+    log.info("{} Request to update a video: {}", LOGGING_PREFIX, dto);
     final var videoDto = this.service.updateMovie(dto);
     //good practices to return the Location in the Header to be search by Id
-    //return Http code 201 and Localtion with Id
+    //return Http code 201 and Location with Id
     return ResponseEntity.created(uriBuilder.path("/videos/{id}")
         .buildAndExpand(videoDto.id())
         .toUri()).body(videoDto);
@@ -93,16 +91,16 @@ public class VideoController {
   @DeleteMapping("/{id}")
   @Secured("ROLE_ADMIN")
   public ResponseEntity<VideoDto> delete(@NotBlank @PathVariable final String id) {
-    log.info("{} Request to Delete a video by ID: {}", LOGGIN_PREFIX, id);
+    log.info("{} Request to Delete a video by ID: {}", LOGGING_PREFIX, id);
     final Optional<VideoDto> dto = this.service.delete(id);
     return dto.map(videoDto -> ResponseEntity.status(HttpStatus.NO_CONTENT).body(videoDto))
         .orElseGet(() -> ResponseEntity.noContent().build());
   }
 
-  @GetMapping("/search")
+  @GetMapping("/title")
   public ResponseEntity<List<VideoDto>> getVideosByTitle(
       @NotBlank @RequestParam("title") final String title) {
-    log.info("{} Request to get a video by title: {}", LOGGIN_PREFIX, title);
+    log.info("{} Request to get a video by title: {}", LOGGING_PREFIX, title);
     final var videosByTitle = this.service.getVideosByTitle(title);
     if (videosByTitle.isEmpty()) {
       return ResponseEntity.noContent().build();
