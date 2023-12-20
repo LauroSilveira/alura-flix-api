@@ -1,0 +1,20 @@
+[
+  {
+    "id": "63f67ec16295ed744dd460cd",
+    "rating": "FREE",
+    "title": "Fantasy",
+    "colorHex": "#ffff83"
+  },
+  {
+    "id": "63f7e674559a1b38c6b77b8a",
+    "rating": "TERROR",
+    "title": "terror",
+    "colorHex": "#000000"
+  },
+  {
+    "id": "string",
+    "rating": "Free",
+    "title": "comedy",
+    "colorHex": "blue"
+  }
+]

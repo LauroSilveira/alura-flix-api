@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/category")
 @SecurityRequirement(name = "bearer-key")
 public class CategoryController {
-  private static final String PREFIX_LOGGIN = "CategoryController";
+  private static final String PREFIX_LOGGING = "CategoryController";
 
   private final CategoryService categoryService;
 
@@ -34,7 +33,7 @@ public class CategoryController {
 
   @GetMapping(produces = "application/json")
   public ResponseEntity<List<CategoryDto>> categories() {
-    log.info("{} Request to retrieve all Categories", PREFIX_LOGGIN);
+    log.info("{} Request to retrieve all Categories", PREFIX_LOGGING);
     List<CategoryDto> categories = categoryService.categories();
     return ResponseEntity.ok(categories);
   }
@@ -42,25 +41,25 @@ public class CategoryController {
   @PostMapping(produces = "application/json", consumes = "application/json")
   public ResponseEntity<CategoryDto> create(@RequestBody @Valid final CategoryDto categoryDto) {
     categoryService.create(categoryDto);
-    log.info("{} Request to create a new Category", PREFIX_LOGGIN);
+    log.info("{} Request to create a new Category", PREFIX_LOGGING);
     return ResponseEntity.ok(categoryDto);
   }
 
   @GetMapping(value = "/{id}", produces = "application/json")
   public ResponseEntity<CategoryDto> findCategoryById(@NotBlank @PathVariable final String id) {
-    log.info("{} Request to get a Category with Id: {}", PREFIX_LOGGIN, id);
+    log.info("{} Request to get a Category with Id: {}", PREFIX_LOGGING, id);
     final var category = this.categoryService.findCategoryById(id);
     return ResponseEntity.status(HttpStatus.FOUND).body(category);
 
   }
 
-  @GetMapping(value = "/{id}/videos", produces = "application/json")
+  @GetMapping(value = "/{rating}/videos", produces = "application/json")
   public ResponseEntity<List<VideoDto>> getVideosByCategory(
-      @NotBlank @PathVariable final String id) {
-    log.info("{} Request to search a Video by Category with Id: {}", PREFIX_LOGGIN, id);
-    final var response = this.categoryService.getVideosByCategory(id);
+      @NotBlank @PathVariable final String rating) {
+    log.info("{} Request to search a Video by Category with Id: {}", PREFIX_LOGGING, rating);
+    final var response = this.categoryService.getVideosByCategory(rating);
     if (response.isEmpty()) {
-      log.info("{} Response: {}", PREFIX_LOGGIN, response);
+      log.info("{} Response: {}", PREFIX_LOGGING, response);
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     } else {
       return ResponseEntity.status(HttpStatus.FOUND).body(response);
@@ -69,7 +68,7 @@ public class CategoryController {
 
   @DeleteMapping(value = "/{id}", produces = "application/json")
   public ResponseEntity<HttpStatus> deleteCategory(@NotBlank @PathVariable final String id) {
-    log.info("{} Request to Delete Category with Id: {}", PREFIX_LOGGIN, id);
+    log.info("{} Request to Delete Category with Id: {}", PREFIX_LOGGING, id);
     final var response = this.categoryService.deleteCategory(id);
     return ResponseEntity.status(response).build();
   }

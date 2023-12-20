@@ -2,17 +2,15 @@ package com.alura.aluraflixapi.jsonutils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.json.JsonParseException;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 
 public class ParseJson {
 
-    private static final String JSON_FOLDER = "src/test/resources/json/video/";
+    private static final String JSON_FOLDER = "src/test/resources/json/";
 
     /**
      * Convert a JSON file in to a java object

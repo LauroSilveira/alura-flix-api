@@ -15,5 +15,5 @@ public interface CategoryService {
 
   HttpStatus deleteCategory(String id);
 
-  List<VideoDto> getVideosByCategory(String id);
+  List<VideoDto> getVideosByCategory(String rating);
 }

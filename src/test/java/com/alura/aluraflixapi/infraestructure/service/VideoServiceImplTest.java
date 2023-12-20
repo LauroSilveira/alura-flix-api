@@ -27,6 +27,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class VideoServiceImplTest extends ParseJson {
 
+    private static final String PREFIX_PATH = "/video/";
+
     @MockBean
     private VideoRepository videoRepository;
     @SpyBean
@@ -39,7 +41,7 @@ class VideoServiceImplTest extends ParseJson {
     @Test
     void getVideos_response_ok_test() {
         //Given
-        final var jsonFile = getJsonFile("getAllVideos_response_ok.json");
+        final var jsonFile = getJsonFile(PREFIX_PATH + "getAllVideos_response_ok.json");
         final var videos = parseToJavaObject(jsonFile, Video[].class);
         final Page<Video> pagesVideos = new PageImpl<>(Arrays.stream(videos).toList());
 
@@ -58,7 +60,7 @@ class VideoServiceImplTest extends ParseJson {
     @Test
     void save_response_ok_test() {
         //Given
-        final var jsonFile = getJsonFile("create_video_response_ok.json");
+        final var jsonFile = getJsonFile(PREFIX_PATH + "create_video_response_ok.json");
         final var videoDto = parseToJavaObject(jsonFile, VideoDto.class);
         final var videoModel = this.videoMapper.mapToModel(videoDto);
         when(this.videoMapper.mapToModel(any(VideoDto.class))).thenReturn(videoModel);
@@ -76,7 +78,7 @@ class VideoServiceImplTest extends ParseJson {
     void updateMovie_response_ok_test() {
 
         //Given
-        final var jsonFile = getJsonFile("update_video_response_ok.json");
+        final var jsonFile = getJsonFile(PREFIX_PATH + "update_video_response_ok.json");
         final var updateVideoDtoParsed = parseToJavaObject(jsonFile, UpdateVideoDto.class);
         final var model = this.videoMapper.mapToModel(updateVideoDtoParsed);
         final var updateVideoDto = this.videoMapper.mapToUpdateVideoDto(model);
@@ -94,7 +96,7 @@ class VideoServiceImplTest extends ParseJson {
     @Test
     void delete_response_ok_test() {
         //Given
-        final var jsonFile = getJsonFile("delete_video_response_ok.json");
+        final var jsonFile = getJsonFile(PREFIX_PATH + "delete_video_response_ok.json");
         final var model = parseToJavaObject(jsonFile, Video.class);
         final var videoDto = this.videoMapper.mapToVideoDto(model);
         when(this.videoRepository.findById(anyString())).thenReturn(Optional.of(model));
@@ -110,7 +112,7 @@ class VideoServiceImplTest extends ParseJson {
     @Test
     void getById_response_ok_test() {
         //Given
-        final var jsonFile = getJsonFile("getById_video_response_ok.json");
+        final var jsonFile = getJsonFile(PREFIX_PATH + "getById_video_response_ok.json");
         final var model = parseToJavaObject(jsonFile, Video.class);
         when(videoRepository.findById(anyString())).thenReturn(Optional.of(model));
 
@@ -124,7 +126,7 @@ class VideoServiceImplTest extends ParseJson {
     @Test
     void getVideosByTitle_response_ok() {
         //Given
-        final var jsonFile = getJsonFile("getById_video_response_ok.json");
+        final var jsonFile = getJsonFile(PREFIX_PATH + "getById_video_response_ok.json");
         final var video = parseToJavaObject(jsonFile, Video.class);
         final var videoDtoExpected = this.videoMapper.mapToVideoDto(video);
         when(this.videoRepository.findByTitleLike(anyString())).thenReturn(List.of(video));
