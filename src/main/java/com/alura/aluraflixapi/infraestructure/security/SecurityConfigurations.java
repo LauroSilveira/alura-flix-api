@@ -54,23 +54,6 @@ public class SecurityConfigurations {
         .build();
   }
 
-
-/*  *//**
-   * Configure Cross
-   * @return CorsConfigurationSource
-   *//*
-  @Bean
-   public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(List.of("*"));
-    configuration.setAllowedMethods(List.of("*"));
-    configuration.setAllowedHeaders(List.of("*"));
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-  }*/
-
-
   /**
    * Crete @Bean AuthenticationManager to authenticate a user
    * @return AuthenticationManager
