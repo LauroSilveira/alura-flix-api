@@ -20,7 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-  private static final String PREFIX_LOGGIN = "[SecurityFilter]";
+  private static final String PREFIX_LOGGING = "[SecurityFilter]";
   public static final String AUTHORIZATION = "Authorization";
   private final TokenService tokenService;
 
@@ -38,7 +38,7 @@ public class SecurityFilter extends OncePerRequestFilter {
       final HttpServletResponse response,
       final FilterChain filterChain) throws ServletException, IOException {
 
-    log.info("{} request received intercepeted by Internal Filter", PREFIX_LOGGIN);
+    log.info("{} request received intercepted by Internal Filter", PREFIX_LOGGING);
     final var tokenJWT = this.getTokenJWT(request);
 
     if (tokenJWT != null) {
@@ -48,11 +48,11 @@ public class SecurityFilter extends OncePerRequestFilter {
 
       //after retrieve the user we need to tell to Spring framework to authenticate him in the context
       //this is done by calling UsernamePasswordAuthenticationToken and SecurityContextHolder methods
-      log.info("{} Authenticating user: {} ", PREFIX_LOGGIN, user.getUsername());
+      log.info("{} Authenticating user: {} ", PREFIX_LOGGING, user.getUsername());
       var authentication = new UsernamePasswordAuthenticationToken(user, null,
           user.getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(authentication);
-      log.info("{} User authenticated: {}", PREFIX_LOGGIN, authentication.getPrincipal());
+      log.info("{} User authenticated: {}", PREFIX_LOGGING, authentication.getPrincipal());
     }
     filterChain.doFilter(request, response);
   }

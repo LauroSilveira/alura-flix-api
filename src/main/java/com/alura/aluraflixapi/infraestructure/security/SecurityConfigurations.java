@@ -15,6 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Main Spring Security class configuration In Spring 3.0 the security configuration is done by
@@ -32,20 +38,35 @@ public class SecurityConfigurations {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    //disabel cross site request forgery
+    //disable cross site request forgery
     return http.csrf(AbstractHttpConfigurer::disable)
-        //Disable Spring controll and expone all endpoints
+        //Disable Spring control and allow all endpoints
             .sessionManagement(managementConfigurer ->
                     managementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(httpRequest -> httpRequest
                     .requestMatchers(HttpMethod.POST, "/login").permitAll()
                     .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
-                    //any other requeste has to be authenticated
+                    //any other request has to be authenticated
                     .anyRequest().authenticated()
             )
         //tell to spring to user our filter SecurityFilter.class instead their
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
+  }
+
+
+  /**
+   * Configure Cross
+   * @return CorsConfigurationSource
+   */
+  @Bean
+   public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(List.of("https://alura-flix-api-production.up.railway.app"));
+    configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
   }
 
 
@@ -61,7 +82,7 @@ public class SecurityConfigurations {
   }
 
   /**
-   * Bean to encript and decript password
+   * Bean to encrypt and decrypt password
    * @return new PasswordEncoder
    */
   @Bean
