@@ -19,24 +19,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class AuthenticationController {
 
-  private final AuthenticationManager manager;
-  private final TokenService tokenService;
+    private final AuthenticationManager manager;
+    private final TokenService tokenService;
 
-  public AuthenticationController(AuthenticationManager manager, TokenService tokenService) {
-    this.manager = manager;
-    this.tokenService = tokenService;
-  }
+    public AuthenticationController(AuthenticationManager manager, TokenService tokenService) {
+        this.manager = manager;
+        this.tokenService = tokenService;
+    }
 
-  @PostMapping
-  public ResponseEntity<TokenJwtDto> login(@RequestBody @Valid AuthenticationDto dto) {
-    log.info("Request to Login user: {}", dto.username());
-    final var authenticationToken = new UsernamePasswordAuthenticationToken(dto.username(),
-        dto.password());
-    final var authentication = this.manager.authenticate(authenticationToken);
-    final var tokenJWT = tokenService.generateTokenJWT(
-        (User) authentication.getPrincipal());
-    log.info("Token Generated with Success!");
-    return ResponseEntity.ok().body(new TokenJwtDto(tokenJWT));
-  }
+    @PostMapping
+    public ResponseEntity<TokenJwtDto> login(@RequestBody @Valid AuthenticationDto dto) {
+        log.info("Request to Login user: {}", dto.username());
+        final var authenticationToken = new UsernamePasswordAuthenticationToken(dto.username(),
+                dto.password());
+        final var authentication = this.manager.authenticate(authenticationToken);
+        final var tokenJWT = tokenService.generateTokenJWT((User) authentication.getPrincipal());
+        log.info("Token Generated with Success!");
+        return ResponseEntity.ok().body(new TokenJwtDto(tokenJWT));
+    }
 
 }

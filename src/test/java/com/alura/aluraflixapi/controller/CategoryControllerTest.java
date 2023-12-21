@@ -164,6 +164,19 @@ class CategoryControllerTest extends ParseJson {
     }
 
     @Test
+    @DisplayName("Should return no content when request to getVideosByCategory")
+    void getVideosByCategory_return_no_content_test() throws Exception {
+        //Given
+        when(this.categoryService.getVideosByCategory(anyString()))
+                .thenReturn(List.of());
+        //Then
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/category/{rating}/videos", "FREE")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
     void deleteCategory_test() throws Exception {
         //Given
         when(this.categoryService.deleteCategory(anyString())).thenReturn(HttpStatus.ACCEPTED);
