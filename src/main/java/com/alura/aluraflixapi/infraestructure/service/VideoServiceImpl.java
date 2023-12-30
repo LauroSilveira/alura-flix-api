@@ -6,6 +6,8 @@ import com.alura.aluraflixapi.domain.category.Rating;
 import com.alura.aluraflixapi.domain.video.Video;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
+import com.alura.aluraflixapi.infraestructure.exception.VideoServiceException;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
 import com.alura.aluraflixapi.infraestructure.repository.CategoryRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,10 +49,10 @@ public class VideoServiceImpl implements VideoService {
                 .forEach(video -> {
                     if (Objects.isNull(video.getCategory())) {
                         video.setCategory(Category.builder()
-                                .id(null)
+                                .id("")
                                 .rating(Rating.FREE.name())
-                                .title(null)
-                                .colorHex(null)
+                                .title("")
+                                .colorHex("")
                                 .build());
                     }
                 });
@@ -66,7 +69,7 @@ public class VideoServiceImpl implements VideoService {
             log.info("{} New Video saved", LOGGING_PREFIX);
             return videoMapper.mapToVideoDto(entityPersisted);
         } catch (Exception e) {
-            throw new RuntimeException("Error to persist entity", e.getCause());
+            throw new VideoServiceException("Error to persist entity", e.getCause());
         }
     }
 
@@ -81,30 +84,37 @@ public class VideoServiceImpl implements VideoService {
             videoRepository.save(entity);
             return videoMapper.mapToUpdateVideoDto(entity);
         } catch (Exception e) {
-            throw new RuntimeException("Error to update movie", e.getCause());
+            throw new VideoServiceException("Error to update movie", e.getCause());
         }
 
     }
 
     @Override
-    public Optional<VideoDto> delete(String id) {
-        Optional<Video> entityToDelete = videoRepository.findById(id);
-        entityToDelete.ifPresent(this.videoRepository::delete);
-        return entityToDelete.map(videoMapper::mapToVideoDto);
+    public VideoDto delete(String id) {
+        final var entity = videoRepository.findById(id);
+        entity.ifPresentOrElse(this.videoRepository::delete, () -> {
+            throw new ResourceNotFoundException("Resource not found: " + id);
+        });
+        return this.videoMapper.mapToVideoDto(entity.get());
     }
 
     @Override
     public VideoDto getById(String id) {
         return videoRepository.findById(id)
                 .map(videoMapper::mapToVideoDto)
-                .orElse(null);
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found for id: " + id));
     }
 
     @Override
     public List<VideoDto> getVideosByTitle(String name) {
-        return this.videoRepository.findByTitleLike(name)
+        final var videos = videoRepository.findByTitleLike(name)
                 .stream()
                 .map(this.videoMapper::mapToVideoDto)
                 .toList();
+        if (videos.isEmpty()) {
+            throw new ResourceNotFoundException("Video not found with title: " + name);
+        } else {
+            return videos;
+        }
     }
 }

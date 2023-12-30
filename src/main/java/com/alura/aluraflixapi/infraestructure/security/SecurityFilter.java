@@ -23,7 +23,6 @@ public class SecurityFilter extends OncePerRequestFilter {
   private static final String PREFIX_LOGGING = "[SecurityFilter]";
   public static final String AUTHORIZATION = "Authorization";
   private final TokenService tokenService;
-
   private final UserRepository userRepository;
 
   public SecurityFilter(final TokenService tokenService, final UserRepository userRepository) {
@@ -43,8 +42,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     if (tokenJWT != null) {
       //Retrieve user from Token JWT
-      final var subject = tokenService.getSubject(tokenJWT);
-      var user = userRepository.findByUsername(subject);
+      final var subject = this.tokenService.getSubject(tokenJWT);
+      var user = this.userRepository.findByUsername(subject);
 
       //after retrieve the user we need to tell to Spring framework to authenticate him in the context
       //this is done by calling UsernamePasswordAuthenticationToken and SecurityContextHolder methods

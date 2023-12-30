@@ -26,17 +26,17 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserDto saveUser(UserDto dto) {
-    final User user = mapper.mappToEntity(dto);
+    final User user = mapper.mapToEntity(dto);
     //first save Document Roles
     this.roleRepository.saveAll(dto.roles());
     //After save Document User
     final User newUser = repository.save(user);
-    return mapper.mappToDto(newUser);
+    return mapper.mapToDto(newUser);
   }
 
   @Override
   public List<UserDto> getUsers() {
     List<User> users = repository.findAll();
-    return mapper.mappToUsersDto(users);
+    return mapper.mapToUsersDto(users);
   }
 }

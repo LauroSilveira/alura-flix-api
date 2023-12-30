@@ -17,7 +17,7 @@ public interface VideoService {
 
   UpdateVideoDto updateMovie(UpdateVideoDto dto);
 
-  Optional<VideoDto> delete(String id);
+  VideoDto delete(String id);
 
   VideoDto getById(String id);
 

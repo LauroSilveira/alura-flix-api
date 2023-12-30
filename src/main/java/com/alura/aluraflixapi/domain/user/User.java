@@ -6,6 +6,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -39,7 +41,7 @@ public class User implements Serializable, UserDetails {
   private String password;
 
   @DBRef
-  private List<Roles> roles;
+  private Set<Roles> roles;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

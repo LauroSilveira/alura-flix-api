@@ -3,37 +3,36 @@ package com.alura.aluraflixapi.controller;
 import com.alura.aluraflixapi.domain.user.dto.UserDto;
 import com.alura.aluraflixapi.infraestructure.service.UserService;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-  private static final String PREFIX_LOGGIN = "[UserController]";
+  private static final String PREFIX_LOGGING = "[UserController]";
+  private final UserService service;
 
-  @Autowired
-  private UserService service;
+  public UserController(UserService service) {
+    this.service = service;
+  }
 
   @PostMapping
-  @Secured("ROLE_ADMIN")
+  @PreAuthorize("hasRole('Admin')")
   public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserDto userDto) {
-    log.info("{} Saving new User: {}", PREFIX_LOGGIN, userDto.toString());
+    log.info("{} Saving new User: {}", PREFIX_LOGGING, userDto.toString());
     var newUser = this.service.saveUser(userDto);
     return ResponseEntity.ok().body(newUser);
   }
 
   @GetMapping
+  @PreAuthorize("hasRole('Admin')")
   public ResponseEntity<List<UserDto>> getUsers() {
-    log.info("{} Retrieving Users", PREFIX_LOGGIN);
+    log.info("{} Retrieving Users", PREFIX_LOGGING);
     var users = this.service.getUsers();
     return ResponseEntity.ok(users);
   }

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 //Necessary because Swagger sends requests in HTTP
-@OpenAPIDefinition(servers = @Server(url = "https://alura-flix-api-production.up.railway.app"))
+@OpenAPIDefinition(servers = @Server(url = "/", description = "Default server"))
 public class SpringdocConfiguration {
     @Bean
     public OpenAPI customOpenAPI() {

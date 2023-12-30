@@ -3,11 +3,13 @@ package com.alura.aluraflixapi.infraestructure.service;
 import com.alura.aluraflixapi.domain.video.Video;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
+import com.alura.aluraflixapi.infraestructure.exception.VideoServiceException;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapperImpl;
 import com.alura.aluraflixapi.infraestructure.repository.CategoryRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
 import com.alura.aluraflixapi.jsonutils.ParseJson;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,7 +23,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -31,14 +37,18 @@ class VideoServiceImplTest extends ParseJson {
 
     @MockBean
     private VideoRepository videoRepository;
+
     @SpyBean
     private VideoMapperImpl videoMapper;
+
     @MockBean
     private CategoryRepository categoryRepository;
+
     @SpyBean
     private VideoServiceImpl videoService;
 
     @Test
+    @DisplayName("Should return all videos")
     void getVideos_response_ok_test() {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "getAllVideos_response_ok.json");
@@ -53,11 +63,28 @@ class VideoServiceImplTest extends ParseJson {
         final var response = this.videoService.getVideos(Pageable.ofSize(10));
 
         //Then
-        Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getContent()).usingRecursiveComparison().isEqualTo(videosDto);
+        assertThat(response).isNotNull();
+        assertThat(response.getContent()).usingRecursiveComparison().isEqualTo(videosDto);
     }
 
     @Test
+    @DisplayName("Should return a empty video when getAll is null")
+    void getVideos_response_ko_test() {
+        //Given
+        final var videoWithoutCategory = new Video(null, null, null, null, null);
+        final Page<Video> page = new PageImpl<>(List.of(videoWithoutCategory));
+        when(this.videoRepository.findAll(any(Pageable.class))).thenReturn(page);
+
+        //when
+        final var response = this.videoService.getVideos(Pageable.ofSize(1));
+
+        //Then
+        assertThat(response).isNotNull();
+
+    }
+
+    @Test
+    @DisplayName("Should save a new video")
     void save_response_ok_test() {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "create_video_response_ok.json");
@@ -70,11 +97,21 @@ class VideoServiceImplTest extends ParseJson {
         final var videoCreated = this.videoService.save(videoDto);
 
         //then
-        Assertions.assertThat(videoCreated).isNotNull();
-        Assertions.assertThat(videoCreated).usingRecursiveComparison().isEqualTo(videoDto);
+        assertThat(videoCreated).isNotNull();
+        assertThat(videoCreated).usingRecursiveComparison().isEqualTo(videoDto);
     }
 
     @Test
+    @DisplayName("Should throw a VideoServiceException when try to save a new video")
+    void save_response_ko_test() {
+        //When
+        assertThatExceptionOfType(VideoServiceException.class)
+                .isThrownBy(() -> this.videoService.save(null)
+                ).withMessageContaining("Error to persist entity");
+    }
+
+    @Test
+    @DisplayName("Should receive a VideoUpdateDto and update a video already exist")
     void updateMovie_response_ok_test() {
 
         //Given
@@ -89,11 +126,21 @@ class VideoServiceImplTest extends ParseJson {
         final var response = this.videoService.updateMovie(updateVideoDtoParsed);
 
         //Then
-        Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response).usingRecursiveComparison().isEqualTo(updateVideoDtoParsed);
+        assertThat(response).isNotNull();
+        assertThat(response).usingRecursiveComparison().isEqualTo(updateVideoDtoParsed);
     }
 
     @Test
+    @DisplayName("Should throw a VideoServiceException when try to update a video")
+    void updateVideo_response_ko_test() {
+        //When
+        assertThatExceptionOfType(VideoServiceException.class)
+                .isThrownBy(() -> this.videoService.updateMovie(null)
+                ).withMessageContaining("Error to update movie");
+    }
+
+    @Test
+    @DisplayName("Should delete a video passing a Id")
     void delete_response_ok_test() {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "delete_video_response_ok.json");
@@ -106,10 +153,20 @@ class VideoServiceImplTest extends ParseJson {
         final var response = this.videoService.delete("63680c011892283477b3e9b9");
 
         //Then
-        Assertions.assertThat(response.get()).usingRecursiveComparison().isEqualTo(videoDto);
+        assertThat(response).usingRecursiveComparison().isEqualTo(videoDto);
     }
 
     @Test
+    @DisplayName("Should throw a VideoServiceException when try to update a video")
+    void deleteVideo_response_ko_test() {
+        //When
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() -> this.videoService.delete(null)
+                ).withMessageContaining("Resource not found:");
+    }
+
+    @Test
+    @DisplayName("Should return a video filtering by Id")
     void getById_response_ok_test() {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "getById_video_response_ok.json");
@@ -120,11 +177,22 @@ class VideoServiceImplTest extends ParseJson {
         final var response = this.videoService.getById("63680c011892283477b3e9b9");
 
         //Then
-        Assertions.assertThat(response).usingRecursiveComparison().isEqualTo(this.videoMapper.mapToVideoDto(model));
+        assertThat(response).usingRecursiveComparison().isEqualTo(this.videoMapper.mapToVideoDto(model));
     }
 
     @Test
-    void getVideosByTitle_response_ok() {
+    @DisplayName("Should return a ResourceNotFoundException when search by Id")
+    void getById_response_ko_test() {
+        //When
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() ->  this.videoService.getById(null))
+                .isInstanceOf(ResourceNotFoundException.class)
+                .withMessageContaining("Resource not found for id:");
+    }
+
+    @Test
+    @DisplayName("Should return a List of videos filtering by Video title")
+    void getVideosByTitle_response_ok_test() {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "getById_video_response_ok.json");
         final var video = parseToJavaObject(jsonFile, Video.class);
@@ -135,6 +203,16 @@ class VideoServiceImplTest extends ParseJson {
         final var response = this.videoService.getVideosByTitle("Fantasy");
 
         //Then
-        Assertions.assertThat(response.get(0)).usingRecursiveComparison().isEqualTo(videoDtoExpected);
+        assertThat(response.get(0)).usingRecursiveComparison().isEqualTo(videoDtoExpected);
+    }
+
+    @Test
+    @DisplayName("Should return a ResourceNotFoundException when search by Id")
+    void getVideosByTitle_response_ko_test() {
+        //When
+        assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() ->  this.videoService.getVideosByTitle(null))
+                .isInstanceOf(ResourceNotFoundException.class)
+                .withMessageContaining("Video not found with title:");
     }
 }

@@ -12,11 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public interface UserMapper {
 
   @Mapping(target = "password", qualifiedByName = "encryptPassword")
-  User mappToEntity(UserDto dto);
+  User mapToEntity(UserDto dto);
 
-  UserDto mappToDto(User newUser);
+  UserDto mapToDto(User newUser);
 
-  List<UserDto> mappToUsersDto(List<User> users);
+  List<UserDto> mapToUsersDto(List<User> users);
 
 
   @Named("encryptPassword")
