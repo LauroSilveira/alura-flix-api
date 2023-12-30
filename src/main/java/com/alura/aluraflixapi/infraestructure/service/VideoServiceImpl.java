@@ -92,10 +92,12 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public VideoDto delete(String id) {
         final var entity = videoRepository.findById(id);
-        entity.ifPresentOrElse(this.videoRepository::delete, () -> {
+        if (entity.isPresent()) {
+            this.videoRepository.delete(entity.get());
+            return this.videoMapper.mapToVideoDto(entity.get());
+        } else {
             throw new ResourceNotFoundException("Resource not found: " + id);
-        });
-        return this.videoMapper.mapToVideoDto(entity.get());
+        }
     }
 
     @Override
