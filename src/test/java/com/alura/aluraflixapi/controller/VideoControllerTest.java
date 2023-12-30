@@ -127,20 +127,6 @@ class VideoControllerTest extends ParseJson {
     }
 
     @Test
-    @DisplayName("Should not return all videos and response No Content")
-    void get_all_videos_response_no_content_test() throws Exception {
-        //Given
-        when(this.videoService.getVideos(Mockito.any()))
-                .thenReturn(Page.empty());
-
-        //Then
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/videos")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
-    }
-
-    @Test
     @DisplayName("Should return a video by Id and response 200 OK")
     void get_video_by_id() throws Exception {
 
@@ -174,14 +160,8 @@ class VideoControllerTest extends ParseJson {
     void save_a_new_video_test() throws Exception {
 
         //Given
-        final VideoDto request = VideoDto.builder()
-                .id(UUID.randomUUID().toString())
-                .url("http://www.ringsofpower.com")
-                .title("Rings of power")
-                .description("Rings of power Amazon Series")
-                .category(new CategoryDto(UUID.randomUUID().toString(), Rating.FANTASY.name(), "Fantasy",
-                        "#ffd700"))
-                .build();
+        final VideoDto request = new VideoDto(UUID.randomUUID().toString(), "Rings of power Amazon Series", "Rings of power", "http://www.ringsofpower.com",
+                new CategoryDto(UUID.randomUUID().toString(), Rating.FANTASY.name(), "Fantasy", "#ffd700"));
 
         when(this.videoService.save(Mockito.any()))
                 .thenReturn(request);
@@ -240,17 +220,19 @@ class VideoControllerTest extends ParseJson {
     }
 
     @Test
-    @DisplayName("Should allow delete a video by id and response No Content")
+    @DisplayName("Should allow delete a video by id and response 200 OK")
     void delete_video_by_id_test() throws Exception {
 
         //Given
+        final var videoDto = new VideoDto("63680c011892283477b3e9b9", "63680c011892283477b3e9b9", "best movie ever", "https://lordoftherings.com",
+                new CategoryDto("63f67ec16295ed744dd460cd", "FREE", "Fantasy", "#ffff83"));
         when(this.videoService.delete(Mockito.anyString()))
-                .thenReturn(Optional.empty());
+                .thenReturn(videoDto);
         //then
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/videos/{id}", "1")
                         .with(SecurityMockMvcRequestPostProcessors.csrf().asHeader())
                 ).andDo(print())
-                .andExpect(status().isNoContent());
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test

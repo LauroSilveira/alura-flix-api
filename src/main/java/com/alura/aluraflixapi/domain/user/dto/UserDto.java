@@ -2,7 +2,8 @@ package com.alura.aluraflixapi.domain.user.dto;
 
 import com.alura.aluraflixapi.domain.user.roles.Roles;
 import jakarta.validation.constraints.NotBlank;
-import java.util.List;
+
+import java.util.Set;
 
 public record UserDto(
     String id,
@@ -10,6 +11,6 @@ public record UserDto(
     String username,
     @NotBlank
     String password,
-    List<Roles> roles) {
+    Set<Roles> roles) {
 
 }

@@ -15,6 +15,7 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +39,8 @@ class AuthenticationControllerTest {
         //Given
         final var tokenJwtFake = UUID.randomUUID().toString();
         final var userAdministrator = new User("1", "admin@aluraflix.com", "administrator",
-                List.of(Roles.builder().id("1").role(RolesEnum.ROLE_ADMIN).build()));
+                Set.of(Roles.builder().id("1").role(RolesEnum.ROLE_ADMIN).build()));
+
         final var testingAuthenticationToken = new TestingAuthenticationToken(userAdministrator, userAdministrator);
         when(this.tokenService.generateTokenJWT(Mockito.any())).thenReturn(tokenJwtFake);
         when(this.manager.authenticate(Mockito.any())).thenReturn(testingAuthenticationToken);

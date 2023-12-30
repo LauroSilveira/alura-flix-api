@@ -9,6 +9,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class TokenService {
 
   public String generateTokenJWT(User user) {
     try {
-      log.info("Generating JWt Token...");
+      log.info("Generating Token JWT ...");
       return JWT.create()
           .withIssuer(ALURA_FLIX_API)
           //owner
@@ -39,7 +41,7 @@ public class TokenService {
           .withExpiresAt(getExpireDate())
           .sign(Algorithm.HMAC256(secret));
 
-    } catch (JWTCreationException exception) {
+    } catch (NullPointerException exception) {
       throw new JWTCreationException("Error to create JWT token", exception.getCause());
     }
   }
@@ -52,8 +54,8 @@ public class TokenService {
           .build()
           .verify(tokenJWT)
           .getSubject();
-    } catch (JWTCreationException ex) {
-      throw new JWTCreationException("Error verifying JWT Token", ex.getCause());
+    } catch (JWTDecodeException ex) {
+      throw new JWTDecodeException("Error verifying JWT Token", ex.getCause());
     }
 
   }

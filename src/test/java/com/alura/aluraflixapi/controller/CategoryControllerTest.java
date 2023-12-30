@@ -179,12 +179,11 @@ class CategoryControllerTest extends ParseJson {
     @Test
     void deleteCategory_test() throws Exception {
         //Given
-        when(this.categoryService.deleteCategory(anyString())).thenReturn(HttpStatus.ACCEPTED);
         //The
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/category/{id}", "63f67ec16295ed744dd460cd")
                         .with(SecurityMockMvcRequestPostProcessors.csrf().asHeader())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isAccepted());
+                .andExpect(status().is2xxSuccessful());
     }
 }

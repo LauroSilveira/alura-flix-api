@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,10 +68,11 @@ public class CategoryController {
   }
 
   @DeleteMapping(value = "/{id}", produces = "application/json")
+  @PreAuthorize("hasRole('Admin')")
   public ResponseEntity<HttpStatus> deleteCategory(@NotBlank @PathVariable final String id) {
     log.info("{} Request to Delete Category with Id: {}", PREFIX_LOGGING, id);
-    final var response = this.categoryService.deleteCategory(id);
-    return ResponseEntity.status(response).build();
+     this.categoryService.deleteCategory(id);
+    return ResponseEntity.ok().build();
   }
 
 }

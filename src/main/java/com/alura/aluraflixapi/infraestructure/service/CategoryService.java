@@ -13,7 +13,7 @@ public interface CategoryService {
 
   CategoryDto findCategoryById(String id);
 
-  HttpStatus deleteCategory(String id);
+  void deleteCategory(String id);
 
   List<VideoDto> getVideosByCategory(String rating);
 }

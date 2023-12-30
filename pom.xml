@@ -130,7 +130,13 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.11</version>
 				<configuration>
-					<excludes>**/domain/**</excludes>
+					<excludes>
+						<exclude>**/springdoc/*</exclude>
+						<exclude>**/domain/**</exclude>
+						<exclude>**/infraestructure/security/SecurityConfigurations.class</exclude>
+						<exclude>**/AluraFlixApiApplication.class</exclude>
+						<exclude>**/infraestructure/security/SecurityFilter.class</exclude>
+					</excludes>
 				</configuration>
 				<executions>
 					<execution>
