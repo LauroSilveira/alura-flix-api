@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.infraestructure.service;
+package com.alura.aluraflixapi.infraestructure.service.video;
 
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;

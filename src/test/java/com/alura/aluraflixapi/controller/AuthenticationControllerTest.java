@@ -1,5 +1,6 @@
 package com.alura.aluraflixapi.controller;
 
+import com.alura.aluraflixapi.controller.user.AuthenticationController;
 import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.domain.user.dto.AuthenticationDto;
 import com.alura.aluraflixapi.domain.user.roles.Roles;
@@ -14,7 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.controller;
+package com.alura.aluraflixapi.controller.user;
 
 import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.domain.user.dto.AuthenticationDto;

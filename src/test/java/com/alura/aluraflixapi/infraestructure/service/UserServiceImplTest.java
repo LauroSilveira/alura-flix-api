@@ -7,6 +7,7 @@ import com.alura.aluraflixapi.domain.user.roles.RolesEnum;
 import com.alura.aluraflixapi.infraestructure.mapper.UserMapperImpl;
 import com.alura.aluraflixapi.infraestructure.repository.RoleRepository;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
+import com.alura.aluraflixapi.infraestructure.service.user.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

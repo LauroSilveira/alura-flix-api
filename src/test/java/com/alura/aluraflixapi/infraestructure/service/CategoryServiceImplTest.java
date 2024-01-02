@@ -10,6 +10,7 @@ import com.alura.aluraflixapi.infraestructure.mapper.CategoryMapperImpl;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapperImpl;
 import com.alura.aluraflixapi.infraestructure.repository.CategoryRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
+import com.alura.aluraflixapi.infraestructure.service.category.CategoryServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

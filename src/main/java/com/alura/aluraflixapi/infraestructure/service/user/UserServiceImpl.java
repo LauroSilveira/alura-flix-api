@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.infraestructure.service;
+package com.alura.aluraflixapi.infraestructure.service.user;
 
 import com.alura.aluraflixapi.domain.user.dto.UserDto;
 import com.alura.aluraflixapi.infraestructure.mapper.UserMapper;

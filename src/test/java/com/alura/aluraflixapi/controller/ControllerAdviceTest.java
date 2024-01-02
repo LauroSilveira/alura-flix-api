@@ -1,14 +1,15 @@
 package com.alura.aluraflixapi.controller;
 
 import com.alura.aluraflixapi.controller.dto.ErrorVO;
+import com.alura.aluraflixapi.controller.user.AuthenticationController;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.exception.ErrorMessageVO;
 import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
-import com.alura.aluraflixapi.infraestructure.service.CategoryService;
-import com.alura.aluraflixapi.infraestructure.service.UserService;
-import com.alura.aluraflixapi.infraestructure.service.VideoService;
+import com.alura.aluraflixapi.infraestructure.service.category.CategoryService;
+import com.alura.aluraflixapi.infraestructure.service.user.UserService;
+import com.alura.aluraflixapi.infraestructure.service.video.VideoService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;

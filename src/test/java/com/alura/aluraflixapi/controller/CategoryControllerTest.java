@@ -1,12 +1,13 @@
 package com.alura.aluraflixapi.controller;
 
+import com.alura.aluraflixapi.controller.user.AuthenticationController;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
-import com.alura.aluraflixapi.infraestructure.service.CategoryService;
-import com.alura.aluraflixapi.infraestructure.service.UserService;
-import com.alura.aluraflixapi.infraestructure.service.VideoService;
+import com.alura.aluraflixapi.infraestructure.service.category.CategoryService;
+import com.alura.aluraflixapi.infraestructure.service.user.UserService;
+import com.alura.aluraflixapi.infraestructure.service.video.VideoService;
 import com.alura.aluraflixapi.jsonutils.ParseJson;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;

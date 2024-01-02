@@ -1,8 +1,8 @@
-package com.alura.aluraflixapi.controller;
+package com.alura.aluraflixapi.controller.category;
 
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
-import com.alura.aluraflixapi.infraestructure.service.CategoryService;
+import com.alura.aluraflixapi.infraestructure.service.category.CategoryService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

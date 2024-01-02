@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.infraestructure.service;
+package com.alura.aluraflixapi.infraestructure.service.category;
 
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
