@@ -1,5 +1,9 @@
 package com.alura.aluraflixapi.controller;
 
+import com.alura.aluraflixapi.controller.category.CategoryController;
+import com.alura.aluraflixapi.controller.user.AuthenticationController;
+import com.alura.aluraflixapi.controller.user.UserController;
+import com.alura.aluraflixapi.controller.video.VideoController;
 import com.alura.aluraflixapi.domain.category.Rating;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
@@ -9,9 +13,9 @@ import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
 import com.alura.aluraflixapi.infraestructure.security.SecurityFilter;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
-import com.alura.aluraflixapi.infraestructure.service.CategoryService;
-import com.alura.aluraflixapi.infraestructure.service.UserService;
-import com.alura.aluraflixapi.infraestructure.service.VideoServiceImpl;
+import com.alura.aluraflixapi.infraestructure.service.category.CategoryService;
+import com.alura.aluraflixapi.infraestructure.service.user.UserService;
+import com.alura.aluraflixapi.infraestructure.service.video.VideoServiceImpl;
 import com.alura.aluraflixapi.jsonutils.ParseJson;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +40,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;

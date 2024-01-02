@@ -8,6 +8,7 @@ import com.alura.aluraflixapi.infraestructure.exception.VideoServiceException;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapperImpl;
 import com.alura.aluraflixapi.infraestructure.repository.CategoryRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
+import com.alura.aluraflixapi.infraestructure.service.video.VideoServiceImpl;
 import com.alura.aluraflixapi.jsonutils.ParseJson;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

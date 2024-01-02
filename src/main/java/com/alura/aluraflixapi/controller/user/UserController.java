@@ -1,7 +1,7 @@
-package com.alura.aluraflixapi.controller;
+package com.alura.aluraflixapi.controller.user;
 
 import com.alura.aluraflixapi.domain.user.dto.UserDto;
-import com.alura.aluraflixapi.infraestructure.service.UserService;
+import com.alura.aluraflixapi.infraestructure.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

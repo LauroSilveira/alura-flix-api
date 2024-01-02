@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.infraestructure.service;
+package com.alura.aluraflixapi.infraestructure.service.video;
 
 
 import com.alura.aluraflixapi.domain.category.Category;
@@ -14,14 +14,12 @@ import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service

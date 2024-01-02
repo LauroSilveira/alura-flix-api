@@ -1,13 +1,13 @@
 package com.alura.aluraflixapi.controller;
 
+import com.alura.aluraflixapi.controller.user.UserController;
 import com.alura.aluraflixapi.domain.user.dto.UserDto;
 import com.alura.aluraflixapi.domain.user.roles.Roles;
 import com.alura.aluraflixapi.domain.user.roles.RolesEnum;
-import com.alura.aluraflixapi.infraestructure.service.UserService;
+import com.alura.aluraflixapi.infraestructure.service.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

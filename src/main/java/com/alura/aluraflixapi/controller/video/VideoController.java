@@ -1,9 +1,9 @@
-package com.alura.aluraflixapi.controller;
+package com.alura.aluraflixapi.controller.video;
 
 
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
-import com.alura.aluraflixapi.infraestructure.service.VideoService;
+import com.alura.aluraflixapi.infraestructure.service.video.VideoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -20,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
