@@ -1,4 +1,4 @@
-package com.alura.aluraflixapi.controller.user;
+package com.alura.aluraflixapi.controller.authentication;
 
 import com.alura.aluraflixapi.infraestructure.exception.ErrorMessageVO;
 import org.springframework.http.HttpStatus;

@@ -59,9 +59,9 @@ class CategoryServiceImplTest {
                 this.buildCategory(UUID.randomUUID().toString(), Rating.TERROR.getTitle(),
                         Rating.TERROR.getHexDecimalColor(),
                         Rating.TERROR),
-                this.buildCategory(UUID.randomUUID().toString(), Rating.TRILLER.getTitle(),
-                        Rating.TRILLER.getHexDecimalColor(),
-                        Rating.TRILLER),
+                this.buildCategory(UUID.randomUUID().toString(), Rating.THRILLER.getTitle(),
+                        Rating.THRILLER.getHexDecimalColor(),
+                        Rating.THRILLER),
                 this.buildCategory(UUID.randomUUID().toString(), Rating.ROMANTIC_COMEDY.getTitle(),
                         Rating.ROMANTIC_COMEDY.getHexDecimalColor(), Rating.ROMANTIC_COMEDY)
         );
@@ -166,7 +166,7 @@ class CategoryServiceImplTest {
 
         //When
         List<VideoDto> videosByCategory = this.categoryService.getVideosByCategory(
-                Rating.TRILLER.getTitle());
+                Rating.THRILLER.getTitle());
 
         //When
         assertThat(videosByCategory).isNotNull().isNotEmpty();

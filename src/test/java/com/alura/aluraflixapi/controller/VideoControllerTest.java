@@ -1,7 +1,7 @@
 package com.alura.aluraflixapi.controller;
 
 import com.alura.aluraflixapi.controller.category.CategoryController;
-import com.alura.aluraflixapi.controller.user.AuthenticationController;
+import com.alura.aluraflixapi.controller.authentication.AuthenticationController;
 import com.alura.aluraflixapi.controller.user.UserController;
 import com.alura.aluraflixapi.controller.video.VideoController;
 import com.alura.aluraflixapi.domain.category.Rating;
