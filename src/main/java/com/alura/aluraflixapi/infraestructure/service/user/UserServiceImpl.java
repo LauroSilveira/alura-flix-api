@@ -1,12 +1,13 @@
 package com.alura.aluraflixapi.infraestructure.service.user;
 
+import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.domain.user.dto.UserDto;
 import com.alura.aluraflixapi.infraestructure.mapper.UserMapper;
-import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.infraestructure.repository.RoleRepository;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
-import java.util.List;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
   public UserDto saveUser(UserDto dto) {
     final User user = mapper.mapToEntity(dto);
     //first save Document Roles
-    this.roleRepository.saveAll(dto.roles());
+    this.roleRepository.saveAll(user.getRoles());
     //After save Document User
     final User newUser = repository.save(user);
     return mapper.mapToDto(newUser);

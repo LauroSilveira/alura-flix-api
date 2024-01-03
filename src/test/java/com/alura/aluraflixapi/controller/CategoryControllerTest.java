@@ -1,6 +1,6 @@
 package com.alura.aluraflixapi.controller;
 
-import com.alura.aluraflixapi.controller.user.AuthenticationController;
+import com.alura.aluraflixapi.controller.authentication.AuthenticationController;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;

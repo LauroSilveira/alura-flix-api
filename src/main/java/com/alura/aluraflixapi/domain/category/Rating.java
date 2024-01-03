@@ -6,7 +6,7 @@ public enum Rating {
   FANTASY(2, "Fantasy", "#FFD700"),
   TERROR(3, "Terror", "#FF0000"),
   ACTION(4, "Action", "#008000"),
-  TRILLER(5, "Thiller", "#808080"),
+  THRILLER(5, "Thriller", "#808080"),
   ROMANTIC_COMEDY(6, "Romantic Comedy", "#E41B17");
 
   public int getCategoryId() {

@@ -1,7 +1,7 @@
 package com.alura.aluraflixapi.controller;
 
 import com.alura.aluraflixapi.controller.dto.ErrorVO;
-import com.alura.aluraflixapi.controller.user.AuthenticationController;
+import com.alura.aluraflixapi.controller.authentication.AuthenticationController;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.exception.ErrorMessageVO;
 import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
