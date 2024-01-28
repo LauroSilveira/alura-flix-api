@@ -6,7 +6,7 @@ The application is available at: [https://alura-flix-api-production.up.railway.a
 
 ## About this project
 * [About](#about)
-* [Techinologies](#techinologies)
+* [Technologies](#Technologies)
 * [How to run](#how-to-run)
 * [Authentication](#login)
 * [Contributors](#contributors)
@@ -19,13 +19,13 @@ The username for test is: guest@aluraflix.com and the password is: 123456, pleas
 
 ![alura-flix-api-swagger.png](data/alura-flix-api-swagger.png)
 
-# Techinologies
+# Technologies
 - Java 17
 - Spring boot 3
 - Spring 6
 - Mongo Atlas
 - Lombok
-- Spring Secuity
+- Spring Security
 - JWT Token library
 - Docker 
 
