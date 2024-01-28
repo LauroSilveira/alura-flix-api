@@ -1,7 +1,7 @@
 # alura-flix-api
 
 This is an application with aim to learning about new features of Spring security from Spring version 6.
-The application is available at: [https://alura-flix-api-production.up.railway.app/swagger-ui/index.html](https://alura-flix-api.onrender.com/swagger-ui.html)
+The application is available at: alura-flix-api-production.up.railway.app
 
 
 ## About this project
