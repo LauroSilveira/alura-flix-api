@@ -1,8 +1,8 @@
 # alura-flix-api
 
 This is an application with aim to learning about new features of Spring security from Spring version 6.
-The application is available at: [https://alura-flix-api-production.up.railway.app/swagger-ui/index.html]
-
+The application is available at: 
+[https://alura-flix-api-production.up.railway.app](https://alura-flix-api-production.up.railway.app/swagger-ui/index.html)
 
 ## About this project
 * [About](#about)
@@ -13,7 +13,7 @@ The application is available at: [https://alura-flix-api-production.up.railway.a
 
 # About 
 This is an application with aim to learning about new features of Spring security from Spring version 6.
-It is possible to access swagger documentation throught url: [https://alura-flix-api-production.up.railway.app/swagger-ui/index.html]
+It is possible to access swagger documentation throught url: [https://alura-flix-api-production.up.railway.app](https://alura-flix-api-production.up.railway.app/swagger-ui/index.html)
 
 The username for test is: guest@aluraflix.com and the password is: 123456, please notice this user has ROLE_USER.
 
