@@ -53,6 +53,7 @@ public class SecurityFilter extends OncePerRequestFilter {
       SecurityContextHolder.getContext().setAuthentication(authentication);
       log.info("{} User authenticated: {}", PREFIX_LOGGING, authentication.getPrincipal());
     }
+    //continue the flow
     filterChain.doFilter(request, response);
   }
 
