@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenService {
 
-  public static final String ALURA_FLIX_API = "alura-flix-api";
+  private static final String ALURA_FLIX_API = "alura-flix-api";
 
   @Value("${api.security.token-jwt-secret}")
   public String secret;
@@ -59,9 +59,9 @@ public class TokenService {
     }
 
   }
-  //Create expire date of token, in this case is the current hour plus 2 hours
+  //Create expire date of token, in this case is the current hour plus 10 minutes
   private Instant getExpireDate() {
-    return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.UTC);
+    return LocalDateTime.now().plusMinutes(10).toInstant(ZoneOffset.UTC);
 
   }
 }

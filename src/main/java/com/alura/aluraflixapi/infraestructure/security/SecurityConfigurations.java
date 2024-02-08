@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 
 @Configuration
+//Enable Custom configuration spring boot
 @EnableWebSecurity
 //enable @Secure("Role_XX")
 @EnableMethodSecurity(securedEnabled = true)
@@ -31,9 +32,9 @@ public class SecurityConfigurations {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    //disable cross site request forgery
+    //disable Cross Site Request Forgery
     return http.csrf(csrf -> csrf.ignoringRequestMatchers("/login/**") )
-        //Disable Spring control and allow all endpoints
+            //Configure to be stateless
             .sessionManagement(managementConfigurer ->
                     managementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(httpRequest -> httpRequest
