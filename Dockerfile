@@ -1,10 +1,11 @@
-FROM maven:3.9.5-eclipse-temurin-21-alpine AS build
+FROM maven:3.9.5-amazoncorretto-17 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:17-jdk
 WORKDIR /alura-flix-api
-COPY --from=build target/*.jar alura-flix-api.jar
+ARG JAR_FILE=target/*.jar
+COPY --from=build ${JAR_FILE} alura-flix-api.jar
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "alura-flix-api.jar"]

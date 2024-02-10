@@ -11,7 +11,7 @@
 
 	<groupId>com.alura</groupId>
 	<artifactId>alura-flix-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.7-Release</version>
 	<name>alura-flix-api</name>
 
 	<description>An API capable to registry, delete, update and return videos.</description>
