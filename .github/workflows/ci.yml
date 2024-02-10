@@ -1,4 +1,4 @@
-name: CI Workflow
+name: CI/CD Workflow
 run-name: ${{ github.actor }} has started workflow
 on:
   push:

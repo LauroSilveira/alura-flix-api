@@ -8,12 +8,14 @@ The application is available at:
 * [About](#about)
 * [Technologies](#Technologies)
 * [How to run](#how-to-run)
+  * [Run with Docker](#run-with-docker-compose)
+  * [Run with mvn spring-boot:run]()
 * [Authentication](#login)
 * [Contributors](#contributors)
 
 # About 
 This is an application with aim to learning about new features of Spring security from Spring version 6.
-It is possible to access swagger documentation throught url: [https://alura-flix-api-production.up.railway.app](https://alura-flix-api-production.up.railway.app/swagger-ui/index.html)
+It is possible to access swagger documentation through url: [https://alura-flix-api-production.up.railway.app](https://alura-flix-api-production.up.railway.app/swagger-ui/index.html)
 
 The username for test is: guest@aluraflix.com and the password is: 123456, please notice this user has ROLE_USER.
 
@@ -23,30 +25,44 @@ The username for test is: guest@aluraflix.com and the password is: 123456, pleas
 - Java 17
 - Spring boot 3
 - Spring 6
-- Mongo Atlas
+- MongoDB Atlas
 - Lombok
 - Spring Security
 - JWT Token library
 - Docker 
+- Junit, Mockito
+- Jacoco Report
 
 # How to Run
-<p>Go to the directory docker-compose/docker-compose.yml and execute<p/>
+### Run with docker-compose
+#### Before run with docker-compose - Necessary set up environments
+<p>There's two environments variables tha should be setup:</p>
+
+```yaml
+- JWT_SECRET=${JWT_SECRET}
+- DATABASE_PRO=${DATABASE_PRO}
+```
+<p>After that it is possible to run just executing docker-compose.yml this will download the latest version</p>
 
 ```shell
 docker-compose up
 ```
 
+### Run with mvn spring-boot
+```shell
+mvn spring-boot:run
+```
 #### Login
-<p>In the authentication-controller use the credentials<p/>
-<p>username: guest@aluraflix.com / password: 123456 to log in.<p/>
+<p>In the authentication-controller use the credentials</p>
+<p>username: guest@aluraflix.com / password: 123456 to log in.</p>
 
 ![login.png](data/login.png)
 
-<p>After that copy the Token JWT<p/>
+<p>After that copy the Token JWT</p>
 
 ![token-jwt.png](data/token-jwt.png)
 
-<p>And paste it in the Authorize button<p/>
+<p>And paste it in the Authorize button</p>
 
 ![authorize-token.png](data/authorize-token.png)
 
@@ -55,4 +71,4 @@ That's it, you are already logged and can try out all endpoints :wink:
 ## Contributors
 [@LauroSilveira](https://github.com/LauroSilveira)
 
-<p>Fell free to fork and contribute :wink:<p/>
+<p>Fell free to fork and contribute :wink:</p>
