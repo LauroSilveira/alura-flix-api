@@ -14,10 +14,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build Docker Image and push
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ../Dockerfile
           push: true
           tags: laurocorreia/alura-flix-api:latest
