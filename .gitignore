@@ -14,3 +14,5 @@ mvnw.cmd
 mvnw
 .env
 target/**
+
+src/main/resources/swagger/**
