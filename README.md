@@ -7,6 +7,7 @@ The application is available at:
 ## About this project
 * [About](#about)
 * [Technologies](#Technologies)
+* [Generate Swagger with openApi]()
 * [How to run](#how-to-run)
   * [Run with Docker](#run-with-docker-compose)
   * [Run with mvn spring-boot:run]()
@@ -32,6 +33,14 @@ The username for test is: guest@aluraflix.com and the password is: 123456, pleas
 - Docker 
 - Junit, Mockito
 - Jacoco Report
+
+# Generate swagger with openApi
+<p>In order to generate swagger openApi without run the application, you can execute</p>
+
+```shell
+mvn verify
+```
+<p>This will generate the swaager on directory /src/main/resources/swagger</p>
 
 # How to Run
 ### Run with docker-compose
