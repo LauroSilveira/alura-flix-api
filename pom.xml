@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.2</version>
+		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>com.alura</groupId>
 	<artifactId>alura-flix-api</artifactId>
-	<version>1.0.7-Release</version>
+	<version>1.0.8-Release</version>
 	<name>alura-flix-api</name>
 
 	<description>An API capable to registry, delete, update and return videos.</description>
@@ -20,7 +20,7 @@
 		<java.version>17</java.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
-		<springdoc.version>2.3.0</springdoc.version>
+		<springdoc.version>2.4.0</springdoc.version>
 		<jwt.version>4.4.0</jwt.version>
 	</properties>
 
@@ -101,7 +101,37 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.alura.aluraflixapi.AluraFlixApiApplication</mainClass>
+					<jvmArguments>-Dspring.application.admin.enabled=true</jvmArguments>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>start</goal>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDir>${project.basedir}/src/main/resources/swagger</outputDir>
+					<outputFileName>openapi.yaml</outputFileName>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
