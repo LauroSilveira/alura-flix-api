@@ -49,7 +49,7 @@ public class SecurityConfigurations {
   }
 
   /**
-   * Crete @Bean AuthenticationManager to authenticate a user
+   * Create @Bean AuthenticationManager to authenticate a user
    * @return AuthenticationManager
    */
   @Bean
