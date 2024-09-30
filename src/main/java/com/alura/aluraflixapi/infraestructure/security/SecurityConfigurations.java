@@ -1,6 +1,6 @@
 package com.alura.aluraflixapi.infraestructure.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * Main Spring Security class configuration In Spring 3.0 the security configuration is done by
+ *
  * @Bean
  */
 
@@ -25,47 +26,49 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 //enable @Secure("Role_XX")
 @EnableMethodSecurity(securedEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfigurations {
 
-  @Autowired
-  private SecurityFilter securityFilter;
+    private final SecurityFilter securityFilter;
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    //disable Cross Site Request Forgery
-    return http.csrf(csrf -> csrf.ignoringRequestMatchers("/login/**") )
-            //Configure to be stateless
-            .sessionManagement(managementConfigurer ->
-                    managementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(httpRequest -> httpRequest
-                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                    .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
-                    //any other request has to be authenticated
-                    .anyRequest().authenticated()
-            )
-        //tell to spring to user our filter SecurityFilter.class instead their
-        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-        .build();
-  }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        //disable Cross Site Request Forgery
+        return http.csrf(csrf -> csrf.ignoringRequestMatchers("/login/**"))
+                //Configure to be stateless
+                .sessionManagement(managementConfigurer ->
+                        managementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(httpRequest -> httpRequest
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                        //any other request has to be authenticated
+                        .anyRequest().authenticated()
+                )
+                //tell to spring to user our filter SecurityFilter.class instead their
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
 
-  /**
-   * Create @Bean AuthenticationManager to authenticate a user
-   * @return AuthenticationManager
-   */
-  @Bean
-  public AuthenticationManager authenticationManager(
-      AuthenticationConfiguration authenticationConfiguration)
-      throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
-  }
+    /**
+     * Create @Bean AuthenticationManager to authenticate a user
+     *
+     * @return AuthenticationManager
+     */
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
-  /**
-   * Bean to encrypt and decrypt password
-   * @return new PasswordEncoder
-   */
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    /**
+     * Bean to encrypt and decrypt password
+     *
+     * @return new PasswordEncoder
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

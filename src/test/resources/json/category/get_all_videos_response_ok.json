@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Lord of the rings - The fellowship of the ring",
+    "description": "best movie ever",
+    "url": "https://lordoftherings.com",
+    "category": {
+      "rating": "FREE",
+      "title": "Fantasy",
+      "colorHex": "#ffff83"
+    }
+  },
+  {
+    "title": "Lord of the rings - The two towers",
+    "description": "Second movie of lord of the rings",
+    "url": "https://lordoftherings.com",
+    "category": {
+      "rating": "Fantasy",
+      "title": "Lorf of the rings - The two towers",
+      "colorHex": "#FFD700"
+    }
+  },
+  {
+    "title": "Lord of the rings - The return of the king",
+    "description": "Third movie of lord of the rings",
+    "url": "https://lordoftherings.com",
+    "category": {
+      "rating": "Fantasy",
+      "title": "Lord of the rings - The return of the king",
+      "colorHex": "#FFD700"
+    }
+  }
+]

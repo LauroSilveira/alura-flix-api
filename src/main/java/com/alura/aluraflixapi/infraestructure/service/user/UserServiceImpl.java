@@ -5,10 +5,12 @@ import com.alura.aluraflixapi.domain.user.dto.UserDto;
 import com.alura.aluraflixapi.infraestructure.mapper.UserMapper;
 import com.alura.aluraflixapi.infraestructure.repository.RoleRepository;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -19,7 +21,9 @@ public class UserServiceImpl implements UserService {
   private final UserMapper mapper;
 
 
-  public UserServiceImpl(final UserRepository repository, final RoleRepository roleRepository, final UserMapper mapper) {
+  public UserServiceImpl(final UserRepository repository,
+                         final RoleRepository roleRepository,
+                         final UserMapper mapper) {
     this.repository = repository;
     this.roleRepository = roleRepository;
     this.mapper = mapper;
@@ -27,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserDto saveUser(UserDto dto) {
+    log.info("Saving user: {}", dto);
     final User user = mapper.mapToEntity(dto);
     //first save Document Roles
     this.roleRepository.saveAll(user.getRoles());
@@ -37,7 +42,14 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<UserDto> getUsers() {
+    log.info("Get all users");
     List<User> users = repository.findAll();
     return mapper.mapToUsersDto(users);
+  }
+
+  @Override
+  public void deleteUser(String id) {
+    log.info("Deleting user:  {}", id);
+    repository.deleteById(id);
   }
 }
