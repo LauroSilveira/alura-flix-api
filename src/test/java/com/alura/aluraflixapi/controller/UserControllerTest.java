@@ -3,7 +3,6 @@ package com.alura.aluraflixapi.controller;
 import com.alura.aluraflixapi.controller.user.UserController;
 import com.alura.aluraflixapi.domain.user.dto.RolesDto;
 import com.alura.aluraflixapi.domain.user.dto.UserDto;
-import com.alura.aluraflixapi.domain.user.roles.Roles;
 import com.alura.aluraflixapi.domain.user.roles.RolesEnum;
 import com.alura.aluraflixapi.infraestructure.service.user.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +31,7 @@ class UserControllerTest {
 
     @Test
     @DisplayName("Should save a new user and response 200 OK")
-    void saveUser_test() {
+    void createUser_test() {
         //Given
         final var userId = UUID.randomUUID().toString();
         final var roleId = UUID.randomUUID().toString();
@@ -41,7 +40,7 @@ class UserControllerTest {
         when(this.userService.saveUser(any())).thenReturn(user);
 
         //When
-        final var response = this.userController.saveUser(user);
+        final var response = this.userController.createUser(user);
 
         //Then
         assertThat(response).isNotNull();

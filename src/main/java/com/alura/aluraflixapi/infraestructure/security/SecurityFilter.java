@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,7 +41,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     log.info("{} request received intercepted by Internal Filter", PREFIX_LOGGING);
     final var tokenJWT = this.getTokenJWT(request);
 
-    if (tokenJWT != null) {
+    if (Objects.nonNull(tokenJWT)) {
       //Retrieve user from Token JWT
       final var subject = this.tokenService.getSubject(tokenJWT);
       var user = this.userRepository.findByUsername(subject);
