@@ -7,18 +7,17 @@ server:
 spring:
   application:
     name: alura-flix-api
-  data:
-    mongodb:
-      database: alura-flix
-      # always commit the uri like this: ${DATABASE_PRO}
-      uri: ${DATABASE_PRO}
-
-api:
-  security:
-    # always commit the uri like this: ${JWT_SECRET}
-    token-jwt-secret: ${JWT_SECRET}
+  profiles:
+    active: prod
+  config:
+    import: optional:configserver:http://localhost:8888
 
 springdoc:
   swagger-ui:
     operations-sorter: method
     tags-sorter: alpha
+
+management:
+  endpoint:
+    refresh:
+      enabled: true
