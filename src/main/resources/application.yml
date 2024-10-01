@@ -15,6 +15,7 @@ spring:
 
 api:
   security:
+    api-issuer: alura-flix-api
     # always commit the uri like this: ${JWT_SECRET}
     token-jwt-secret: ${JWT_SECRET}
 

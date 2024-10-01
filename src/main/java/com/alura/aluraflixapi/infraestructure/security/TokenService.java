@@ -19,7 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenService {
 
-  private static final String ALURA_FLIX_API = "alura-flix-api";
+  @Value("${api.security.api-issuer}")
+  private String apiIssuer;
 
   @Value("${api.security.token-jwt-secret}")
   public String secret;
@@ -28,7 +29,7 @@ public class TokenService {
     try {
       log.info("Generating Token JWT ...");
       return JWT.create()
-          .withIssuer(ALURA_FLIX_API)
+          .withIssuer(apiIssuer)
           //owner
           .withSubject(user.getUsername())
           .withClaim("id", user.getUsername())
@@ -50,7 +51,7 @@ public class TokenService {
     try {
       var algorithm = Algorithm.HMAC256(secret);
       return JWT.require(algorithm)
-          .withIssuer(ALURA_FLIX_API)
+          .withIssuer(apiIssuer)
           .build()
           .verify(tokenJWT)
           .getSubject();
