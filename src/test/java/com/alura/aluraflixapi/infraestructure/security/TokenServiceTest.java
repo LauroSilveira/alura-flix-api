@@ -4,13 +4,12 @@ import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.domain.user.roles.Roles;
 import com.alura.aluraflixapi.domain.user.roles.RolesEnum;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Set;
@@ -26,7 +25,7 @@ class TokenServiceTest {
 
     @Test
     @DisplayName("Should return a TokenJWT")
-    void generateTokenJWT_test() {
+    void generateTokenJwt_test() {
         //Given
         final var user = User.builder().id(UUID.randomUUID().toString())
                 .username("admin@aluraflix.com")
@@ -37,7 +36,7 @@ class TokenServiceTest {
                         .build()))
                 .build();
         //When
-        final var tokenJWT = this.tokenService.generateTokenJWT(user);
+        final var tokenJWT = this.tokenService.generateTokenJwt(user);
         //Then
         assertThat(tokenJWT)
                 .isNotBlank()
@@ -46,17 +45,17 @@ class TokenServiceTest {
 
     @Test
     @DisplayName("Should return a JWTCreationException when is generating TokenJWT and some field is null")
-    void generateTokenJWT_KO_test() {
+    void generateTokenJwt_KO_test() {
         //Then
         Assertions.assertThatExceptionOfType(JWTCreationException.class)
-                .isThrownBy(() -> this.tokenService.generateTokenJWT(null))
-                .withMessageContaining("Error to create JWT token");
+                .isThrownBy(() -> this.tokenService.generateTokenJwt(null))
+                .withMessageContaining("Error to create JWT accessToken");
     }
 
 
     @Test
     @DisplayName("Should retrieve User Principal from TokenJWT passed")
-    void getSubject_test() {
+    void verifyTokenJWT_test() {
         //Given
         final var user = User.builder().id(UUID.randomUUID().toString())
                 .username("admin@aluraflix.com")
@@ -66,22 +65,22 @@ class TokenServiceTest {
                         .role(RolesEnum.ROLE_ADMIN)
                         .build()))
                 .build();
-        final var tokenJWT = this.tokenService.generateTokenJWT(user);
+        final var tokenJWT = this.tokenService.generateTokenJwt(user);
         //When
-        final var userPrincipal = this.tokenService.getSubject(tokenJWT);
+        final var userPrincipal = this.tokenService.verifyTokenJWT(tokenJWT);
         //Then
+
         assertThat(userPrincipal)
-                .isNotBlank()
                 .isNotNull()
                 .isEqualTo("admin@aluraflix.com");
     }
 
     @Test
     @DisplayName("Should return a JWTDecodeException when is verifying TokenJWT and is null")
-    void getSubject_KO_test() {
+    void verifyTokenJWT_KO_test() {
         //Then
-        Assertions.assertThatExceptionOfType(JWTDecodeException.class)
-                .isThrownBy(() -> this.tokenService.getSubject(null))
+        Assertions.assertThatExceptionOfType(JWTVerificationException.class)
+                .isThrownBy(() -> this.tokenService.verifyTokenJWT(null))
                 .withMessageContaining("Error verifying JWT Token");
     }
 }
