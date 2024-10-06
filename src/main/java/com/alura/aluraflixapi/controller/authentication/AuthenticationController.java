@@ -1,9 +1,11 @@
 package com.alura.aluraflixapi.controller.authentication;
 
+import com.alura.aluraflixapi.controller.dto.token.RefreshTokenVO;
 import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.domain.user.dto.AuthenticationDto;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
 import com.alura.aluraflixapi.infraestructure.security.dto.TokenJwtDto;
+import com.alura.aluraflixapi.infraestructure.service.token.RefreshTokenService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,12 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
+    private final RefreshTokenService refreshTokenService;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService) {
+    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService, RefreshTokenService refreshTokenService) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping
@@ -35,9 +39,17 @@ public class AuthenticationController {
                 dto.password());
         //authenticationManager compare the password of the request with the password from database.
         final var authentication = this.authenticationManager.authenticate(authenticationToken);
-        final var tokenJWT = tokenService.generateTokenJWT((User) authentication.getPrincipal());
+        final var tokenJwt = tokenService.generateTokenJwt((User) authentication.getPrincipal());
+        final var refreshToken = tokenService.generateRefreshToken(dto.username());
         log.info("Token Generated with Success!");
-        return ResponseEntity.ok().body(new TokenJwtDto(tokenJWT));
+        return ResponseEntity.ok().body(new TokenJwtDto(tokenJwt, refreshToken));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenJwtDto> refreshAccessToken(@RequestBody RefreshTokenVO refreshToken) {
+        log.info("Request to renew refresh accessToken");
+        final var tokenJwtDto = refreshTokenService.refreshAccessToken(refreshToken.refreshToken());
+        return ResponseEntity.ok(tokenJwtDto);
     }
 
 }
