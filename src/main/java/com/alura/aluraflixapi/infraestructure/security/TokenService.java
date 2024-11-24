@@ -3,6 +3,7 @@ package com.alura.aluraflixapi.infraestructure.security;
 
 import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.domain.user.roles.Roles;
+import com.alura.aluraflixapi.infraestructure.exception.JwtRefreshTokenExpiredException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
