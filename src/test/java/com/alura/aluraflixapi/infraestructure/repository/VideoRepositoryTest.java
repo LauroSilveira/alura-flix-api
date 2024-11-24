@@ -26,7 +26,6 @@ class VideoRepositoryTest extends ParseJson {
 
     @AfterEach
     void after() {
-        //TODO: search another way to delete all data without call this methods.
         videoRepository.deleteAll();
         categoryRepository.deleteAll();
     }
