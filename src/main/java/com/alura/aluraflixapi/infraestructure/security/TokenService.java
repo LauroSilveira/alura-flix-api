@@ -3,6 +3,7 @@ package com.alura.aluraflixapi.infraestructure.security;
 
 import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.domain.user.roles.Roles;
+import com.alura.aluraflixapi.infraestructure.exception.JwtRefreshTokenExpiredException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -61,7 +62,7 @@ public class TokenService {
 
     public void isRefreshTokenExpired(String tokenJWT) {
         if (JWT.decode(tokenJWT).getExpiresAt().toInstant().compareTo(Instant.now()) < 0) {
-            throw new RuntimeException("Refresh token expired, please login again");
+            throw new JwtRefreshTokenExpiredException("Refresh token expired, please login again");
         }
     }
 
