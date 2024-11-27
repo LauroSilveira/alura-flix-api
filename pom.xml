@@ -23,7 +23,7 @@
         <springdoc.version>2.6.0</springdoc.version>
         <jwt.version>4.4.0</jwt.version>
         <jacoco.version>0.8.12</jacoco.version>
-        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-cloud.version>2023.0.4</spring-cloud.version>
     </properties>
 
 
