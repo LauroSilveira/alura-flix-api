@@ -20,7 +20,7 @@
         <java.version>21</java.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <springdoc.version>2.6.0</springdoc.version>
+        <springdoc.version>2.7.0</springdoc.version>
         <jwt.version>4.4.0</jwt.version>
         <jacoco.version>0.8.12</jacoco.version>
         <spring-cloud.version>2023.0.4</spring-cloud.version>
