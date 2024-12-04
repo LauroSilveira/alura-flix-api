@@ -6,6 +6,7 @@ import com.alura.aluraflixapi.domain.user.dto.AuthenticationDto;
 import com.alura.aluraflixapi.domain.user.roles.Roles;
 import com.alura.aluraflixapi.domain.user.roles.RolesEnum;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
+import com.alura.aluraflixapi.infraestructure.service.token.RefreshTokenService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -33,6 +34,8 @@ class AuthenticationControllerTest {
     @MockBean
     private TokenService tokenService;
 
+    @MockBean
+    private RefreshTokenService refreshTokenService;
 
     @Test
     void login_test() {
@@ -42,7 +45,7 @@ class AuthenticationControllerTest {
                 Set.of(Roles.builder().id("1").role(RolesEnum.ROLE_ADMIN).build()));
 
         final var testingAuthenticationToken = new TestingAuthenticationToken(userAdministrator, userAdministrator);
-        when(this.tokenService.generateTokenJWT(Mockito.any())).thenReturn(tokenJwtFake);
+        when(this.tokenService.generateTokenJwt(Mockito.any())).thenReturn(tokenJwtFake);
         when(this.manager.authenticate(Mockito.any())).thenReturn(testingAuthenticationToken);
 
         //When
@@ -51,6 +54,6 @@ class AuthenticationControllerTest {
         //Then
         assertThat(userAuthenticated).isNotNull();
         assertThat(userAuthenticated.getBody()).isNotNull();
-        assertThat(userAuthenticated.getBody().token()).isEqualTo(tokenJwtFake);
+        assertThat(userAuthenticated.getBody().accessToken()).isEqualTo(tokenJwtFake);
     }
 }

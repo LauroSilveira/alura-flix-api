@@ -30,6 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfigurations {
 
     private final SecurityFilter securityFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,13 +40,16 @@ public class SecurityConfigurations {
                 .sessionManagement(managementConfigurer ->
                         managementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(httpRequest -> httpRequest
-                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         //any other request has to be authenticated
                         .anyRequest().authenticated()
                 )
-                //tell to spring to user our filter SecurityFilter.class instead their
+                //tell to spring to use our filter SecurityFilter.class instead their
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                //tell to spring to use this filter to handle any exception about JWT exception
+                .exceptionHandling(exceptionHandler ->
+                        exceptionHandler.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .build();
     }
 
