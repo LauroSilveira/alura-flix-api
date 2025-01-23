@@ -2,7 +2,7 @@ FROM maven:3.9.8-amazoncorretto-21 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:23-jdk
 WORKDIR /alura-flix-api
 ARG JAR_FILE=target/*.jar
 COPY --from=build ${JAR_FILE} alura-flix-api.jar
