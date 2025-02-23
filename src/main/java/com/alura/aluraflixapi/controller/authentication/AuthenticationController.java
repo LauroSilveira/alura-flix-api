@@ -7,6 +7,7 @@ import com.alura.aluraflixapi.infraestructure.security.TokenService;
 import com.alura.aluraflixapi.infraestructure.security.dto.TokenJwtDto;
 import com.alura.aluraflixapi.infraestructure.service.token.RefreshTokenService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,17 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/login")
+@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
     private final RefreshTokenService refreshTokenService;
-
-    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService, RefreshTokenService refreshTokenService) {
-        this.authenticationManager = authenticationManager;
-        this.tokenService = tokenService;
-        this.refreshTokenService = refreshTokenService;
-    }
 
     @PostMapping
     public ResponseEntity<TokenJwtDto> login(@RequestBody @Valid AuthenticationDto dto) {
@@ -39,8 +35,10 @@ public class AuthenticationController {
                 dto.password());
         //authenticationManager compare the password of the request with the password from database.
         final var authentication = this.authenticationManager.authenticate(authenticationToken);
+
         final var tokenJwt = tokenService.generateTokenJwt((User) authentication.getPrincipal());
         final var refreshToken = tokenService.generateRefreshToken(dto.username());
+
         log.info("Token Generated with Success!");
         return ResponseEntity.ok().body(new TokenJwtDto(tokenJwt, refreshToken));
     }

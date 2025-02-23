@@ -1,7 +1,7 @@
 package com.alura.aluraflixapi.controller;
 
-import com.alura.aluraflixapi.controller.dto.ErrorVO;
 import com.alura.aluraflixapi.controller.authentication.AuthenticationController;
+import com.alura.aluraflixapi.controller.dto.ErrorVO;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.exception.ErrorMessageVO;
 import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
@@ -18,10 +18,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -43,23 +43,23 @@ class ControllerAdviceTest {
     private MockMvc mockMvc;
     private static ObjectMapper objectMapper;
 
-    @MockBean
+    @MockitoBean
     private AuthenticationController authenticationController;
 
-    @MockBean
+    @MockitoBean
     private CategoryService categoryService;
 
-    @MockBean
+    @MockitoBean
     private UserService userService;
 
-    @MockBean
+    @MockitoBean
     private VideoService videoService;
 
-    @MockBean
+    @MockitoBean
     private TokenService tokenService;
 
-    @MockBean
-    private UserRepository UserRepository;
+    @MockitoBean
+    private UserRepository userRepository;
 
     @BeforeEach
     void setup() {

@@ -13,11 +13,12 @@ import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
 import com.alura.aluraflixapi.infraestructure.service.category.CategoryServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.mongodb.MongoTransactionException;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,24 +27,26 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class CategoryServiceImplTest {
 
-    @SpyBean
+    @InjectMocks
     private CategoryServiceImpl categoryService;
 
-    @MockBean
+    @Mock
     private CategoryRepository categoryRepository;
 
-    @MockBean
+    @Mock
     private VideoRepository videoRepository;
 
-    @SpyBean
+    @Spy
     private VideoMapperImpl videoMapper;
 
-    @SpyBean
+    @Spy
     private CategoryMapperImpl categoryMapper;
 
     @Test
@@ -141,12 +144,12 @@ class CategoryServiceImplTest {
                 Rating.ACTION.getHexDecimalColor(),
                 Rating.ACTION);
 
-        when(this.categoryRepository.findById(any())).thenReturn(Optional.of(category));
+        given(this.categoryRepository.findById(any())).willReturn(Optional.of(category));
         //When
         this.categoryService.deleteCategory(category.getId());
 
         //Then
-        Mockito.verify(this.categoryService, Mockito.atLeast(1)).deleteCategory(category.getId());
+        verify(this.categoryRepository, Mockito.atLeast(1)).delete(category);
     }
 
     @Test

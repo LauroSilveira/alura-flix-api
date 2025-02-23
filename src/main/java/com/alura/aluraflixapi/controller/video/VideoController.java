@@ -48,7 +48,7 @@ public class VideoController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<VideoDto>> getVideos(@ParameterObject Pageable pageable) {
+    public ResponseEntity<Page<VideoDto>> getVideos(final Pageable pageable) {
         log.info("{} Request to get All videos", LOGGING_PREFIX);
         final Page<VideoDto> videos = this.service.getVideos(pageable);
         log.info("{} Response {}: ", LOGGING_PREFIX, videos.getContent());
@@ -70,8 +70,8 @@ public class VideoController {
                                          final UriComponentsBuilder uriBuilder) {
         log.info("{} Request to Save a new video: {}", LOGGING_PREFIX, dto);
         final VideoDto videoDto = this.service.save(dto);
-        //good practices to return the Location in the Header to be searched by Id
-        //return Http code 201 and Location with Id
+        //good practices to return the Location in the Header to be searched by ID
+        //return Http code 201 and Location with ID
         return ResponseEntity.created(uriBuilder.path("/videos/{id}").buildAndExpand(videoDto.id())
                 .toUri()).body(videoDto);
     }
@@ -81,8 +81,8 @@ public class VideoController {
                                                  final UriComponentsBuilder uriBuilder) {
         log.info("{} Request to update a video: {}", LOGGING_PREFIX, dto);
         final var videoDto = this.service.updateMovie(dto);
-        //good practices to return the Location in the Header to be search by Id
-        //return Http code 201 and Location with Id
+        //good practices to return the Location in the Header to be searched by ID
+        //return Http code 201 and Location with ID
         return ResponseEntity.created(uriBuilder.path("/videos/{id}")
                 .buildAndExpand(videoDto.id())
                 .toUri()).body(videoDto);

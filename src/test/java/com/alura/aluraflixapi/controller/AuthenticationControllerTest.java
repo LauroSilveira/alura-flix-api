@@ -9,32 +9,32 @@ import com.alura.aluraflixapi.infraestructure.security.TokenService;
 import com.alura.aluraflixapi.infraestructure.service.token.RefreshTokenService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class AuthenticationControllerTest {
 
-    @SpyBean
+    @InjectMocks
     private AuthenticationController authenticationController;
 
-    @MockBean
-    private AuthenticationManager manager;
+    @Mock
+    private AuthenticationManager authenticationManager;
 
-    @MockBean
+    @Mock
     private TokenService tokenService;
 
-    @MockBean
+    @Mock
     private RefreshTokenService refreshTokenService;
 
     @Test
@@ -45,9 +45,10 @@ class AuthenticationControllerTest {
                 Set.of(Roles.builder().id("1").role(RolesEnum.ROLE_ADMIN).build()));
 
         final var testingAuthenticationToken = new TestingAuthenticationToken(userAdministrator, userAdministrator);
-        when(this.tokenService.generateTokenJwt(Mockito.any())).thenReturn(tokenJwtFake);
-        when(this.manager.authenticate(Mockito.any())).thenReturn(testingAuthenticationToken);
 
+        when(this.authenticationManager.authenticate(any())).thenReturn(testingAuthenticationToken);
+        when(this.tokenService.generateTokenJwt(any())).thenReturn(tokenJwtFake);
+        when(this.tokenService.generateRefreshToken(any())).thenReturn(tokenJwtFake);
         //When
         final var userAuthenticated = this.authenticationController.login(new AuthenticationDto("admin@aluraflix.com", "administrator"));
 
@@ -55,5 +56,6 @@ class AuthenticationControllerTest {
         assertThat(userAuthenticated).isNotNull();
         assertThat(userAuthenticated.getBody()).isNotNull();
         assertThat(userAuthenticated.getBody().accessToken()).isEqualTo(tokenJwtFake);
+        assertThat(userAuthenticated.getBody().refreshToken()).isEqualTo(tokenJwtFake);
     }
 }

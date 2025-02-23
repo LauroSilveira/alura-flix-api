@@ -6,22 +6,30 @@ import com.alura.aluraflixapi.domain.user.roles.RolesEnum;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class TokenServiceTest {
 
-    @SpyBean
+    @InjectMocks
     private TokenService tokenService;
+
+    @BeforeEach
+    void beforeEach() {
+        ReflectionTestUtils.setField(tokenService, "apiIssuer", "issuer-test");
+        ReflectionTestUtils.setField(tokenService, "secret", UUID.randomUUID().toString());
+    }
 
     @Test
     @DisplayName("Should return a TokenJWT")
