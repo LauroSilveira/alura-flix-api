@@ -8,9 +8,9 @@ import com.alura.aluraflixapi.infraestructure.service.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Set;
@@ -20,14 +20,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class UserControllerTest {
-
-    @MockBean
-    private UserService userService;
-
-    @SpyBean
+    @InjectMocks
     private UserController userController;
+
+    @Spy
+    private UserService userService;
 
     @Test
     @DisplayName("Should save a new user and response 200 OK")

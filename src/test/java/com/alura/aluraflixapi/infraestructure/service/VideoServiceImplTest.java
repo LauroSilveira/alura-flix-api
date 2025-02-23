@@ -13,12 +13,13 @@ import com.alura.aluraflixapi.jsonutils.ParseJson;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,26 +28,25 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class VideoServiceImplTest extends ParseJson {
 
     private static final String PREFIX_PATH = "/video/";
 
-    @MockBean
+    @InjectMocks
+    private VideoServiceImpl videoService;
+
+    @Mock
     private VideoRepository videoRepository;
 
-    @SpyBean
+    @Spy
     private VideoMapperImpl videoMapper;
 
-    @MockBean
+    @Mock
     private CategoryRepository categoryRepository;
-
-    @SpyBean
-    private VideoServiceImpl videoService;
 
     @Test
     @DisplayName("Should return all videos")
@@ -56,16 +56,15 @@ class VideoServiceImplTest extends ParseJson {
         final var videos = parseToJavaObject(jsonFile, Video[].class);
         final Page<Video> pagesVideos = new PageImpl<>(Arrays.stream(videos).toList());
 
-        final var videosDto = this.videoMapper.maptoList(Arrays.stream(videos).toList());
         when(this.videoRepository.findAll(any(Pageable.class))).thenReturn(pagesVideos);
-        when(this.videoMapper.maptoList(anyList())).thenReturn(videosDto);
 
         //when
         final var response = this.videoService.getVideos(Pageable.ofSize(10));
 
         //Then
         assertThat(response).isNotNull();
-        assertThat(response.getContent()).usingRecursiveComparison().isEqualTo(videosDto);
+        assertThat(response.getContent()).usingRecursiveComparison()
+                .isEqualTo(this.videoMapper.maptoList(Arrays.stream(videos).toList()));
     }
 
     @Test
@@ -186,7 +185,7 @@ class VideoServiceImplTest extends ParseJson {
     void getById_response_ko_test() {
         //When
         assertThatExceptionOfType(ResourceNotFoundException.class)
-                .isThrownBy(() ->  this.videoService.getById(null))
+                .isThrownBy(() -> this.videoService.getById(null))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .withMessageContaining("Resource not found for id:");
     }
@@ -212,7 +211,7 @@ class VideoServiceImplTest extends ParseJson {
     void getVideosByTitle_response_ko_test() {
         //When
         assertThatExceptionOfType(ResourceNotFoundException.class)
-                .isThrownBy(() ->  this.videoService.getVideosByTitle(null))
+                .isThrownBy(() -> this.videoService.getVideosByTitle(null))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .withMessageContaining("Video not found with title:");
     }

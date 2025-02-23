@@ -12,11 +12,11 @@ import com.alura.aluraflixapi.infraestructure.service.user.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Set;
@@ -26,19 +26,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
-    @SpyBean
+    @InjectMocks
     private UserServiceImpl userService;
 
-    @MockBean
+    @Spy
     private UserMapperImpl mapper;
 
-    @MockBean
+    @Mock
     private RoleRepository roleRepository;
 
-    @MockBean
+    @Mock
     private UserRepository userRepository;
 
     @Test
@@ -48,10 +48,12 @@ class UserServiceImplTest {
         final var userDto = new UserDto(UUID.randomUUID().toString(),
                 "user@aluraflix.com", new BCryptPasswordEncoder().encode("user@123456"),
                 Set.of(new RolesDto(UUID.randomUUID().toString(), RolesEnum.ROLE_USER)));
+
         final var user = new User(userDto.id(), userDto.username(), userDto.password(),
-                Set.of(Roles.builder().id(userDto.roles().stream().toList().get(0).id()).role(userDto.roles().stream().toList().get(0).role()).build()));
+                Set.of(Roles.builder().id(userDto.roles().stream().toList()
+                        .getFirst().id()).role(userDto.roles().stream().toList().getFirst().role()).build()));
+
         when(this.mapper.mapToEntity(any())).thenReturn(user);
-        when(this.roleRepository.saveAll(Mockito.anyList())).thenReturn(user.getRoles().stream().toList());
         when(this.userRepository.save(any())).thenReturn(user);
         when(this.mapper.mapToDto(any())).thenReturn(userDto);
 

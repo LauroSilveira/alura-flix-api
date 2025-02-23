@@ -10,6 +10,7 @@ import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.MongoTransactionException;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
 
@@ -28,14 +30,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
 
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository, VideoRepository videoRepository,
-                               VideoMapper videoMapper, CategoryMapper categoryMapper) {
-        this.categoryRepository = categoryRepository;
-        this.videoRepository = videoRepository;
-        this.videoMapper = videoMapper;
-        this.categoryMapper = categoryMapper;
-    }
 
     @Override
     public List<CategoryDto> categories() {

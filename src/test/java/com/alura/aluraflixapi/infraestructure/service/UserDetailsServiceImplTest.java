@@ -8,9 +8,9 @@ import com.alura.aluraflixapi.infraestructure.service.user.UserDetailsServiceImp
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Set;
 import java.util.UUID;
@@ -19,14 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class UserDetailsServiceImplTest {
 
-    @MockBean
-    private UserRepository userRepository;
-
-    @SpyBean
+    @InjectMocks
     private UserDetailsServiceImpl userDetailsService;
+    @Mock
+    private UserRepository userRepository;
 
     @Test
     @DisplayName("Should find a user by username and return")
