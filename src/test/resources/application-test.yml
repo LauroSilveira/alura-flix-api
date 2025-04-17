@@ -8,4 +8,4 @@ spring:
     mongodb:
       database: alura-flix-test
       # always commit the uri like this: ${DATABASE_TEST}
-      uri: ${DATABASE_TEST}
+      uri: ${DATABASE_TEST:mongodb+srv://laurosilveira:jEigCH9owNGju6RV@alura-flix-test.qixe2kd.mongodb.net/?retryWrites=true&w=majority&appName=alura-flix-test}
