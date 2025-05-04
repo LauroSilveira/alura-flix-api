@@ -45,9 +45,9 @@ public class SecurityConfigurations {
                         //any other request has to be authenticated
                         .anyRequest().authenticated()
                 )
-                //tell to spring to use our filter SecurityFilter.class instead their
+                //tell to spring using our filter SecurityFilter.class instead their
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                //tell to spring to use this filter to handle any exception about JWT exception
+                //tell to spring using this filter to handle any exception about JWT exception
                 .exceptionHandling(exceptionHandler ->
                         exceptionHandler.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .build();

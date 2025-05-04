@@ -33,7 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     //doFilterInternal is called for each request received
-    //All request to endpoint/login don´t have accessToken in theirs headers
+    //All request to endpoint/login don't have accessToken in theirs headers
     @Override
     protected void doFilterInternal(final HttpServletRequest request,
                                     final HttpServletResponse response,
@@ -47,7 +47,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             final var username = this.tokenService.verifyTokenJWT(tokenJWT);
             final var user = this.userRepository.findByUsername(username);
 
-            //after retrieve the user we need to tell to Spring framework to authenticate him in the context
+            //after retrieve the user we need to tell a Spring framework to authenticate him in the context,
             //this is done by calling UsernamePasswordAuthenticationToken and SecurityContextHolder methods
             log.info("{} Authenticating user: {} ", PREFIX_LOGGING, user.getUsername());
             var authentication = new UsernamePasswordAuthenticationToken(user, null,
