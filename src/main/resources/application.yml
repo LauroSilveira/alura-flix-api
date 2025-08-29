@@ -11,7 +11,7 @@ spring:
     mongodb:
       database: alura-flix
       # always commit the uri like this: ${DATABASE_PRO}
-      uri: ${DATABASE_PRO:mongodb+srv://alura-flix-admin:1DXxIsejY5RENHAU@alura-flix.z61opfc.mongodb.net/?retryWrites=true&w=majority&appName=alura-flix}
+      uri: ${DATABASE_PRO}
 
 api:
   security:
