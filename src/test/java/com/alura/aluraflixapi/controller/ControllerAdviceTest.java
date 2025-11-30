@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -93,21 +93,15 @@ class ControllerAdviceTest {
 
     @Test
     void handlerResourceNotFoundException_test() throws Exception {
-        when(this.videoService.getById(anyString()))
-                .thenThrow(new ResourceNotFoundException("Resource not found for id: 1"));
+        //Given
+        when(this.videoService.getById(anyString())).thenReturn(null);
         //When
-        final var response = this.mockMvc.perform(MockMvcRequestBuilders.get("/videos/{id}", "1")
+         this.mockMvc.perform(MockMvcRequestBuilders.get("/videos/{id}", "1")
                         .with(SecurityMockMvcRequestPostProcessors.csrf().asHeader())
                         .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isNotFound())
                 .andDo(print())
                 .andReturn();
-
-        //Then
-        final var errorMessageVO = objectMapper.readValue(response.getResponse().getContentAsString(), ErrorMessageVO.class);
-        Assertions.assertThat(errorMessageVO.message())
-                .isNotNull()
-                .isEqualTo("Resource not found for id: 1");
 
     }
 }

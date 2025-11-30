@@ -54,8 +54,7 @@ public class ParseJson {
 
     public static <T> List<T> parseToList(File jsonFile, Class<T> clazz) {
         try {
-            final var collectionType = objectMapper.getTypeFactory()
-                    .constructCollectionType(ArrayList.class, clazz);
+            final var collectionType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, clazz);
             return objectMapper.readValue(jsonFile, collectionType);
         } catch (IOException e) {
             throw new RuntimeException("Error converting JSON to List");
