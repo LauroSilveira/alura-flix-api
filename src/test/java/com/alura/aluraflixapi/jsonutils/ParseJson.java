@@ -56,8 +56,8 @@ public class ParseJson {
         try {
             final var collectionType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, clazz);
             return objectMapper.readValue(jsonFile, collectionType);
-        } catch (IOException e) {
-            throw new RuntimeException("Error converting JSON to List");
+        } catch (IOException ex) {
+            throw new RuntimeException("Error converting JSON to List", ex.getCause());
         }
     }
 }

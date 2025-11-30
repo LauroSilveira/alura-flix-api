@@ -3,8 +3,6 @@ package com.alura.aluraflixapi.controller;
 import com.alura.aluraflixapi.controller.authentication.AuthenticationController;
 import com.alura.aluraflixapi.controller.dto.ErrorVO;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
-import com.alura.aluraflixapi.infraestructure.exception.ErrorMessageVO;
-import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
 import com.alura.aluraflixapi.infraestructure.service.category.CategoryService;
@@ -12,7 +10,6 @@ import com.alura.aluraflixapi.infraestructure.service.user.UserService;
 import com.alura.aluraflixapi.infraestructure.service.video.VideoService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -96,7 +93,7 @@ class ControllerAdviceTest {
         //Given
         when(this.videoService.getById(anyString())).thenReturn(null);
         //When
-         this.mockMvc.perform(MockMvcRequestBuilders.get("/videos/{id}", "1")
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/videos/{id}", "1")
                         .with(SecurityMockMvcRequestPostProcessors.csrf().asHeader())
                         .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isNotFound())
