@@ -1,17 +1,22 @@
 server:
   port: ${PORT:8080}
-  # Disable StackTrace of Spring on response when an error happen
-  error:
-    include-stacktrace: never
 
 spring:
   application:
     name: alura-flix-api
-  data:
-    mongodb:
-      database: alura-flix
-      # always commit the uri like this: ${DATABASE_PRO}
-      uri: ${DATABASE_PRO}
+
+
+
+  web:
+    # Disable StackTrace of Spring on response when an error happen
+    error:
+      include-stacktrace: never
+
+  mongodb:
+    #username: alura-flix-admin
+    database: alura-flix
+    # always commit the uri like this: ${DATABASE_PRO}
+    uri: ${DATABASE_PRO}
 
 api:
   security:
