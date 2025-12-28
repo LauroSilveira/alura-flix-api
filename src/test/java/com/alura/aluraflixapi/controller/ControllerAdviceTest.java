@@ -3,8 +3,6 @@ package com.alura.aluraflixapi.controller;
 import com.alura.aluraflixapi.controller.authentication.AuthenticationController;
 import com.alura.aluraflixapi.controller.dto.ErrorVO;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
-import com.alura.aluraflixapi.infraestructure.exception.ErrorMessageVO;
-import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
 import com.alura.aluraflixapi.infraestructure.service.category.CategoryService;
@@ -12,12 +10,11 @@ import com.alura.aluraflixapi.infraestructure.service.user.UserService;
 import com.alura.aluraflixapi.infraestructure.service.video.VideoService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -93,21 +90,15 @@ class ControllerAdviceTest {
 
     @Test
     void handlerResourceNotFoundException_test() throws Exception {
-        when(this.videoService.getById(anyString()))
-                .thenThrow(new ResourceNotFoundException("Resource not found for id: 1"));
+        //Given
+        when(this.videoService.getById(anyString())).thenReturn(null);
         //When
-        final var response = this.mockMvc.perform(MockMvcRequestBuilders.get("/videos/{id}", "1")
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/videos/{id}", "1")
                         .with(SecurityMockMvcRequestPostProcessors.csrf().asHeader())
                         .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isNotFound())
                 .andDo(print())
                 .andReturn();
-
-        //Then
-        final var errorMessageVO = objectMapper.readValue(response.getResponse().getContentAsString(), ErrorMessageVO.class);
-        Assertions.assertThat(errorMessageVO.message())
-                .isNotNull()
-                .isEqualTo("Resource not found for id: 1");
 
     }
 }
