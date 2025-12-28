@@ -13,10 +13,9 @@ spring:
       include-stacktrace: never
 
   mongodb:
-    #username: alura-flix-admin
     database: alura-flix
     # always commit the uri like this: ${DATABASE_PRO}
-    uri: ${DATABASE_PRO}
+    uri: ${DATABASE_PRO:mongodb+srv://alura-flix-admin:aw1hQFqFDuoYVPWD@alura-flix.z61opfc.mongodb.net/?appName=alura-flix}
 
 api:
   security:
