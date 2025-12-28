@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: alura-flix-api
-  data:
-    mongodb:
-      database: alura-flix-test
-      # always commit the uri like this: ${DATABASE_TEST}
-      uri: ${DATABASE_TEST}
+  mongodb:
+    database: alura-flix-test
+    uri: ${DATABASE_TEST:mongodb+srv://alura-flix-api-test:N8odXlt9JryXT8oQ@alura-flix-test.qixe2kd.mongodb.net/?appName=alura-flix-test}

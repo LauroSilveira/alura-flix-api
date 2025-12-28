@@ -1,4 +1,4 @@
-FROM maven:3.9.8-amazoncorretto-21 AS build
+FROM maven:3.9-amazoncorretto-25-alpine AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
