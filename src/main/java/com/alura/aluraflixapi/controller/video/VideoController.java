@@ -56,7 +56,7 @@ public class VideoController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VideoDto> getById(@NotBlank @PathVariable final String id) {
         log.info("{} Request to get a video by ID: {}", LOGGING_PREFIX, id);
         return Optional.ofNullable(service.getById(id))
