@@ -37,7 +37,7 @@ jobs:
       run:  mvn test
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        DATABASE_PRO: ${{ secrets.DATABASE_PROD }}
+       # DATABASE_PRO: ${{ secrets.DATABASE_PROD }}
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
     ## Generate Test Report Summary
@@ -49,7 +49,7 @@ jobs:
         path: target/surefire-reports/*.xml
         reporter: java-junit
 
-    ## Jacoco report
+    ## JaCoCo report
     - name: Jacoco Report
       id: jacoco
       uses: madrapps/jacoco-report@v1.6.1
