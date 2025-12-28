@@ -5,6 +5,7 @@ import com.alura.aluraflixapi.domain.user.dto.UserDto;
 import com.alura.aluraflixapi.infraestructure.mapper.UserMapper;
 import com.alura.aluraflixapi.infraestructure.repository.RoleRepository;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
   private final UserRepository repository;
@@ -19,15 +21,6 @@ public class UserServiceImpl implements UserService {
   private final RoleRepository roleRepository;
 
   private final UserMapper mapper;
-
-
-  public UserServiceImpl(final UserRepository repository,
-                         final RoleRepository roleRepository,
-                         final UserMapper mapper) {
-    this.repository = repository;
-    this.roleRepository = roleRepository;
-    this.mapper = mapper;
-  }
 
   @Override
   public UserDto saveUser(UserDto dto) {

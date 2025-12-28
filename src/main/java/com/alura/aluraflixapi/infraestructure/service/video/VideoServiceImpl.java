@@ -15,6 +15,7 @@ import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
 import java.util.List;
 import java.util.Objects;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,20 +25,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
 
     private static final String LOGGING_PREFIX = "[VideoServiceImpl]";
     private final VideoRepository videoRepository;
     private final CategoryRepository categoryRepository;
     private final VideoMapper videoMapper;
-
-    @Autowired
-    public VideoServiceImpl(VideoRepository videoRepository, VideoMapper videoMapper,
-                            CategoryRepository categoryRepository) {
-        this.videoRepository = videoRepository;
-        this.videoMapper = videoMapper;
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     public Page<VideoDto> getVideos(Pageable pageable) {

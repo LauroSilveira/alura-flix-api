@@ -49,16 +49,13 @@ public class VideoController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<VideoDto>> getVideos(final Pageable pageable) {
-        log.info("{} Request to get All videos", LOGGING_PREFIX);
         final Page<VideoDto> videos = this.service.getVideos(pageable);
-        log.info("{} Response {}: ", LOGGING_PREFIX, videos.getContent());
         return ResponseEntity.ok().body(new PageImpl<>(videos.getContent(), pageable, pageable.getPageSize()));
     }
 
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VideoDto> getById(@NotBlank @PathVariable final String id) {
-        log.info("{} Request to get a video by ID: {}", LOGGING_PREFIX, id);
         return Optional.ofNullable(service.getById(id))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -79,7 +76,7 @@ public class VideoController {
     @PutMapping
     public ResponseEntity<UpdateVideoDto> update(@Valid @RequestBody final UpdateVideoDto dto,
                                                  final UriComponentsBuilder uriBuilder) {
-        log.info("{} Request to update a video: {}", LOGGING_PREFIX, dto);
+
         final var videoDto = this.service.updateMovie(dto);
         //good practices to return the Location in the Header to be searched by ID
         //return Http code 201 and Location with ID
@@ -91,7 +88,7 @@ public class VideoController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<VideoDto> delete(@NotBlank @PathVariable final String id) {
-        log.info("{} Request to Delete a video by ID: {}", LOGGING_PREFIX, id);
+
         final var dto = this.service.delete(id);
         return ResponseEntity.ok(dto);
     }
@@ -99,7 +96,6 @@ public class VideoController {
     @GetMapping("/title")
     public ResponseEntity<List<VideoDto>> getVideosByTitle(
             @NotBlank @RequestParam("title") final String title) {
-        log.info("{} Request to get a video by title: {}", LOGGING_PREFIX, title);
         final var videosByTitle = this.service.getVideosByTitle(title);
         if (videosByTitle.isEmpty()) {
             return ResponseEntity.noContent().build();
