@@ -7,6 +7,7 @@ import com.alura.aluraflixapi.domain.video.Video;
 import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
 import com.alura.aluraflixapi.domain.video.dto.VideoDto;
 import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
+import com.alura.aluraflixapi.infraestructure.exception.VideoNotFoundException;
 import com.alura.aluraflixapi.infraestructure.exception.VideoServiceException;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
 import com.alura.aluraflixapi.infraestructure.repository.CategoryRepository;
@@ -36,7 +37,6 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public Page<VideoDto> getVideos(Pageable pageable) {
         Page<Video> pages = videoRepository.findAll(pageable);
-
         pages.get()
                 .forEach(video -> {
                     if (Objects.isNull(video.getCategory())) {
@@ -68,7 +68,6 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public UpdateVideoDto updateMovie(UpdateVideoDto dto) {
         try {
-
             final Video entity = videoMapper.mapToModel(dto);
             //The mapping framework does not handle cascading saves.
             final var categorySaved = categoryRepository.save(entity.getCategory());
@@ -88,7 +87,7 @@ public class VideoServiceImpl implements VideoService {
             this.videoRepository.delete(entity.get());
             return this.videoMapper.mapToVideoDto(entity.get());
         } else {
-            throw new ResourceNotFoundException("Resource not found: " + id);
+            throw new VideoNotFoundException("Resource not found: " + id);
         }
     }
 
@@ -96,7 +95,7 @@ public class VideoServiceImpl implements VideoService {
     public VideoDto getById(String id) {
         return videoRepository.findById(id)
                 .map(videoMapper::mapToVideoDto)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found for id: " + id));
+                .orElseThrow(() -> new VideoNotFoundException("Resource not found for id: " + id));
     }
 
     @Override
@@ -106,7 +105,7 @@ public class VideoServiceImpl implements VideoService {
                 .map(this.videoMapper::mapToVideoDto)
                 .toList();
         if (videos.isEmpty()) {
-            throw new ResourceNotFoundException("Video not found with title: " + name);
+            throw new VideoNotFoundException("Video not found with title: " + name);
         } else {
             return videos;
         }
