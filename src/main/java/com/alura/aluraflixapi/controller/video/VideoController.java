@@ -1,8 +1,8 @@
 package com.alura.aluraflixapi.controller.video;
 
 
-import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDTO;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
 import com.alura.aluraflixapi.infraestructure.service.video.VideoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -48,14 +47,14 @@ public class VideoController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<VideoDto>> getVideos(final Pageable pageable) {
-        final Page<VideoDto> videos = this.service.getVideos(pageable);
+    public ResponseEntity<Page<VideoDTO>> getVideos(final Pageable pageable) {
+        final Page<VideoDTO> videos = this.service.getVideos(pageable);
         return ResponseEntity.ok().body(new PageImpl<>(videos.getContent(), pageable, pageable.getPageSize()));
     }
 
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VideoDto> getById(@NotBlank @PathVariable final String id) {
+    public ResponseEntity<VideoDTO> getById(@NotBlank @PathVariable final String id) {
         return Optional.ofNullable(service.getById(id))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -63,10 +62,10 @@ public class VideoController {
     }
 
     @PostMapping
-    public ResponseEntity<VideoDto> save(@Valid @RequestBody final VideoDto dto,
+    public ResponseEntity<VideoDTO> save(@Valid @RequestBody final VideoDTO dto,
                                          final UriComponentsBuilder uriBuilder) {
         log.info("{} Request to Save a new video: {}", LOGGING_PREFIX, dto);
-        final VideoDto videoDto = this.service.save(dto);
+        final VideoDTO videoDto = this.service.save(dto);
         //good practices to return the Location in the Header to be searched by ID
         //return Http code 201 and Location with ID
         return ResponseEntity.created(uriBuilder.path("/videos/{id}").buildAndExpand(videoDto.id())
@@ -74,7 +73,7 @@ public class VideoController {
     }
 
     @PutMapping
-    public ResponseEntity<UpdateVideoDto> update(@Valid @RequestBody final UpdateVideoDto dto,
+    public ResponseEntity<UpdateVideoDTO> update(@Valid @RequestBody final UpdateVideoDTO dto,
                                                  final UriComponentsBuilder uriBuilder) {
 
         final var videoDto = this.service.updateMovie(dto);
@@ -87,14 +86,14 @@ public class VideoController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<VideoDto> delete(@NotBlank @PathVariable final String id) {
+    public ResponseEntity<VideoDTO> delete(@NotBlank @PathVariable final String id) {
 
         final var dto = this.service.delete(id);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/title")
-    public ResponseEntity<List<VideoDto>> getVideosByTitle(
+    public ResponseEntity<List<VideoDTO>> getVideosByTitle(
             @NotBlank @RequestParam("title") final String title) {
         final var videosByTitle = this.service.getVideosByTitle(title);
         if (videosByTitle.isEmpty()) {

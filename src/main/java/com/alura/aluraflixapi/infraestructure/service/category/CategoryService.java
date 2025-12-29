@@ -1,9 +1,8 @@
 package com.alura.aluraflixapi.infraestructure.service.category;
 
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 
 public interface CategoryService {
 
@@ -15,5 +14,5 @@ public interface CategoryService {
 
   void deleteCategory(String id);
 
-  List<VideoDto> getVideosByCategory(String rating);
+  List<VideoDTO> getVideosByCategory(String rating);
 }

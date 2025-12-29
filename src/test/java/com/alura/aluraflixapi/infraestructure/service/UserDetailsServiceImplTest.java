@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -35,7 +36,7 @@ class UserDetailsServiceImplTest {
                 Set.of(Roles.builder().id(UUID.randomUUID().toString()).role(RolesEnum.ROLE_USER).build()));
 
         when(this.userRepository.findByUsername(anyString()))
-                .thenReturn(user);
+                .thenReturn(Optional.of(user));
 
         //When
         final var userDetails = this.userDetailsService.loadUserByUsername(user.getUsername());

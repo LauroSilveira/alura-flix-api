@@ -4,7 +4,7 @@ import com.alura.aluraflixapi.domain.category.Category;
 import com.alura.aluraflixapi.domain.category.Rating;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
 import com.alura.aluraflixapi.domain.video.Video;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
 import com.alura.aluraflixapi.infraestructure.exception.CategoryServiceException;
 import com.alura.aluraflixapi.infraestructure.mapper.CategoryMapperImpl;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapperImpl;
@@ -27,6 +27,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -123,7 +124,7 @@ class CategoryServiceImplTest {
                 Rating.ACTION.getHexDecimalColor(),
                 Rating.ACTION);
 
-        when(this.categoryRepository.findById(Mockito.anyString()))
+        when(this.categoryRepository.findById(anyString()))
                 .thenReturn(Optional.of(categorySearchedById));
         //When
         final var categoryFound = this.categoryService.findCategoryById(id);
@@ -159,16 +160,16 @@ class CategoryServiceImplTest {
         final var entity = this.buildCategory(UUID.randomUUID().toString(),
                 Rating.ACTION.name(), Rating.ACTION.getHexDecimalColor(), Rating.ACTION);
 
-        when(this.categoryRepository.findCategoryByRating(Mockito.anyString()))
-                .thenReturn(entity);
+        when(this.categoryRepository.findCategoryByRating(anyString()))
+                .thenReturn(Optional.ofNullable(entity));
 
-        when(this.videoRepository.findVideosByCategories(Mockito.anyString()))
+        when(this.videoRepository.findVideosByCategories(anyString()))
                 .thenReturn(List.of(getVideoEntity(UUID.randomUUID().toString(),
                         "Film Lord of the rings", "www.lordoftherings.com",
                         "Lord of the Rings: Fellowship of the ring", entity)));
 
         //When
-        List<VideoDto> videosByCategory = this.categoryService.getVideosByCategory(
+        List<VideoDTO> videosByCategory = this.categoryService.getVideosByCategory(
                 Rating.THRILLER.getTitle());
 
         //When

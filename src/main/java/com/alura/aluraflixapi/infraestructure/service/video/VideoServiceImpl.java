@@ -4,9 +4,8 @@ package com.alura.aluraflixapi.infraestructure.service.video;
 import com.alura.aluraflixapi.domain.category.Category;
 import com.alura.aluraflixapi.domain.category.Rating;
 import com.alura.aluraflixapi.domain.video.Video;
-import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
-import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDTO;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
 import com.alura.aluraflixapi.infraestructure.exception.VideoNotFoundException;
 import com.alura.aluraflixapi.infraestructure.exception.VideoServiceException;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
@@ -18,7 +17,6 @@ import java.util.Objects;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +33,7 @@ public class VideoServiceImpl implements VideoService {
     private final VideoMapper videoMapper;
 
     @Override
-    public Page<VideoDto> getVideos(Pageable pageable) {
+    public Page<VideoDTO> getVideos(Pageable pageable) {
         Page<Video> pages = videoRepository.findAll(pageable);
         pages.get()
                 .forEach(video -> {
@@ -53,7 +51,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDto save(VideoDto dto) {
+    public VideoDTO save(VideoDTO dto) {
         try {
             log.info("{} Saving new video: {}", LOGGING_PREFIX, dto.toString());
             final var entityToPersist = videoMapper.mapToModel(dto);
@@ -66,7 +64,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public UpdateVideoDto updateMovie(UpdateVideoDto dto) {
+    public UpdateVideoDTO updateMovie(UpdateVideoDTO dto) {
         try {
             final Video entity = videoMapper.mapToModel(dto);
             //The mapping framework does not handle cascading saves.
@@ -81,7 +79,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDto delete(String id) {
+    public VideoDTO delete(String id) {
         final var entity = videoRepository.findById(id);
         if (entity.isPresent()) {
             this.videoRepository.delete(entity.get());
@@ -92,14 +90,14 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDto getById(String id) {
+    public VideoDTO getById(String id) {
         return videoRepository.findById(id)
                 .map(videoMapper::mapToVideoDto)
                 .orElseThrow(() -> new VideoNotFoundException("Resource not found for id: " + id));
     }
 
     @Override
-    public List<VideoDto> getVideosByTitle(String name) {
+    public List<VideoDTO> getVideosByTitle(String name) {
         final var videos = videoRepository.findByTitleLike(name)
                 .stream()
                 .map(this.videoMapper::mapToVideoDto)

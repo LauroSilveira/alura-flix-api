@@ -62,7 +62,7 @@ public class TokenService {
 
     public void isRefreshTokenExpired(String tokenJWT) {
         if (JWT.decode(tokenJWT).getExpiresAt().toInstant().compareTo(Instant.now()) < 0) {
-            throw new RuntimeException("Refresh token expired, please login again");
+            throw new JwtRefreshTokenExpiredException("Refresh token expired, please login again");
         }
     }
 

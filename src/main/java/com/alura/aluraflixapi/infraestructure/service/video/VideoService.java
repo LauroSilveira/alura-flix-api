@@ -1,25 +1,24 @@
 package com.alura.aluraflixapi.infraestructure.service.video;
 
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
-import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDTO;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
+
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface VideoService {
 
-  Page<VideoDto> getVideos(Pageable pageable);
+  Page<VideoDTO> getVideos(Pageable pageable);
 
-  VideoDto save(VideoDto dto);
+  VideoDTO save(VideoDTO dto);
 
-  UpdateVideoDto updateMovie(UpdateVideoDto dto);
+  UpdateVideoDTO updateMovie(UpdateVideoDTO dto);
 
-  VideoDto delete(String id);
+  VideoDTO delete(String id);
 
-  VideoDto getById(String id);
+  VideoDTO getById(String id);
 
-  List<VideoDto> getVideosByTitle(String name);
+  List<VideoDTO> getVideosByTitle(String name);
 }

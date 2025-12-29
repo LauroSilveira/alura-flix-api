@@ -1,6 +1,6 @@
 package com.alura.aluraflixapi.infraestructure.service.user;
 
-import com.alura.aluraflixapi.domain.user.dto.UserDto;
+import com.alura.aluraflixapi.domain.user.dto.UserDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.List;
 public interface UserService {
 
     @Transactional
-    UserDto saveUser(UserDto dto);
+    UserDTO saveUser(UserDTO dto);
 
-    List<UserDto> getUsers();
+    List<UserDTO> getUsers();
 
     void deleteUser(String id);
 }

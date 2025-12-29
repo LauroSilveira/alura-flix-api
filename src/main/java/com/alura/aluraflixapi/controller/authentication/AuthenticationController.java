@@ -4,7 +4,7 @@ import com.alura.aluraflixapi.controller.dto.token.RefreshTokenVO;
 import com.alura.aluraflixapi.domain.user.User;
 import com.alura.aluraflixapi.domain.user.dto.AuthenticationDto;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
-import com.alura.aluraflixapi.infraestructure.security.dto.TokenJwtDto;
+import com.alura.aluraflixapi.infraestructure.security.dto.TokenJwtDTO;
 import com.alura.aluraflixapi.infraestructure.service.token.RefreshTokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class AuthenticationController {
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping
-    public ResponseEntity<TokenJwtDto> login(@RequestBody @Valid AuthenticationDto dto) {
+    public ResponseEntity<TokenJwtDTO> login(@RequestBody @Valid AuthenticationDto dto) {
         log.info("Request to Login user: {}", dto.username());
         // Object wrapper that contains password and user
         final var authenticationToken = new UsernamePasswordAuthenticationToken(dto.username(),
@@ -40,11 +40,11 @@ public class AuthenticationController {
         final var refreshToken = tokenService.generateRefreshToken(dto.username());
 
         log.info("Token Generated with Success!");
-        return ResponseEntity.ok().body(new TokenJwtDto(tokenJwt, refreshToken));
+        return ResponseEntity.ok().body(new TokenJwtDTO(tokenJwt, refreshToken));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenJwtDto> refreshAccessToken(@RequestBody RefreshTokenVO refreshToken) {
+    public ResponseEntity<TokenJwtDTO> refreshAccessToken(@RequestBody RefreshTokenVO refreshToken) {
         log.info("Request to renew refresh accessToken");
         final var tokenJwtDto = refreshTokenService.refreshAccessToken(refreshToken.refreshToken());
         return ResponseEntity.ok(tokenJwtDto);

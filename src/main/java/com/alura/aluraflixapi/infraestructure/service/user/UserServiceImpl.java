@@ -1,7 +1,7 @@
 package com.alura.aluraflixapi.infraestructure.service.user;
 
 import com.alura.aluraflixapi.domain.user.User;
-import com.alura.aluraflixapi.domain.user.dto.UserDto;
+import com.alura.aluraflixapi.domain.user.dto.UserDTO;
 import com.alura.aluraflixapi.infraestructure.mapper.UserMapper;
 import com.alura.aluraflixapi.infraestructure.repository.RoleRepository;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
   private final UserMapper mapper;
 
   @Override
-  public UserDto saveUser(UserDto dto) {
+  public UserDTO saveUser(UserDTO dto) {
     log.info("Saving user: {}", dto);
     final User user = mapper.mapToEntity(dto);
     //first save Document Roles
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<UserDto> getUsers() {
+  public List<UserDTO> getUsers() {
     log.info("Get all users");
     List<User> users = repository.findAll();
     return mapper.mapToUsersDto(users);

@@ -1,7 +1,8 @@
 package com.alura.aluraflixapi.infraestructure.mapper;
 
 import com.alura.aluraflixapi.domain.user.User;
-import com.alura.aluraflixapi.domain.user.dto.UserDto;
+import com.alura.aluraflixapi.domain.user.dto.UserDTO;
+
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,11 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public interface UserMapper {
 
   @Mapping(target = "password", qualifiedByName = "encryptPassword")
-  User mapToEntity(UserDto dto);
+  User mapToEntity(UserDTO dto);
 
-  UserDto mapToDto(User newUser);
+  UserDTO mapToDto(User newUser);
 
-  List<UserDto> mapToUsersDto(List<User> users);
+  List<UserDTO> mapToUsersDto(List<User> users);
 
 
   @Named("encryptPassword")

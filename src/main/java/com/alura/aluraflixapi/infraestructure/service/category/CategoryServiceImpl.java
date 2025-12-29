@@ -1,42 +1,35 @@
 package com.alura.aluraflixapi.infraestructure.service.category;
 
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
+import com.alura.aluraflixapi.infraestructure.exception.CategoryNotFoundException;
 import com.alura.aluraflixapi.infraestructure.exception.CategoryServiceException;
 import com.alura.aluraflixapi.infraestructure.mapper.CategoryMapper;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapper;
 import com.alura.aluraflixapi.infraestructure.repository.CategoryRepository;
 import com.alura.aluraflixapi.infraestructure.repository.VideoRepository;
-
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.MongoTransactionException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-
-
     private final CategoryRepository categoryRepository;
-
     private final VideoRepository videoRepository;
-
     private final VideoMapper videoMapper;
-
     private final CategoryMapper categoryMapper;
-
 
     @Override
     public List<CategoryDto> categories() {
         return categoryRepository.findAll()
                 .stream()
-                .map(entity -> new CategoryDto(entity.getId(), entity.getRating(), entity.getTitle(),
-                        entity.getColorHex()))
+                .map(CategoryDto::new)
                 .toList();
     }
 
@@ -56,28 +49,27 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto findCategoryById(String id) {
         return this.categoryRepository.findById(id)
-                .map(
-                        document -> new CategoryDto(document.getId(), document.getRating(), document.getTitle(),
-                                document.getColorHex()))
+                .map(CategoryDto::new)
                 .orElseThrow(() -> new CategoryServiceException("Category not found: " + id));
     }
 
     @Override
     @Transactional
     public void deleteCategory(String id) {
-
         final var isCategoryPresent = this.categoryRepository.findById(id);
         isCategoryPresent.ifPresentOrElse(this.categoryRepository::delete, () -> {
-            throw new CategoryServiceException("Category not found to delete with Id:" + id);
+            throw new CategoryNotFoundException("Category not found to delete with Id:" + id);
         });
 
     }
 
     @Override
-    public List<VideoDto> getVideosByCategory(String rating) {
-        final var category = categoryRepository.findCategoryByRating(rating);
+    public List<VideoDTO> getVideosByCategory(String rating) {
+        final var category = categoryRepository.findCategoryByRating(rating)
+                .orElseThrow(() -> new CategoryNotFoundException("Not found category by rating:" + rating));
         return videoRepository.findVideosByCategories(category.getId())
-                .stream().map(this.videoMapper::mapToVideoDto)
+                .stream()
+                .map(this.videoMapper::mapToVideoDto)
                 .toList();
     }
 }
