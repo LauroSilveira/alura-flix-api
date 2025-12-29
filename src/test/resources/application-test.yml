@@ -6,4 +6,4 @@ spring:
     name: alura-flix-api
   mongodb:
     database: alura-flix-test
-    uri: ${DATABASE_TEST:mongodb+srv://alura-flix-api-test:N8odXlt9JryXT8oQ@alura-flix-test.qixe2kd.mongodb.net/?appName=alura-flix-test}
+    uri: ${DATABASE_TEST}
