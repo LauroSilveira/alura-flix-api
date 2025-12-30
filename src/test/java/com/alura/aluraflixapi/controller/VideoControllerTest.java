@@ -4,8 +4,8 @@ import com.alura.aluraflixapi.controller.authentication.AuthenticationController
 import com.alura.aluraflixapi.controller.category.CategoryController;
 import com.alura.aluraflixapi.domain.category.Rating;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
-import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDTO;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
 import com.alura.aluraflixapi.infraestructure.service.user.UserService;
@@ -83,7 +83,7 @@ class VideoControllerTest extends ParseJson {
     void get_all_videos_test() throws Exception {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "getAllVideos_response_ok.json");
-        final var videosExpect = Arrays.stream(parseToJavaObject(jsonFile, VideoDto[].class)).toList();
+        final var videosExpect = Arrays.stream(parseToJavaObject(jsonFile, VideoDTO[].class)).toList();
 
         when(this.videoService.getVideos(Mockito.any()))
                 .thenReturn(new PageImpl<>(videosExpect, PageRequest.of(0, 10), videosExpect.size()));
@@ -95,7 +95,7 @@ class VideoControllerTest extends ParseJson {
                 .andReturn();
         //When
         JsonNode jsonNode = mapper.readTree(response.getResponse().getContentAsString()).get("content");
-        List<VideoDto> videosDtos = Arrays.asList(mapper.readValue(jsonNode.toString(), VideoDto[].
+        List<VideoDTO> videosDtos = Arrays.asList(mapper.readValue(jsonNode.toString(), VideoDTO[].
                 class));
         //Then
         assertNotNull(videosDtos);
@@ -108,7 +108,7 @@ class VideoControllerTest extends ParseJson {
 
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "getById_video_response_ok.json");
-        final var videoDto = parseToJavaObject(jsonFile, VideoDto.class);
+        final var videoDto = parseToJavaObject(jsonFile, VideoDTO.class);
 
         when(this.videoService.getById(Mockito.anyString())).thenReturn(videoDto);
 
@@ -120,7 +120,7 @@ class VideoControllerTest extends ParseJson {
                 .andReturn();
 
         //Then
-        VideoDto response = mapper.readValue(mvcResult.getResponse().getContentAsString(), VideoDto.class);
+        VideoDTO response = mapper.readValue(mvcResult.getResponse().getContentAsString(), VideoDTO.class);
 
         assertNotNull(videoDto);
         assertAll(() -> assertEquals(response.id(), videoDto.id()),
@@ -135,7 +135,7 @@ class VideoControllerTest extends ParseJson {
     void save_a_new_video_test() throws Exception {
 
         //Given
-        final VideoDto request = new VideoDto(
+        final VideoDTO request = new VideoDTO(
                 UUID.randomUUID().toString(),
                 "Rings of power Amazon Series",
                 "Rings of power",
@@ -158,8 +158,8 @@ class VideoControllerTest extends ParseJson {
                 .andReturn();
 
         //Then
-        VideoDto dto = mapper.readValue(response.getResponse().getContentAsString(),
-                VideoDto.class);
+        VideoDTO dto = mapper.readValue(response.getResponse().getContentAsString(),
+                VideoDTO.class);
 
         assertEquals(request, dto);
     }
@@ -169,7 +169,7 @@ class VideoControllerTest extends ParseJson {
     void update_video_by_id_test() throws Exception {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "getById_video_response_ok.json");
-        final var videoToUpdate = parseToJavaObject(jsonFile, UpdateVideoDto.class);
+        final var videoToUpdate = parseToJavaObject(jsonFile, UpdateVideoDTO.class);
 
         when(this.videoService.updateMovie(Mockito.any()))
                 .thenReturn(videoToUpdate);
@@ -187,8 +187,8 @@ class VideoControllerTest extends ParseJson {
                 .andReturn();
 
         //Then
-        VideoDto videoUpdated = mapper.readValue(response.getResponse().getContentAsString(),
-                VideoDto.class);
+        VideoDTO videoUpdated = mapper.readValue(response.getResponse().getContentAsString(),
+                VideoDTO.class);
 
         assertNotNull(videoUpdated);
         Assertions.assertAll(() ->
@@ -205,7 +205,7 @@ class VideoControllerTest extends ParseJson {
     void delete_video_by_id_test() throws Exception {
 
         //Given
-        final var videoDto = new VideoDto("63680c011892283477b3e9b9", "63680c011892283477b3e9b9", "best movie ever", "https://lordoftherings.com",
+        final var videoDto = new VideoDTO("63680c011892283477b3e9b9", "63680c011892283477b3e9b9", "best movie ever", "https://lordoftherings.com",
                 new CategoryDto("63f67ec16295ed744dd460cd", "FREE", "Fantasy", "#ffff83"));
         when(this.videoService.delete(Mockito.anyString()))
                 .thenReturn(videoDto);
@@ -221,7 +221,7 @@ class VideoControllerTest extends ParseJson {
     void getVideosByTitle_test() throws Exception {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "getVideoByTitle_response_ok.json");
-        final var videosByTitleExpected = Arrays.stream(parseToJavaObject(jsonFile, VideoDto[].class)).toList();
+        final var videosByTitleExpected = Arrays.stream(parseToJavaObject(jsonFile, VideoDTO[].class)).toList();
 
         when(this.videoService.getVideosByTitle(Mockito.anyString())).thenReturn(videosByTitleExpected);
 
@@ -235,7 +235,7 @@ class VideoControllerTest extends ParseJson {
         //Then
         assertNotNull(response);
         final var videosByTitleResponse = Arrays.stream(mapper.readValue(response.getResponse().getContentAsString(),
-                VideoDto[].class)).toList();
+                VideoDTO[].class)).toList();
         org.assertj.core.api.Assertions.assertThat(videosByTitleResponse).usingRecursiveComparison()
                 .isEqualTo(videosByTitleExpected);
     }

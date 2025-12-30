@@ -1,10 +1,11 @@
 package com.alura.aluraflixapi.infraestructure.service.user;
 
 import com.alura.aluraflixapi.domain.user.User;
-import com.alura.aluraflixapi.domain.user.dto.UserDto;
+import com.alura.aluraflixapi.domain.user.dto.UserDTO;
 import com.alura.aluraflixapi.infraestructure.mapper.UserMapper;
 import com.alura.aluraflixapi.infraestructure.repository.RoleRepository;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
   private final UserRepository repository;
@@ -20,17 +22,8 @@ public class UserServiceImpl implements UserService {
 
   private final UserMapper mapper;
 
-
-  public UserServiceImpl(final UserRepository repository,
-                         final RoleRepository roleRepository,
-                         final UserMapper mapper) {
-    this.repository = repository;
-    this.roleRepository = roleRepository;
-    this.mapper = mapper;
-  }
-
   @Override
-  public UserDto saveUser(UserDto dto) {
+  public UserDTO saveUser(UserDTO dto) {
     log.info("Saving user: {}", dto);
     final User user = mapper.mapToEntity(dto);
     //first save Document Roles
@@ -41,7 +34,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<UserDto> getUsers() {
+  public List<UserDTO> getUsers() {
     log.info("Get all users");
     List<User> users = repository.findAll();
     return mapper.mapToUsersDto(users);

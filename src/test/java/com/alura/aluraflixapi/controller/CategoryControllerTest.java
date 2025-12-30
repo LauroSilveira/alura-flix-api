@@ -2,7 +2,7 @@ package com.alura.aluraflixapi.controller;
 
 import com.alura.aluraflixapi.controller.authentication.AuthenticationController;
 import com.alura.aluraflixapi.domain.category.dto.CategoryDto;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
 import com.alura.aluraflixapi.infraestructure.service.category.CategoryService;
@@ -146,7 +146,7 @@ class CategoryControllerTest extends ParseJson {
     void getVideosByCategory_test() throws Exception {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "getVideosByCategory_response_ok.json");
-        final var categoriesDtoExpected = Arrays.stream(parseToJavaObject(jsonFile, VideoDto[].class)).toList();
+        final var categoriesDtoExpected = Arrays.stream(parseToJavaObject(jsonFile, VideoDTO[].class)).toList();
         when(this.categoryService.getVideosByCategory(anyString()))
                 .thenReturn(categoriesDtoExpected);
         //When
@@ -158,7 +158,7 @@ class CategoryControllerTest extends ParseJson {
 
         //Then
         assertThat(response).isNotNull();
-        final var categoriesResponse = mapper.readValue(response.getResponse().getContentAsString(), new TypeReference<List<VideoDto>>() {
+        final var categoriesResponse = mapper.readValue(response.getResponse().getContentAsString(), new TypeReference<List<VideoDTO>>() {
         });
         assertThat(categoriesDtoExpected).usingRecursiveComparison().isEqualTo(categoriesResponse);
     }

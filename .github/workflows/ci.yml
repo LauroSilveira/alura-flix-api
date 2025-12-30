@@ -24,20 +24,19 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    ## Build and execute every test
-    - name: Build with Maven
-      run: mvn -B package -DskipTests --file pom.xml
-      env:
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        DATABASE_PRO: ${{ secrets.DATABASE_PROD }}
-        DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
+#    ## Build and execute every test
+#    - name: Compile and execute
+#      run: mvn -B package -DskipTests --file pom.xml
+#      env:
+#        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+#        DATABASE_PRO: ${{ secrets.DATABASE_PROD }}
+#        DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
     ## Build and execute every test
-    - name: Executing Tests
+    - name: Execute Tests
       run:  mvn test
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
-       # DATABASE_PRO: ${{ secrets.DATABASE_PROD }}
         DATABASE_TEST: ${{ secrets.DATABASE_TEST }}
 
     ## Generate Test Report Summary
@@ -49,9 +48,9 @@ jobs:
         path: target/surefire-reports/*.xml
         reporter: java-junit
 
-    ## JaCoCo report
-    - name: Jacoco Report
-      id: jacoco
+    ## JaCoco report
+    - name: Create JaCoco Report
+      id: jaCoco
       uses: madrapps/jacoco-report@v1.6.1
       with:
         paths: |

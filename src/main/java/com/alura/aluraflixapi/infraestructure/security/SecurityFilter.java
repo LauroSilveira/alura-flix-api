@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -45,11 +46,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (Objects.nonNull(tokenJWT)) {
             //Retrieve user from Token JWT
             final var username = this.tokenService.verifyTokenJWT(tokenJWT);
-            final var user = this.userRepository.findByUsername(username);
+            final var user = this.userRepository.findByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found with name: "+ username));
 
             //after retrieve the user we need to tell a Spring framework to authenticate him in the context,
             //this is done by calling UsernamePasswordAuthenticationToken and SecurityContextHolder methods
-            log.info("{} Authenticating user: {} ", PREFIX_LOGGING, user.getUsername());
             var authentication = new UsernamePasswordAuthenticationToken(user, null,
                     user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

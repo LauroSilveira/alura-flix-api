@@ -2,7 +2,7 @@ package com.alura.aluraflixapi.controller;
 
 import com.alura.aluraflixapi.controller.authentication.AuthenticationController;
 import com.alura.aluraflixapi.controller.dto.ErrorVO;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
 import com.alura.aluraflixapi.infraestructure.repository.UserRepository;
 import com.alura.aluraflixapi.infraestructure.security.TokenService;
 import com.alura.aluraflixapi.infraestructure.service.category.CategoryService;
@@ -67,7 +67,7 @@ class ControllerAdviceTest {
     @DisplayName("Should return a ErrorDto with the missing fields and response status 400")
     void handleInvalidFields_test() throws Exception {
         //Given
-        final var request = new VideoDto(UUID.randomUUID().toString(), "Lord of the rings",
+        final var request = new VideoDTO(UUID.randomUUID().toString(), "Lord of the rings",
                 "The lord of the rings - The Fellowship of the ring", "www.thelordoftherings.com", null);
         //When
         final var response = this.mockMvc.perform(MockMvcRequestBuilders.post("/videos")

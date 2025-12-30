@@ -5,8 +5,6 @@ spring:
   application:
     name: alura-flix-api
 
-
-
   web:
     # Disable StackTrace of Spring on response when an error happen
     error:

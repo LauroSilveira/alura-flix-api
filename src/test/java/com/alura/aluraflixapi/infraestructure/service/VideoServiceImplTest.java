@@ -1,9 +1,10 @@
 package com.alura.aluraflixapi.infraestructure.service;
 
 import com.alura.aluraflixapi.domain.video.Video;
-import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDto;
-import com.alura.aluraflixapi.domain.video.dto.VideoDto;
+import com.alura.aluraflixapi.domain.video.dto.UpdateVideoDTO;
+import com.alura.aluraflixapi.domain.video.dto.VideoDTO;
 import com.alura.aluraflixapi.infraestructure.exception.ResourceNotFoundException;
+import com.alura.aluraflixapi.infraestructure.exception.VideoNotFoundException;
 import com.alura.aluraflixapi.infraestructure.exception.VideoServiceException;
 import com.alura.aluraflixapi.infraestructure.mapper.VideoMapperImpl;
 import com.alura.aluraflixapi.infraestructure.repository.CategoryRepository;
@@ -88,9 +89,9 @@ class VideoServiceImplTest extends ParseJson {
     void save_response_ok_test() {
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "create_video_response_ok.json");
-        final var videoDto = parseToJavaObject(jsonFile, VideoDto.class);
+        final var videoDto = parseToJavaObject(jsonFile, VideoDTO.class);
         final var videoModel = this.videoMapper.mapToModel(videoDto);
-        when(this.videoMapper.mapToModel(any(VideoDto.class))).thenReturn(videoModel);
+        when(this.videoMapper.mapToModel(any(VideoDTO.class))).thenReturn(videoModel);
         when(this.videoMapper.mapToVideoDto(any())).thenReturn(videoDto);
 
         //When
@@ -116,10 +117,10 @@ class VideoServiceImplTest extends ParseJson {
 
         //Given
         final var jsonFile = getJsonFile(PREFIX_PATH + "update_video_response_ok.json");
-        final var updateVideoDtoParsed = parseToJavaObject(jsonFile, UpdateVideoDto.class);
+        final var updateVideoDtoParsed = parseToJavaObject(jsonFile, UpdateVideoDTO.class);
         final var model = this.videoMapper.mapToModel(updateVideoDtoParsed);
         final var updateVideoDto = this.videoMapper.mapToUpdateVideoDto(model);
-        when(this.videoMapper.mapToModel(any(UpdateVideoDto.class))).thenReturn(model);
+        when(this.videoMapper.mapToModel(any(UpdateVideoDTO.class))).thenReturn(model);
         when(this.videoMapper.mapToUpdateVideoDto(any())).thenReturn(updateVideoDto);
 
         //When
@@ -160,8 +161,8 @@ class VideoServiceImplTest extends ParseJson {
     @DisplayName("Should throw a VideoServiceException when try to update a video")
     void deleteVideo_response_ko_test() {
         //When
-        assertThatExceptionOfType(ResourceNotFoundException.class)
-                .isThrownBy(() -> this.videoService.delete(null)
+        assertThatExceptionOfType(VideoNotFoundException.class)
+                .isThrownBy(() -> this.videoService.delete("123")
                 ).withMessageContaining("Resource not found:");
     }
 
@@ -184,9 +185,9 @@ class VideoServiceImplTest extends ParseJson {
     @DisplayName("Should return a ResourceNotFoundException when search by Id")
     void getById_response_ko_test() {
         //When
-        assertThatExceptionOfType(ResourceNotFoundException.class)
-                .isThrownBy(() -> this.videoService.getById(null))
-                .isInstanceOf(ResourceNotFoundException.class)
+        assertThatExceptionOfType(VideoNotFoundException.class)
+                .isThrownBy(() -> this.videoService.getById("123"))
+                .isInstanceOf(VideoNotFoundException.class)
                 .withMessageContaining("Resource not found for id:");
     }
 
@@ -210,9 +211,9 @@ class VideoServiceImplTest extends ParseJson {
     @DisplayName("Should return a ResourceNotFoundException when search by Id")
     void getVideosByTitle_response_ko_test() {
         //When
-        assertThatExceptionOfType(ResourceNotFoundException.class)
-                .isThrownBy(() -> this.videoService.getVideosByTitle(null))
-                .isInstanceOf(ResourceNotFoundException.class)
+        assertThatExceptionOfType(VideoNotFoundException.class)
+                .isThrownBy(() -> this.videoService.getVideosByTitle("789"))
+                .isInstanceOf(VideoNotFoundException.class)
                 .withMessageContaining("Video not found with title:");
     }
 }

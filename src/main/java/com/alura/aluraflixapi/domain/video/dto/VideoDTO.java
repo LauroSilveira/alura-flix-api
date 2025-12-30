@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
 
-public record VideoDto(
+public record VideoDTO(
     String id,
     @NotBlank
     String title,

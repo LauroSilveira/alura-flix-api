@@ -2,7 +2,7 @@ package com.alura.aluraflixapi.controller;
 
 import com.alura.aluraflixapi.controller.user.UserController;
 import com.alura.aluraflixapi.domain.user.dto.RolesDto;
-import com.alura.aluraflixapi.domain.user.dto.UserDto;
+import com.alura.aluraflixapi.domain.user.dto.UserDTO;
 import com.alura.aluraflixapi.domain.user.roles.RolesEnum;
 import com.alura.aluraflixapi.infraestructure.service.user.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +34,7 @@ class UserControllerTest {
         //Given
         final var userId = UUID.randomUUID().toString();
         final var roleId = UUID.randomUUID().toString();
-        final var user = new UserDto(userId, "guest@aluraflix.com.br", "123456",
+        final var user = new UserDTO(userId, "guest@aluraflix.com.br", "123456",
                 Set.of(new RolesDto(roleId, RolesEnum.ROLE_GUEST)));
         when(this.userService.saveUser(any())).thenReturn(user);
 
@@ -50,10 +50,10 @@ class UserControllerTest {
     @DisplayName("Should return a list of users and response 200 OK")
     void getUsers_test() {
         //Given
-        final var usersList = List.of(new UserDto(UUID.randomUUID().toString(),
+        final var usersList = List.of(new UserDTO(UUID.randomUUID().toString(),
                         "guest@aluraflix.com.br", "123456",
                         Set.of(new RolesDto(UUID.randomUUID().toString(), RolesEnum.ROLE_GUEST))),
-                new UserDto(UUID.randomUUID().toString(), "admin@aluraflix.com.br", "admin",
+                new UserDTO(UUID.randomUUID().toString(), "admin@aluraflix.com.br", "admin",
                         Set.of(new RolesDto(UUID.randomUUID().toString(), RolesEnum.ROLE_ADMIN))));
         when(this.userService.getUsers()).thenReturn(usersList);
 
